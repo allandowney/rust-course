@@ -1,0 +1,468 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Weak与循环引用 - Rust语言圣经(Rust教程 Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../assets/ferris.css">
+        <link rel="stylesheet" href="../../assets/theme/2018-edition.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../into-rust.html">进入Rust编程世界</a></li><li class="chapter-item expanded affix "><a href="../../about-book.html">关于本书</a></li><li class="chapter-item expanded "><a href="../../first-try/intro.html"><strong aria-hidden="true">1.</strong> 寻找牛刀，以便小试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../first-try/installation.html"><strong aria-hidden="true">1.1.</strong> 安装Rust环境</a></li><li class="chapter-item expanded "><a href="../../first-try/editor.html"><strong aria-hidden="true">1.2.</strong> 墙推VSCode!</a></li><li class="chapter-item expanded "><a href="../../first-try/cargo.html"><strong aria-hidden="true">1.3.</strong> 认识Cargo</a></li><li class="chapter-item expanded "><a href="../../first-try/hello-world.html"><strong aria-hidden="true">1.4.</strong> 不仅仅是Hello world</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/intro.html"><strong aria-hidden="true">2.</strong> Rust基础入门</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../basic/variable.html"><strong aria-hidden="true">2.1.</strong> 变量绑定与解构</a></li><li class="chapter-item expanded "><a href="../../basic/base-type/index.html"><strong aria-hidden="true">2.2.</strong> 基本类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/base-type/numbers.html"><strong aria-hidden="true">2.2.1.</strong> 数值类型</a></li><li class="chapter-item "><a href="../../basic/base-type/char-bool.html"><strong aria-hidden="true">2.2.2.</strong> 字符、布尔、元类型</a></li><li class="chapter-item "><a href="../../basic/base-type/statement-expression.html"><strong aria-hidden="true">2.2.3.</strong> 语句与表达式</a></li><li class="chapter-item "><a href="../../basic/base-type/function.html"><strong aria-hidden="true">2.2.4.</strong> 函数</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/ownership/index.html"><strong aria-hidden="true">2.3.</strong> 所有权和借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/ownership/ownership.html"><strong aria-hidden="true">2.3.1.</strong> 所有权</a></li><li class="chapter-item "><a href="../../basic/ownership/borrowing.html"><strong aria-hidden="true">2.3.2.</strong> 引用与借用</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/compound-type/intro.html"><strong aria-hidden="true">2.4.</strong> 复合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/compound-type/string-slice.html"><strong aria-hidden="true">2.4.1.</strong> 字符串与切片</a></li><li class="chapter-item "><a href="../../basic/compound-type/tuple.html"><strong aria-hidden="true">2.4.2.</strong> 元组</a></li><li class="chapter-item "><a href="../../basic/compound-type/struct.html"><strong aria-hidden="true">2.4.3.</strong> 结构体</a></li><li class="chapter-item "><a href="../../basic/compound-type/enum.html"><strong aria-hidden="true">2.4.4.</strong> 枚举</a></li><li class="chapter-item "><a href="../../basic/compound-type/array.html"><strong aria-hidden="true">2.4.5.</strong> 数组</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/flow-control.html"><strong aria-hidden="true">2.5.</strong> 流程控制</a></li><li class="chapter-item expanded "><a href="../../basic/match-pattern/intro.html"><strong aria-hidden="true">2.6.</strong> 模式匹配</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/match-pattern/match-if-let.html"><strong aria-hidden="true">2.6.1.</strong> match和if let</a></li><li class="chapter-item "><a href="../../basic/match-pattern/option.html"><strong aria-hidden="true">2.6.2.</strong> 解构Option</a></li><li class="chapter-item "><a href="../../basic/match-pattern/pattern-match.html"><strong aria-hidden="true">2.6.3.</strong> 模式适用场景</a></li><li class="chapter-item "><a href="../../basic/match-pattern/all-patterns.html"><strong aria-hidden="true">2.6.4.</strong> 全模式列表</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/method.html"><strong aria-hidden="true">2.7.</strong> 方法Method</a></li><li class="chapter-item expanded "><a href="../../basic/trait/intro.html"><strong aria-hidden="true">2.8.</strong> 泛型和特征</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/trait/generic.html"><strong aria-hidden="true">2.8.1.</strong> 泛型Generics</a></li><li class="chapter-item "><a href="../../basic/trait/trait.html"><strong aria-hidden="true">2.8.2.</strong> 特征Trait</a></li><li class="chapter-item "><a href="../../basic/trait/trait-object.html"><strong aria-hidden="true">2.8.3.</strong> 特征对象</a></li><li class="chapter-item "><a href="../../basic/trait/advance-trait.html"><strong aria-hidden="true">2.8.4.</strong> 进一步深入特征</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/collections/intro.html"><strong aria-hidden="true">2.9.</strong> 集合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/collections/vector.html"><strong aria-hidden="true">2.9.1.</strong> 动态数组Vector</a></li><li class="chapter-item "><a href="../../basic/collections/hashmap.html"><strong aria-hidden="true">2.9.2.</strong> KV存储HashMap</a></li></ol></li><li class="chapter-item expanded "><a href="../../basic/converse.html"><strong aria-hidden="true">2.10.</strong> 类型转换</a></li><li class="chapter-item expanded "><a href="../../basic/result-error/intro.html"><strong aria-hidden="true">2.11.</strong> 返回和错误处理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/result-error/panic.html"><strong aria-hidden="true">2.11.1.</strong> panic深入剖析!</a></li><li class="chapter-item "><a href="../../basic/result-error/result.html"><strong aria-hidden="true">2.11.2.</strong> 返回值Result和?</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../advance/intro.html"><strong aria-hidden="true">3.</strong> Rust高级进阶 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advance/lifetime/intro.html"><strong aria-hidden="true">3.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/lifetime/basic.html"><strong aria-hidden="true">3.1.1.</strong> 认识生命周期</a></li><li class="chapter-item "><a href="../../advance/lifetime/advance.html"><strong aria-hidden="true">3.1.2.</strong> 深入生命周期</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/hrtb.html"><strong aria-hidden="true">3.2.</strong> 高阶特征约束(HRTB) todo</a></li><li class="chapter-item expanded "><a href="../../advance/functional-programing/intro.html"><strong aria-hidden="true">3.3.</strong> 函数式编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/functional-programing/closure.html"><strong aria-hidden="true">3.3.1.</strong> 闭包closure</a></li><li class="chapter-item "><a href="../../advance/functional-programing/iterator.html"><strong aria-hidden="true">3.3.2.</strong> 迭代器iterator</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/crate-module/intro.html"><strong aria-hidden="true">3.4.</strong> 包和模块</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/crate-module/crate.html"><strong aria-hidden="true">3.4.1.</strong> 包crate</a></li><li class="chapter-item "><a href="../../advance/crate-module/module.html"><strong aria-hidden="true">3.4.2.</strong> 模块Module</a></li><li class="chapter-item "><a href="../../advance/crate-module/use.html"><strong aria-hidden="true">3.4.3.</strong> 使用use引入模块及受限可见性</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/comment.html"><strong aria-hidden="true">3.5.</strong> 注释和文档</a></li><li class="chapter-item expanded "><a href="../../advance/custom-type.html"><strong aria-hidden="true">3.6.</strong> 深入类型之newtype和Sized</a></li><li class="chapter-item expanded "><a href="../../advance/formatted-output.html"><strong aria-hidden="true">3.7.</strong> 格式化输出</a></li><li class="chapter-item expanded "><a href="../../advance/smart-pointer/intro.html"><strong aria-hidden="true">3.8.</strong> 智能指针</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/smart-pointer/box.html"><strong aria-hidden="true">3.8.1.</strong> Box堆对象分配</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/deref.html"><strong aria-hidden="true">3.8.2.</strong> Deref解引用</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/drop.html"><strong aria-hidden="true">3.8.3.</strong> Drop释放资源</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/rc-arc.html"><strong aria-hidden="true">3.8.4.</strong> Rc与Arc实现1vN所有权机制</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/cell-refcell.html"><strong aria-hidden="true">3.8.5.</strong> Cell与RefCell内部可变性</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/circle-self-ref/intro.html"><strong aria-hidden="true">3.9.</strong> 循环引用与自引用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advance/circle-self-ref/circle-reference.html" class="active"><strong aria-hidden="true">3.9.1.</strong> Weak与循环引用</a></li><li class="chapter-item "><a href="../../advance/circle-self-ref/self-referential.html"><strong aria-hidden="true">3.9.2.</strong> 结构体中的自引用</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/concurrency-with-threads/intro.html"><strong aria-hidden="true">3.10.</strong> 多线程并发编程 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/concurrency-with-threads/concurrency-parallelism.html"><strong aria-hidden="true">3.10.1.</strong> 并发和并行</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/thread.html"><strong aria-hidden="true">3.10.2.</strong> 使用多线程</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/message-passing.html"><strong aria-hidden="true">3.10.3.</strong> 线程间的消息传递</a></li><li class="chapter-item "><a href="../../advance/multi-threads/send-sync.html"><strong aria-hidden="true">3.10.4.</strong> Send、Sync todo</a></li><li class="chapter-item "><a href="../../advance/multi-threads/example.html"><strong aria-hidden="true">3.10.5.</strong> 一个综合例子</a></li></ol></li><li class="chapter-item expanded "><a href="../../advance/async/intro.html"><strong aria-hidden="true">3.11.</strong> async/await并发编程 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/async/async-await.html"><strong aria-hidden="true">3.11.1.</strong> async/await语法 todo</a></li><li class="chapter-item "><a href="../../advance/async/future/into.html"><strong aria-hidden="true">3.11.2.</strong> future详解 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/async/future/future.html"><strong aria-hidden="true">3.11.2.1.</strong> 何为Future</a></li><li class="chapter-item "><a href="../../advance/async/future/task-schedule.html"><strong aria-hidden="true">3.11.2.2.</strong> 任务调度</a></li><li class="chapter-item "><a href="../../advance/async/future/task-excutor.html"><strong aria-hidden="true">3.11.2.3.</strong> 任务执行器</a></li><li class="chapter-item "><a href="../../advance/async/future/system-io.html"><strong aria-hidden="true">3.11.2.4.</strong> 系统IO</a></li><li class="chapter-item "><a href="../../advance/async/future/multi-futures.html"><strong aria-hidden="true">3.11.2.5.</strong> 执行多个Future</a></li></ol></li><li class="chapter-item "><a href="../../advance/async/pin-unpin.html"><strong aria-hidden="true">3.11.3.</strong> Pin、Unpin todo</a></li><li class="chapter-item "><a href="../../advance/async/future/workarounds.html"><strong aria-hidden="true">3.11.4.</strong> 遇到不支持的异步特性? todo</a></li><li class="chapter-item "><a href="../../advance/async/http.html"><strong aria-hidden="true">3.11.5.</strong> HTTP Client/Server todo</a></li><li class="chapter-item "><a href="../../advance/async/tokio/intro.html"><strong aria-hidden="true">3.11.6.</strong> 定海神针-tokio包 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/async/tokio/basic.html"><strong aria-hidden="true">3.11.6.1.</strong> 基本用法</a></li><li class="chapter-item "><a href="../../advance/async/tokio/stream.html"><strong aria-hidden="true">3.11.6.2.</strong> 异步消息流</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../advance/global-variable.html"><strong aria-hidden="true">3.12.</strong> 全局变量 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../practice/intro.html"><strong aria-hidden="true">4.</strong> Rust最佳实践 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../practice/third-party-libs.html"><strong aria-hidden="true">4.1.</strong> 日常开发三方库精选</a></li><li class="chapter-item expanded "><a href="../../practice/coding-tips.html"><strong aria-hidden="true">4.2.</strong> 一些写代码的技巧 todo</a></li><li class="chapter-item expanded "><a href="../../practice/best-pratice.html"><strong aria-hidden="true">4.3.</strong> 最佳实践 todo</a></li><li class="chapter-item expanded "><a href="../../practice/good-sourcecode.html"><strong aria-hidden="true">4.4.</strong> 值得学习的源代码 todo</a></li><li class="chapter-item expanded "><a href="../../practice/style-guide/intro.html"><strong aria-hidden="true">4.5.</strong> 代码规范 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../practice/style-guide/naming.html"><strong aria-hidden="true">4.5.1.</strong> 命名规范</a></li><li class="chapter-item "><a href="../../practice/style-guide/code.html"><strong aria-hidden="true">4.5.2.</strong> 代码风格(todo)</a></li><li class="chapter-item "><a href="../../practice/style-guide/mark.html"><strong aria-hidden="true">4.5.3.</strong> 代码标记</a></li><li class="chapter-item "><a href="../../practice/style-guide/clippy.html"><strong aria-hidden="true">4.5.4.</strong> Clippy</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../fight-with-compiler/intro.html"><strong aria-hidden="true">5.</strong> 对抗编译检查(持续更新)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../fight-with-compiler/phantom-data.html"><strong aria-hidden="true">5.1.</strong> 幽灵数据(todo)</a></li><li class="chapter-item expanded "><a href="../../fight-with-compiler/lifetime/intro.html"><strong aria-hidden="true">5.2.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../fight-with-compiler/lifetime/too-long1.html"><strong aria-hidden="true">5.2.1.</strong> 生命周期过大-01</a></li><li class="chapter-item "><a href="../../fight-with-compiler/lifetime/too-long2.html"><strong aria-hidden="true">5.2.2.</strong> 生命周期过大-02</a></li><li class="chapter-item "><a href="../../fight-with-compiler/lifetime/loop.html"><strong aria-hidden="true">5.2.3.</strong> 循环中的生命周期</a></li><li class="chapter-item "><a href="../../fight-with-compiler/lifetime/closure-with-static.html"><strong aria-hidden="true">5.2.4.</strong> 闭包碰到特征对象-01</a></li></ol></li><li class="chapter-item expanded "><a href="../../fight-with-compiler/borrowing/intro.html"><strong aria-hidden="true">5.3.</strong> 重复借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../fight-with-compiler/borrowing/ref-exist-in-out-fn.html"><strong aria-hidden="true">5.3.1.</strong> 同时在函数内外使用引用</a></li><li class="chapter-item "><a href="../../fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html"><strong aria-hidden="true">5.3.2.</strong> 智能指针引起的重复借用错误</a></li></ol></li><li class="chapter-item expanded "><a href="../../fight-with-compiler/unconstrained.html"><strong aria-hidden="true">5.4.</strong> 类型未限制(todo)</a></li></ol></li><li class="chapter-item expanded "><a href="../../pitfalls/index.html"><strong aria-hidden="true">6.</strong> Rust陷阱系列(持续更新)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../pitfalls/use-vec-in-for.html"><strong aria-hidden="true">6.1.</strong> for循环中使用外部数组</a></li><li class="chapter-item expanded "><a href="../../pitfalls/stack-overflow.html"><strong aria-hidden="true">6.2.</strong> 线程类型导致的栈溢出</a></li><li class="chapter-item expanded "><a href="../../pitfalls/arithmetic-overflow.html"><strong aria-hidden="true">6.3.</strong> 算术溢出导致的panic</a></li><li class="chapter-item expanded "><a href="../../pitfalls/closure-with-lifetime.html"><strong aria-hidden="true">6.4.</strong> 闭包中奇怪的生命周期</a></li><li class="chapter-item expanded "><a href="../../pitfalls/the-disabled-mutability.html"><strong aria-hidden="true">6.5.</strong> 可变变量不可变？</a></li><li class="chapter-item expanded "><a href="../../pitfalls/multiple-mutable-references.html"><strong aria-hidden="true">6.6.</strong> 可变借用失败引发的深入思考</a></li><li class="chapter-item expanded "><a href="../../pitfalls/lazy-iterators.html"><strong aria-hidden="true">6.7.</strong> 不太勤快的迭代器</a></li><li class="chapter-item expanded "><a href="../../pitfalls/weird-ranges.html"><strong aria-hidden="true">6.8.</strong> 奇怪的序列x..y</a></li><li class="chapter-item expanded "><a href="../../pitfalls/iterator-everywhere.html"><strong aria-hidden="true">6.9.</strong> 无处不在的迭代器</a></li><li class="chapter-item expanded "><a href="../../pitfalls/main-with-channel-blocked.html"><strong aria-hidden="true">6.10.</strong> 线程间传递消息导致主线程无法结束</a></li></ol></li><li class="chapter-item expanded "><a href="../../converse/intro.html"><strong aria-hidden="true">7.</strong> 进阶类型转换</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../converse/enum-int.html"><strong aria-hidden="true">7.1.</strong> 枚举和整数</a></li></ol></li><li class="chapter-item expanded "><a href="../../rustjs/intro.html"><strong aria-hidden="true">8.</strong> 用Rust增强Javascript todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../rustjs/deno.html"><strong aria-hidden="true">8.1.</strong> deno todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../errorindex/intro.html"><strong aria-hidden="true">9.</strong> 复杂错误索引 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../errorindex/borrowing/intro.html"><strong aria-hidden="true">9.1.</strong> 所有权和借用 todo</a></li><li class="chapter-item expanded "><a href="../../errorindex/lifetime/intro.html"><strong aria-hidden="true">9.2.</strong> 生命周期 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../errors/intro.html"><strong aria-hidden="true">10.</strong> 错误处理 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../errors/simplify.html"><strong aria-hidden="true">10.1.</strong> 简化错误处理 todo</a></li><li class="chapter-item expanded "><a href="../../errors/user-define.html"><strong aria-hidden="true">10.2.</strong> 自定义错误 todo</a></li><li class="chapter-item expanded "><a href="../../errors/pretty-format.html"><strong aria-hidden="true">10.3.</strong> 让错误输出更优雅 todo</a></li><li class="chapter-item expanded "><a href="../../errors/panic-codes.html"><strong aria-hidden="true">10.4.</strong> 会导致panic的代码 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../cargo/intro.html"><strong aria-hidden="true">11.</strong> Cargo详解 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cargo/commands.html"><strong aria-hidden="true">11.1.</strong> 常用命令 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/layout.html"><strong aria-hidden="true">11.2.</strong> 项目结构 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/cargo-toml-lock.html"><strong aria-hidden="true">11.3.</strong> Cargo.toml和Cargo.lock todo</a></li><li class="chapter-item expanded "><a href="../../cargo/dependency.html"><strong aria-hidden="true">11.4.</strong> 依赖管理 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/cache.html"><strong aria-hidden="true">11.5.</strong> 构建缓存 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/version.html"><strong aria-hidden="true">11.6.</strong> 版本管理 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/workspace.html"><strong aria-hidden="true">11.7.</strong> 工作空间 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/feature.html"><strong aria-hidden="true">11.8.</strong> 条件编译、条件依赖 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/manifest.html"><strong aria-hidden="true">11.9.</strong> 配置参数 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/build-js.html"><strong aria-hidden="true">11.10.</strong> 自定义构建脚本 todo</a></li><li class="chapter-item expanded "><a href="../../cargo/profile.html"><strong aria-hidden="true">11.11.</strong> Cargo profile todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../test/intro.html"><strong aria-hidden="true">12.</strong> 测试 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../test/unit.html"><strong aria-hidden="true">12.1.</strong> 单元测试 todo</a></li><li class="chapter-item expanded "><a href="../../test/intergration.html"><strong aria-hidden="true">12.2.</strong> 集成测试 todo</a></li><li class="chapter-item expanded "><a href="../../test/benchmark.html"><strong aria-hidden="true">12.3.</strong> 性能测试 todo</a></li><li class="chapter-item expanded "><a href="../../test/ci.html"><strong aria-hidden="true">12.4.</strong> 持续集成 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../traits/intro.html"><strong aria-hidden="true">13.</strong> 常见特征解析 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../traits/from-into.html"><strong aria-hidden="true">13.1.</strong> 类型转换From/Into todo</a></li><li class="chapter-item expanded "><a href="../../traits/as-ref-as-mut.html"><strong aria-hidden="true">13.2.</strong> AsRef, AsMut todo</a></li><li class="chapter-item expanded "><a href="../../traits/borrow-family.html"><strong aria-hidden="true">13.3.</strong> Borrow, BorrowMut, ToOwned todo</a></li><li class="chapter-item expanded "><a href="../../traits/deref.html"><strong aria-hidden="true">13.4.</strong> Deref和引用隐式转换 todo</a></li><li class="chapter-item expanded "><a href="../../traits/cow.html"><strong aria-hidden="true">13.5.</strong> 写时拷贝Cow todo</a></li><li class="chapter-item expanded "><a href="../../traits/eq.html"><strong aria-hidden="true">13.6.</strong> Eq todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../memory/intro.html"><strong aria-hidden="true">14.</strong> 深入内存 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../memory/pointer-ref.html"><strong aria-hidden="true">14.1.</strong> 指针和引用 todo</a></li><li class="chapter-item expanded "><a href="../../memory/uninit.html"><strong aria-hidden="true">14.2.</strong> 未初始化内存 todo</a></li><li class="chapter-item expanded "><a href="../../memory/allocation.html"><strong aria-hidden="true">14.3.</strong> 内存分配 todo</a></li><li class="chapter-item expanded "><a href="../../memory/layout.html"><strong aria-hidden="true">14.4.</strong> 内存布局 todo</a></li><li class="chapter-item expanded "><a href="../../memory/virtual.html"><strong aria-hidden="true">14.5.</strong> 虚拟内存 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../web/intro.html"><strong aria-hidden="true">15.</strong> Web应用开发 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../web/serialization.html"><strong aria-hidden="true">15.1.</strong> 编解码与序列化 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../object-oriented/intro.html"><strong aria-hidden="true">16.</strong> 面向对象 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../object-oriented/characteristics.html"><strong aria-hidden="true">16.1.</strong> 为何OO todo</a></li><li class="chapter-item expanded "><a href="../../object-oriented/design-pattern.html"><strong aria-hidden="true">16.2.</strong> 设计模式 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../unsafe/intro.html"><strong aria-hidden="true">17.</strong> 不安全Rust todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../unsafe/raw-pointer.html"><strong aria-hidden="true">17.1.</strong> 原生指针 todo</a></li><li class="chapter-item expanded "><a href="../../unsafe/modify-global-var.html"><strong aria-hidden="true">17.2.</strong> 修改全局变量 todo</a></li><li class="chapter-item expanded "><a href="../../unsafe/ffi.html"><strong aria-hidden="true">17.3.</strong> FFI外部语言用 todo</a></li><li class="chapter-item expanded "><a href="../../unsafe/ub.html"><strong aria-hidden="true">17.4.</strong> 那些会导致UB的代码 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../macro/intro.html"><strong aria-hidden="true">18.</strong> 宏编程 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../macro/procedure-macro.html"><strong aria-hidden="true">18.1.</strong> 过程宏(todo)</a></li></ol></li><li class="chapter-item expanded "><a href="../../performance/intro.html"><strong aria-hidden="true">19.</strong> 性能调优 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../performance/deep-into-move.html"><strong aria-hidden="true">19.1.</strong> 深入理解move</a></li><li class="chapter-item expanded "><a href="../../performance/early-optimise.html"><strong aria-hidden="true">19.2.</strong> 糟糕的提前优化 todo</a></li><li class="chapter-item expanded "><a href="../../performance/clone-copy.html"><strong aria-hidden="true">19.3.</strong> Clone和Copy todo</a></li><li class="chapter-item expanded "><a href="../../performance/benchmark.html"><strong aria-hidden="true">19.4.</strong> Benchmark性能测试(todo)</a></li><li class="chapter-item expanded "><a href="../../performance/runtime-check.html"><strong aria-hidden="true">19.5.</strong> 减少Runtime check(todo)</a></li><li class="chapter-item expanded "><a href="../../performance/cpu-cache.html"><strong aria-hidden="true">19.6.</strong> CPU缓存性能优化 todo</a></li><li class="chapter-item expanded "><a href="../../performance/calculate.html"><strong aria-hidden="true">19.7.</strong> 计算性能优化 todo</a></li><li class="chapter-item expanded "><a href="../../performance/heap-stack.html"><strong aria-hidden="true">19.8.</strong> 堆和栈 todo</a></li><li class="chapter-item expanded "><a href="../../performance/tools.html"><strong aria-hidden="true">19.9.</strong> 常用性能测试工具 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../compiler/intro.html"><strong aria-hidden="true">20.</strong> 编译器 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../compiler/attributes.html"><strong aria-hidden="true">20.1.</strong> 常见属性标记 todo</a></li><li class="chapter-item expanded "><a href="../../compiler/speed-up.html"><strong aria-hidden="true">20.2.</strong> 提升编译速度 todo</a></li><li class="chapter-item expanded "><a href="../../compiler/optimization/intro.html"><strong aria-hidden="true">20.3.</strong> 编译器优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/optimization/option.html"><strong aria-hidden="true">20.3.1.</strong> Option枚举 todo</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../monitor/intro.html"><strong aria-hidden="true">21.</strong> 日志和监控 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../monitor/log.html"><strong aria-hidden="true">21.1.</strong> 日志 todo</a></li><li class="chapter-item expanded "><a href="../../monitor/observability.html"><strong aria-hidden="true">21.2.</strong> 可观测性 todo</a></li><li class="chapter-item expanded "><a href="../../monitor/apm.html"><strong aria-hidden="true">21.3.</strong> 监控(APM) todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../std/intro.html"><strong aria-hidden="true">22.</strong> 标准库解析 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../std/search.html"><strong aria-hidden="true">22.1.</strong> 如何寻找你想要的内容 todo</a></li><li class="chapter-item expanded "><a href="../../std/vector.html"><strong aria-hidden="true">22.2.</strong> Vector常用方法 todo</a></li><li class="chapter-item expanded "><a href="../../std/hashmap.html"><strong aria-hidden="true">22.3.</strong> HashMap todo</a></li><li class="chapter-item expanded "><a href="../../std/iterator.html"><strong aria-hidden="true">22.4.</strong> Iterator常用方法 todo</a></li></ol></li><li class="chapter-item expanded "><a href="../../libraries/intro.html"><strong aria-hidden="true">23.</strong> 常用三方库 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../libraries/json/intro.html"><strong aria-hidden="true">23.1.</strong> JSON</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../libraries/json/serde.html"><strong aria-hidden="true">23.1.1.</strong> serde(todo)</a></li></ol></li><li class="chapter-item expanded "><a href="../../libraries/http/intro.html"><strong aria-hidden="true">23.2.</strong> HTTP</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../libraries/http/reqwest.html"><strong aria-hidden="true">23.2.1.</strong> reqwest(todo)</a></li></ol></li><li class="chapter-item expanded "><a href="../../libraries/command/intro.html"><strong aria-hidden="true">23.3.</strong> 命令行解析</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../libraries/command/structopt.html"><strong aria-hidden="true">23.3.1.</strong> structopt(todo)</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../appendix/intro.html"><strong aria-hidden="true">24.</strong> 附录</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../appendix/keywords.html"><strong aria-hidden="true">24.1.</strong> A-关键字</a></li><li class="chapter-item expanded "><a href="../../appendix/operators.html"><strong aria-hidden="true">24.2.</strong> B-运算符与符号</a></li><li class="chapter-item expanded "><a href="../../appendix/expressions.html"><strong aria-hidden="true">24.3.</strong> C-表达式</a></li><li class="chapter-item expanded "><a href="../../appendix/derive.html"><strong aria-hidden="true">24.4.</strong> D-派生特征derive</a></li><li class="chapter-item expanded "><a href="../../appendix/prelude.html"><strong aria-hidden="true">24.5.</strong> E-prelude模块 todo</a></li><li class="chapter-item expanded "><a href="../../appendix/difficulties.html"><strong aria-hidden="true">24.6.</strong> F-难点索引</a></li><li class="chapter-item expanded "><a href="../../appendix/rust-version.html"><strong aria-hidden="true">24.7.</strong> G-Rust版本发布</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust教程 Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/book/contents/advance/circle-self-ref/circle-reference.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="weak与循环引用"><a class="header" href="#weak与循环引用">Weak与循环引用</a></h1>
+<p>Rust的安全性是众所周知的，但是不代表它不会内存泄漏。一个典型的例子就是同时使用<code>Rc&lt;T&gt;</code>和<code>RefCell&lt;T&gt;</code>创建循环引用，最终这些引用的计数都无法被归零，因此<code>Rc&lt;T&gt;</code>拥有的值也不会被释放清理。</p>
+<h2 id="何为循环引用"><a class="header" href="#何为循环引用">何为循环引用</a></h2>
+<p>关于内存泄漏，如果你没有充足的Rust经验，可能都无法造出一份代码来再现它: </p>
+<pre><pre class="playground"><code class="language-rust edition2021">use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell&lt;Rc&lt;List&gt;&gt;),
+    Nil,
+}
+
+impl List {
+    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&gt;&gt;&gt; {
+        match self {
+            Cons(_, item) =&gt; Some(item),
+            Nil =&gt; None,
+        }
+    }
+}
+
+fn main() {}
+</code></pre></pre>
+<p>这里我们创建一个有些复杂的枚举类型<code>List</code>，这个类型很有意思，它的每个值都指向了另一个<code>List</code>，而且得益于<code>Rc</code>的使用还允许多个值指向一个<code>List</code>:</p>
+<img alt="" src="/img/self-ref-01.png" class="center"  />
+<p>如上图所示，每个矩形框节点都是一个<code>List</code>类型，它们或者是拥有值且指向另一个<code>List</code>的的<code>Cons</code>，或者是一个没有值的终结点<code>Nil</code>。同时，由于<code>RefCell</code>的使用，每个<code>List</code>所指向的<code>List</code>还能够被修改。</p>
+<p>下面来使用一下这个复杂的<code>List</code>枚举：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+
+    println!(&quot;a的初始化rc计数 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;a指向的节点 = {:?}&quot;, a.tail());
+
+    // 创建`b`到`a`的引用
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
+
+    println!(&quot;在b创建后，a的rc计数 = {}&quot;, Rc::strong_count(&amp;a));
+    println!(&quot;b的初始化rc计数 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;b指向的节点 = {:?}&quot;, b.tail());
+    
+    // 利用RefCell的可变性，创建了`a`到`b`的引用
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&amp;b);
+    }
+
+    println!(&quot;在更改a后，b的rc计数 = {}&quot;, Rc::strong_count(&amp;b));
+    println!(&quot;在更改a后，a的rc计数 = {}&quot;, Rc::strong_count(&amp;a));
+
+    // 下面一行println!将导致循环引用
+    // 我们可怜的8MB大小的main线程栈空间将被它冲垮，最终造成栈溢出
+    // println!(&quot;a next item = {:?}&quot;, a.tail());
+}
+</code></pre></pre>
+<p>这个类型定义看着复杂，使用起来更复杂！不过排除这些因素，我们可以清晰看出：</p>
+<ol>
+<li>在创建了<code>a</code>后，紧接着就使用<code>a</code>创建了<code>b</code>，因此<code>b</code>引用了<code>a</code></li>
+<li>然后我们又利用<code>Rc</code>克隆了<code>b</code>，然后通过<code>RefCell</code>的可变性，让<code>a</code>引用了<code>b</code></li>
+</ol>
+<p>至此我们成功创建了循环引用<code>a</code>-&gt; <code>b</code> -&gt; <code>a</code> -&gt; <code>b</code> ····</p>
+<p>先来观察下引用计数:</p>
+<pre><code class="language-console">a的初始化rc计数 = 1
+a指向的节点 = Some(RefCell { value: Nil })
+在b创建后，a的rc计数 = 2
+b的初始化rc计数 = 1
+b指向的节点 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+在更改a后，b的rc计数 = 2
+在更改a后，a的rc计数 = 2
+</code></pre>
+<p>在<code>main</code>函数结束前，<code>a</code>和<code>b</code>的引用计数均是<code>2</code>，随后<code>b</code>触发<code>Drop</code>，此时引用计数会变为<code>1</code>，并不会归<code>0</code>，因此<code>b</code>所指向内存不会被释放，同理可得<code>a</code>指向的内存也不会被释放，最终发生了内存泄漏。</p>
+<p>下面一张图很好的展示了这种引用循环关系:
+<img alt="" src="/img/self-ref-02.png" class="center"  /></p>
+<p>现在我们还需要轻轻的推一下，让塔米诺骨牌轰然倒塌。反注释最后一行代码，试着运行下：</p>
+<pre><code class="language-console">RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { 
+...无穷无尽
+thread 'main' has overflowed its stack
+fatal runtime error: stack overflow
+</code></pre>
+<p>通过<code>a.tail</code>的调用，Rust试图打印出<code>a -&gt; b -&gt;a···</code>的所有内容，但是在不懈的努力后，<code>main</code>线程终于不堪重负，发生了<a href="https://zhuanlan.zhihu.com/p/446039229">栈溢出</a>。</p>
+<p>以上的代码可能并不会造成什么大的问题，但是在一个更加复杂的程序中，类似的问题可能会造成你的程序不断的分配内存、泄漏内存，最终程序会不幸<strong>OOM</strong>，当然这其中的CPU损耗也不可小觑。</p>
+<p>总之，创建引用并不简单，但是也并不是完全遇不到，当你使用<code>RefCell&lt;Rc&lt;T&gt;&gt;</code>或者类似的类型嵌套组合(具备内部可变性和引用计数)时，就要打起万分精神，前面可能是深渊！</p>
+<p>那么问题来了？ 如果我们确实需要实现上面的功能，该怎么办？答案是使用<code>Weak</code>。</p>
+<h2 id="weak"><a class="header" href="#weak">Weak</a></h2>
+<p><code>Weak</code>非常类似于<code>Rc</code>，但是与<code>Rc</code>持有所有权不同，<code>Weak</code>不持有所有权，它仅仅保存一份指向数据的弱引用：如果你想要访问数据，需要通过<code>Weak</code>指针的<code>upgrade</code>方法实现，该方法返回一个类型为<code>Option&gt;&lt;Rc&lt;T&gt;&gt;</code>的值。</p>
+<p>看到这个返回，相信大家就懂了：何为弱引用？就是<strong>不保证引用关系依然存在</strong>，如果不存在，就返回一个<code>None</code>!</p>
+<p>因为<code>Weak</code>引用不计入所有权，因此它<strong>无法阻止所引用的内存值被释放掉</strong>, 而且<code>Weak</code>本身不对值的存在性做任何担保，引用的值还存在就返回<code>Some</code>，不存在就返回<code>None</code>。</p>
+<h4 id="weak与rc对比"><a class="header" href="#weak与rc对比">Weak与Rc对比</a></h4>
+<p>我们来将<code>Weak</code>与<code>Rc</code>进行以下简单对比:</p>
+<table><thead><tr><th><code>Weak</code></th><th><code>Rc</code></th></tr></thead><tbody>
+<tr><td>不计数</td><td>引用计数</td></tr>
+<tr><td>不拥有所有权</td><td>拥有值的所有权</td></tr>
+<tr><td>不阻止值被释放(drop)</td><td>所有权计数归零，才能drop</td></tr>
+<tr><td>引用的值存在返回Some,不存在返回None</td><td>引用的值必定存在</td></tr>
+<tr><td>通过<code>upgrade</code>取到<code>Option&lt;Rc&lt;T&gt;&gt;</code>,然后再取值</td><td>通过<code>Deref</code>自动解引用，取值无需任何操作｜</td></tr>
+</tbody></table>
+<p>通过这个对比，可以非常清晰的看出<code>Weak</code>为何这么弱，而这种弱恰恰非常适合我们实现以下的场景：</p>
+<ul>
+<li>持有一个<code>Rc</code>对象的临时引用，并且不在乎引用的值是否依然存在</li>
+<li>阻止<code>Rc</code>导致的循环引用，因为<code>Rc</code>的所有权机制，会导致多个<code>Rc</code>都无法计数归零</li>
+</ul>
+<p>使用方式简单总结下：<strong>对于父子引用关系，可以让父节点通过<code>Rc</code>来引用子节点，然后让子节点通过<code>Weak</code>来引用父节点</strong>。</p>
+<h4 id="weak总结"><a class="header" href="#weak总结">Weak总结</a></h4>
+<p>因为Weak本身并不是很好理解，因此我们再来帮大家梳理总结下，然后再通过一个例子，来彻底掌握。</p>
+<p><code>Weak</code>通过<code>use std::rc::Weak</code>来引入，它具有以下特点:</p>
+<ul>
+<li>可访问，但没有所有权，不增加引用计数，因此不会影响被引用值的释放回收</li>
+<li>可由<code>Rc&lt;T&gt;</code>调用<code>downgrade</code>方法转换成<code>Weak&lt;T&gt;</code></li>
+<li><code>Weak&lt;T&gt;</code>可使用<code>upgrade</code>方法转换成<code>Option&lt;Rc&lt;T&gt;&gt;</code>,如果资源已经被释放，则<code>Option</code>的值是<code>None</code></li>
+<li>常用于解决循环引用的问题</li>
+</ul>
+<p>一个简单的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
+fn main() {
+    // 创建Rc，持有一个值5
+    let five = Rc::new(5);
+
+    // 通过Rc，创建一个Weak指针
+    let weak_five = Rc::downgrade(&amp;five);
+
+    // Weak引用的资源依然存在，取到值5
+    let strong_five: Option&lt;Rc&lt;_&gt;&gt; = weak_five.upgrade();
+    assert_eq!(*strong_five.unwrap(), 5);
+
+    // 手动释放资源`five`
+    drop(five);
+
+    // Weak引用的资源已不存在，因此返回None
+    let strong_five: Option&lt;Rc&lt;_&gt;&gt; = weak_five.upgrade();
+    assert_eq!(strong_five, None);
+}
+</code></pre></pre>
+<p>需要承认的是，使用<code>Weak</code>让Rust本来就堪忧的代码可读性又下降了不少，但是。。。真香，因为可以解决循环引用了。</p>
+<h2 id="使用weak解决循环引用"><a class="header" href="#使用weak解决循环引用">使用Weak解决循环引用</a></h2>
+<p>理论知识已经足够，现在用两个例子来模拟下真实场景下可能会遇到的循环引用。</p>
+<h4 id="工具间的故事"><a class="header" href="#工具间的故事">工具间的故事</a></h4>
+<p>工具间里，每个工具都有其主人，且多个工具可以拥有一个主人；同时一个主人也可以拥有多个工具，在这种场景下，就很容易形成循环引用，好在我们有<code>Weak</code>: </p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
+use std::rc::Weak;
+use std::cell::RefCell;
+
+// 主人
+struct Owner {
+    name: String,
+    gadgets: RefCell&lt;Vec&lt;Weak&lt;Gadget&gt;&gt;&gt;,
+}
+
+// 工具
+struct Gadget {
+    id: i32,
+    owner: Rc&lt;Owner&gt;,
+}
+
+fn main() {
+    // 创建一个Owner
+    // 需要注意，该Owner也拥有多个`gadgets`
+    let gadget_owner : Rc&lt;Owner&gt; = Rc::new(
+        Owner {
+            name: &quot;Gadget Man&quot;.to_string(),
+            gadgets: RefCell::new(Vec::new()),
+        }
+    );
+
+    // 创建工具，同时与主人进行关联：创建两个gadget，他们分别持有gadget_owner 的一个引用。
+    let gadget1 = Rc::new(Gadget{id: 1, owner: gadget_owner.clone()});
+    let gadget2 = Rc::new(Gadget{id: 2, owner: gadget_owner.clone()});
+
+    // 为主人更新它所拥有的工具
+    // 因为之前使用了`Rc`，现在必须要使用`Weak`，否则就会循环引用
+    gadget_owner.gadgets.borrow_mut().push(Rc::downgrade(&amp;gadget1));
+    gadget_owner.gadgets.borrow_mut().push(Rc::downgrade(&amp;gadget2));
+
+    // 遍历 gadget_owner的gadgets字段
+    for gadget_opt in gadget_owner.gadgets.borrow().iter() {
+
+        // gadget_opt 是一个 Weak&lt;Gadget&gt; 。 因为 weak 指针不能保证他所引用的对象
+        // 仍然存在。所以我们需要显式的调用 upgrade() 来通过其返回值(Option&lt;_&gt;)来判
+        // 断其所指向的对象是否存在。
+        // 当然，Option为None的时候这个引用原对象就不存在了。
+        let gadget = gadget_opt.upgrade().unwrap();
+        println!(&quot;Gadget {} owned by {}&quot;, gadget.id, gadget.owner.name);
+    }
+
+    // 在main函数的最后， gadget_owner, gadget1和daget2都被销毁。
+    // 具体是，因为这几个结构体之间没有了强引用（`Rc&lt;T&gt;`），所以，当他们销毁的时候。
+    // 首先 gadget1和gadget2被销毁。
+    // 然后因为gadget_owner的引用数量为0，所以这个对象可以被销毁了。
+    // 循环引用问题也就避免了
+}
+</code></pre></pre>
+<h4 id="tree数据结构"><a class="header" href="#tree数据结构">tree数据结构</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+use std::rc::{Rc, Weak};
+
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+}
+
+fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!(
+        &quot;leaf strong = {}, weak = {}&quot;,
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+        });
+
+        *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+
+        println!(
+            &quot;branch strong = {}, weak = {}&quot;,
+            Rc::strong_count(&amp;branch),
+            Rc::weak_count(&amp;branch),
+        );
+
+        println!(
+            &quot;leaf strong = {}, weak = {}&quot;,
+            Rc::strong_count(&amp;leaf),
+            Rc::weak_count(&amp;leaf),
+        );
+    }
+
+    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
+    println!(
+        &quot;leaf strong = {}, weak = {}&quot;,
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+}
+
+</code></pre></pre>
+<p>这个例子就留给读者自己解读和分析，我们就不画蛇添足了：）</p>
+<h2 id="unsafe解决循环引用"><a class="header" href="#unsafe解决循环引用">unsafe解决循环引用</a></h2>
+<p>除了使用Rust标准库提供的这些类型，你还可以使用<code>unsafe</code>里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解<code>unsafe</code>，因此这里就不进行展开，只附上<a href="https://codes.rs/unsafe/self-ref.html">源码链接</a>, 挺长的，需要耐心o,O</p>
+<p>虽然<code>unsfae</code>不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:</p>
+<ul>
+<li>性能高，毕竟直接用原生指针操作</li>
+<li>代码更简单更符合直觉: 对比下<code>Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;</code></li>
+</ul>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>本文深入讲解了何为循环引用以及如何使用<code>Weak</code>来解决，同时还结合<code>Rc</code>、<code>RefCell</code>、<code>Weak</code>等实现了两个有实战价值的例子，让大家对智能指针的使用更加融会贯通。</p>
+<p>至此，智能指针一章即将结束(严格来说还有一个Mutex放在多线程一章讲解)，而Rust语言本身的学习之旅也即将结束，后面我们将深入多线程、项目工程、应用实践、性能分析等特色专题，来一睹Rust在这些领域的风采。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/circle-self-ref/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../advance/circle-self-ref/self-referential.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/circle-self-ref/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../advance/circle-self-ref/self-referential.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+        <script type="text/javascript">
+            window.playground_line_numbers = true;
+        </script>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../../assets/ferris.js"></script>
+
+
+    </body>
+</html>
