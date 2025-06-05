@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="zh-CN" class="light" dir="ltr">
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -25,27 +25,41 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="theme/style.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -59,24 +73,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -84,41 +96,21 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item affix "><a href="about-book.html">关于本书</a></li><li class="chapter-item affix "><a href="into-rust.html">进入 Rust 编程世界</a></li><li class="chapter-item affix "><a href="first-try/sth-you-should-not-do.html">避免从入门到放弃</a></li><li class="chapter-item affix "><a href="community.html">社区和锈书</a></li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item affix "><a href="some-thoughts.html">Xobserve: 一切皆可观测</a></li><li class="chapter-item affix "><a href="beat-ai.html">BeatAI: 工程师 AI 入门圣经</a></li><li class="chapter-item affix "><li class="part-title">Rust 语言基础学习</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="first-try/intro.html"><strong aria-hidden="true">1.</strong> 寻找牛刀，以便小试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="first-try/installation.html"><strong aria-hidden="true">1.1.</strong> 安装 Rust 环境</a></li><li class="chapter-item "><a href="first-try/editor.html"><strong aria-hidden="true">1.2.</strong> 墙推 VSCode!</a></li><li class="chapter-item "><a href="first-try/cargo.html"><strong aria-hidden="true">1.3.</strong> 认识 Cargo</a></li><li class="chapter-item "><a href="first-try/hello-world.html"><strong aria-hidden="true">1.4.</strong> 不仅仅是 Hello world</a></li><li class="chapter-item "><a href="first-try/slowly-downloading.html"><strong aria-hidden="true">1.5.</strong> 下载依赖太慢了？</a></li></ol></li><li class="chapter-item "><a href="basic/intro.html"><strong aria-hidden="true">2.</strong> Rust 基础入门</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/variable.html"><strong aria-hidden="true">2.1.</strong> 变量绑定与解构</a></li><li class="chapter-item "><a href="basic/base-type/index.html"><strong aria-hidden="true">2.2.</strong> 基本类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/base-type/numbers.html"><strong aria-hidden="true">2.2.1.</strong> 数值类型</a></li><li class="chapter-item "><a href="basic/base-type/char-bool.html"><strong aria-hidden="true">2.2.2.</strong> 字符、布尔、单元类型</a></li><li class="chapter-item "><a href="basic/base-type/statement-expression.html"><strong aria-hidden="true">2.2.3.</strong> 语句与表达式</a></li><li class="chapter-item "><a href="basic/base-type/function.html"><strong aria-hidden="true">2.2.4.</strong> 函数</a></li></ol></li><li class="chapter-item "><a href="basic/ownership/index.html"><strong aria-hidden="true">2.3.</strong> 所有权和借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/ownership/ownership.html"><strong aria-hidden="true">2.3.1.</strong> 所有权</a></li><li class="chapter-item "><a href="basic/ownership/borrowing.html"><strong aria-hidden="true">2.3.2.</strong> 引用与借用</a></li></ol></li><li class="chapter-item "><a href="basic/compound-type/intro.html"><strong aria-hidden="true">2.4.</strong> 复合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/compound-type/string-slice.html"><strong aria-hidden="true">2.4.1.</strong> 字符串与切片</a></li><li class="chapter-item "><a href="basic/compound-type/tuple.html"><strong aria-hidden="true">2.4.2.</strong> 元组</a></li><li class="chapter-item "><a href="basic/compound-type/struct.html"><strong aria-hidden="true">2.4.3.</strong> 结构体</a></li><li class="chapter-item "><a href="basic/compound-type/enum.html"><strong aria-hidden="true">2.4.4.</strong> 枚举</a></li><li class="chapter-item "><a href="basic/compound-type/array.html"><strong aria-hidden="true">2.4.5.</strong> 数组</a></li></ol></li><li class="chapter-item "><a href="basic/flow-control.html"><strong aria-hidden="true">2.5.</strong> 流程控制</a></li><li class="chapter-item "><a href="basic/match-pattern/intro.html"><strong aria-hidden="true">2.6.</strong> 模式匹配</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/match-pattern/match-if-let.html"><strong aria-hidden="true">2.6.1.</strong> match 和 if let</a></li><li class="chapter-item "><a href="basic/match-pattern/option.html"><strong aria-hidden="true">2.6.2.</strong> 解构 Option</a></li><li class="chapter-item "><a href="basic/match-pattern/pattern-match.html"><strong aria-hidden="true">2.6.3.</strong> 模式适用场景</a></li><li class="chapter-item "><a href="basic/match-pattern/all-patterns.html"><strong aria-hidden="true">2.6.4.</strong> 全模式列表</a></li></ol></li><li class="chapter-item "><a href="basic/method.html"><strong aria-hidden="true">2.7.</strong> 方法 Method</a></li><li class="chapter-item "><a href="basic/trait/intro.html"><strong aria-hidden="true">2.8.</strong> 泛型和特征</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/trait/generic.html"><strong aria-hidden="true">2.8.1.</strong> 泛型 Generics</a></li><li class="chapter-item "><a href="basic/trait/trait.html"><strong aria-hidden="true">2.8.2.</strong> 特征 Trait</a></li><li class="chapter-item "><a href="basic/trait/trait-object.html"><strong aria-hidden="true">2.8.3.</strong> 特征对象</a></li><li class="chapter-item "><a href="basic/trait/advance-trait.html"><strong aria-hidden="true">2.8.4.</strong> 进一步深入特征</a></li></ol></li><li class="chapter-item "><a href="basic/collections/intro.html"><strong aria-hidden="true">2.9.</strong> 集合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/collections/vector.html"><strong aria-hidden="true">2.9.1.</strong> 动态数组 Vector</a></li><li class="chapter-item "><a href="basic/collections/hashmap.html"><strong aria-hidden="true">2.9.2.</strong> KV 存储 HashMap</a></li></ol></li><li class="chapter-item "><a href="basic/lifetime.html"><strong aria-hidden="true">2.10.</strong> 认识生命周期</a></li><li class="chapter-item "><a href="basic/result-error/intro.html"><strong aria-hidden="true">2.11.</strong> 返回值和错误处理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/result-error/panic.html"><strong aria-hidden="true">2.11.1.</strong> panic! 深入剖析</a></li><li class="chapter-item "><a href="basic/result-error/result.html"><strong aria-hidden="true">2.11.2.</strong> 返回值 Result 和?</a></li></ol></li><li class="chapter-item "><a href="basic/crate-module/intro.html"><strong aria-hidden="true">2.12.</strong> 包和模块</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic/crate-module/crate.html"><strong aria-hidden="true">2.12.1.</strong> 包 Crate</a></li><li class="chapter-item "><a href="basic/crate-module/module.html"><strong aria-hidden="true">2.12.2.</strong> 模块 Module</a></li><li class="chapter-item "><a href="basic/crate-module/use.html"><strong aria-hidden="true">2.12.3.</strong> 使用 use 引入模块及受限可见性</a></li></ol></li><li class="chapter-item "><a href="basic/comment.html"><strong aria-hidden="true">2.13.</strong> 注释和文档</a></li><li class="chapter-item "><a href="basic/formatted-output.html"><strong aria-hidden="true">2.14.</strong> 格式化输出</a></li></ol></li><li class="chapter-item "><a href="basic-practice/intro.html"><strong aria-hidden="true">3.</strong> 入门实战：文件搜索工具</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="basic-practice/base-features.html"><strong aria-hidden="true">3.1.</strong> 基本功能</a></li><li class="chapter-item "><a href="basic-practice/refactoring.html"><strong aria-hidden="true">3.2.</strong> 增加模块化和错误处理</a></li><li class="chapter-item "><a href="basic-practice/tests.html"><strong aria-hidden="true">3.3.</strong> 测试驱动开发</a></li><li class="chapter-item "><a href="basic-practice/envs.html"><strong aria-hidden="true">3.4.</strong> 使用环境变量</a></li><li class="chapter-item "><a href="basic-practice/stderr.html"><strong aria-hidden="true">3.5.</strong> 重定向错误信息的输出</a></li><li class="chapter-item "><a href="basic-practice/iterators.html"><strong aria-hidden="true">3.6.</strong> 使用迭代器来改进程序(可选)</a></li></ol></li><li class="chapter-item "><li class="part-title">Rust 语言进阶学习</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="advance/intro.html"><strong aria-hidden="true">4.</strong> Rust 高级进阶</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/lifetime/intro.html"><strong aria-hidden="true">4.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/lifetime/advance.html"><strong aria-hidden="true">4.1.1.</strong> 深入生命周期</a></li><li class="chapter-item "><a href="advance/lifetime/static.html"><strong aria-hidden="true">4.1.2.</strong> &amp;&#39;static 和 T: &#39;static</a></li></ol></li><li class="chapter-item "><a href="advance/functional-programing/intro.html"><strong aria-hidden="true">4.2.</strong> 函数式编程: 闭包、迭代器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/functional-programing/closure.html"><strong aria-hidden="true">4.2.1.</strong> 闭包 Closure</a></li><li class="chapter-item "><a href="advance/functional-programing/iterator.html"><strong aria-hidden="true">4.2.2.</strong> 迭代器 Iterator</a></li></ol></li><li class="chapter-item "><a href="advance/into-types/intro.html"><strong aria-hidden="true">4.3.</strong> 深入类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/into-types/converse.html"><strong aria-hidden="true">4.3.1.</strong> 类型转换</a></li><li class="chapter-item "><a href="advance/into-types/custom-type.html"><strong aria-hidden="true">4.3.2.</strong> newtype 和 类型别名</a></li><li class="chapter-item "><a href="advance/into-types/sized.html"><strong aria-hidden="true">4.3.3.</strong> Sized 和不定长类型 DST</a></li><li class="chapter-item "><a href="advance/into-types/enum-int.html"><strong aria-hidden="true">4.3.4.</strong> 枚举和整数</a></li></ol></li><li class="chapter-item "><a href="advance/smart-pointer/intro.html"><strong aria-hidden="true">4.4.</strong> 智能指针</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/smart-pointer/box.html"><strong aria-hidden="true">4.4.1.</strong> Box堆对象分配</a></li><li class="chapter-item "><a href="advance/smart-pointer/deref.html"><strong aria-hidden="true">4.4.2.</strong> Deref 解引用</a></li><li class="chapter-item "><a href="advance/smart-pointer/drop.html"><strong aria-hidden="true">4.4.3.</strong> Drop 释放资源</a></li><li class="chapter-item "><a href="advance/smart-pointer/rc-arc.html"><strong aria-hidden="true">4.4.4.</strong> Rc 与 Arc 实现 1vN 所有权机制</a></li><li class="chapter-item "><a href="advance/smart-pointer/cell-refcell.html"><strong aria-hidden="true">4.4.5.</strong> Cell 与 RefCell 内部可变性</a></li></ol></li><li class="chapter-item "><a href="advance/circle-self-ref/intro.html"><strong aria-hidden="true">4.5.</strong> 循环引用与自引用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/circle-self-ref/circle-reference.html"><strong aria-hidden="true">4.5.1.</strong> Weak 与循环引用</a></li><li class="chapter-item "><a href="advance/circle-self-ref/self-referential.html"><strong aria-hidden="true">4.5.2.</strong> 结构体中的自引用</a></li></ol></li><li class="chapter-item "><a href="advance/concurrency-with-threads/intro.html"><strong aria-hidden="true">4.6.</strong> 多线程并发编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/concurrency-with-threads/concurrency-parallelism.html"><strong aria-hidden="true">4.6.1.</strong> 并发和并行</a></li><li class="chapter-item "><a href="advance/concurrency-with-threads/thread.html"><strong aria-hidden="true">4.6.2.</strong> 使用多线程</a></li><li class="chapter-item "><a href="advance/concurrency-with-threads/message-passing.html"><strong aria-hidden="true">4.6.3.</strong> 线程同步：消息传递</a></li><li class="chapter-item "><a href="advance/concurrency-with-threads/sync1.html"><strong aria-hidden="true">4.6.4.</strong> 线程同步：锁、Condvar 和信号量</a></li><li class="chapter-item "><a href="advance/concurrency-with-threads/sync2.html"><strong aria-hidden="true">4.6.5.</strong> 线程同步：Atomic 原子操作与内存顺序</a></li><li class="chapter-item "><a href="advance/concurrency-with-threads/send-sync.html"><strong aria-hidden="true">4.6.6.</strong> 基于 Send 和 Sync 的线程安全</a></li></ol></li><li class="chapter-item "><a href="advance/global-variable.html"><strong aria-hidden="true">4.7.</strong> 全局变量</a></li><li class="chapter-item "><a href="advance/errors.html"><strong aria-hidden="true">4.8.</strong> 错误处理</a></li><li class="chapter-item "><a href="advance/unsafe/intro.html"><strong aria-hidden="true">4.9.</strong> Unsafe Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/unsafe/superpowers.html"><strong aria-hidden="true">4.9.1.</strong> 五种兵器</a></li><li class="chapter-item "><a href="advance/unsafe/inline-asm.html"><strong aria-hidden="true">4.9.2.</strong> 内联汇编</a></li></ol></li><li class="chapter-item "><a href="advance/macro.html"><strong aria-hidden="true">4.10.</strong> Macro 宏编程</a></li><li class="chapter-item "><a href="advance/async/intro.html"><strong aria-hidden="true">4.11.</strong> async/await 异步编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance/async/getting-started.html"><strong aria-hidden="true">4.11.1.</strong> async 编程入门</a></li><li class="chapter-item "><a href="advance/async/future-excuting.html"><strong aria-hidden="true">4.11.2.</strong> 底层探秘: Future 执行与任务调度</a></li><li class="chapter-item "><a href="advance/async/pin-unpin.html"><strong aria-hidden="true">4.11.3.</strong> 定海神针 Pin 和 Unpin</a></li><li class="chapter-item "><a href="advance/async/async-await.html"><strong aria-hidden="true">4.11.4.</strong> async/await 和 Stream 流处理</a></li><li class="chapter-item "><a href="advance/async/multi-futures-simultaneous.html"><strong aria-hidden="true">4.11.5.</strong> 同时运行多个 Future</a></li><li class="chapter-item "><a href="advance/async/pain-points-and-workarounds.html"><strong aria-hidden="true">4.11.6.</strong> 一些疑难问题的解决办法</a></li><li class="chapter-item "><a href="advance/async/web-server.html"><strong aria-hidden="true">4.11.7.</strong> 实践应用：Async Web 服务器</a></li></ol></li></ol></li><li class="chapter-item "><a href="advance-practice1/intro.html"><strong aria-hidden="true">5.</strong> 进阶实战1: 实现一个 web 服务器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance-practice1/web-server.html"><strong aria-hidden="true">5.1.</strong> 单线程版本</a></li><li class="chapter-item "><a href="advance-practice1/multi-threads.html"><strong aria-hidden="true">5.2.</strong> 多线程版本</a></li><li class="chapter-item "><a href="advance-practice1/graceful-shutdown.html"><strong aria-hidden="true">5.3.</strong> 优雅关闭和资源清理</a></li></ol></li><li class="chapter-item "><a href="advance-practice/intro.html"><strong aria-hidden="true">6.</strong> 进阶实战2: 实现一个简单 Redis</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="advance-practice/overview.html"><strong aria-hidden="true">6.1.</strong> tokio 概览</a></li><li class="chapter-item "><a href="advance-practice/getting-startted.html"><strong aria-hidden="true">6.2.</strong> 使用初印象</a></li><li class="chapter-item "><a href="advance-practice/spawning.html"><strong aria-hidden="true">6.3.</strong> 创建异步任务</a></li><li class="chapter-item "><a href="advance-practice/shared-state.html"><strong aria-hidden="true">6.4.</strong> 共享状态</a></li><li class="chapter-item "><a href="advance-practice/channels.html"><strong aria-hidden="true">6.5.</strong> 消息传递</a></li><li class="chapter-item "><a href="advance-practice/io.html"><strong aria-hidden="true">6.6.</strong> I/O</a></li><li class="chapter-item "><a href="advance-practice/frame.html"><strong aria-hidden="true">6.7.</strong> 解析数据帧</a></li><li class="chapter-item "><a href="advance-practice/async.html"><strong aria-hidden="true">6.8.</strong> 深入 async</a></li><li class="chapter-item "><a href="advance-practice/select.html"><strong aria-hidden="true">6.9.</strong> select</a></li><li class="chapter-item "><a href="advance-practice/stream.html"><strong aria-hidden="true">6.10.</strong> 类似迭代器的 Stream</a></li><li class="chapter-item "><a href="advance-practice/graceful-shutdown.html"><strong aria-hidden="true">6.11.</strong> 优雅的关闭</a></li><li class="chapter-item "><a href="advance-practice/bridging-with-sync.html"><strong aria-hidden="true">6.12.</strong> 异步跟同步共存</a></li></ol></li><li class="chapter-item "><a href="difficulties/intro.html"><strong aria-hidden="true">7.</strong> Rust 难点攻关</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="difficulties/slice.html"><strong aria-hidden="true">7.1.</strong> 切片和切片引用</a></li><li class="chapter-item "><a href="difficulties/eq.html"><strong aria-hidden="true">7.2.</strong> Eq 和 PartialEq</a></li><li class="chapter-item "><a href="difficulties/string.html"><strong aria-hidden="true">7.3.</strong> String、&amp;str 和 str TODO</a></li><li class="chapter-item "><a href="difficulties/lifetime.html"><strong aria-hidden="true">7.4.</strong> 作用域、生命周期和 NLL TODO</a></li><li class="chapter-item "><a href="difficulties/move-copy.html"><strong aria-hidden="true">7.5.</strong> move、Copy 和 Clone TODO</a></li><li class="chapter-item "><a href="advance/difficulties/pointer.html"><strong aria-hidden="true">7.6.</strong> 裸指针、引用和智能指针 TODO</a></li></ol></li><li class="chapter-item "><li class="part-title">常用工具链</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="test/intro.html"><strong aria-hidden="true">8.</strong> 自动化测试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="test/write-tests.html"><strong aria-hidden="true">8.1.</strong> 编写测试及控制执行</a></li><li class="chapter-item "><a href="test/unit-integration-test.html"><strong aria-hidden="true">8.2.</strong> 单元测试和集成测试</a></li><li class="chapter-item "><a href="test/assertion.html"><strong aria-hidden="true">8.3.</strong> 断言 assertion</a></li><li class="chapter-item "><a href="test/ci.html"><strong aria-hidden="true">8.4.</strong> 用 GitHub Actions 进行持续集成</a></li><li class="chapter-item "><a href="test/benchmark.html"><strong aria-hidden="true">8.5.</strong> 基准测试 benchmark</a></li></ol></li><li class="chapter-item "><a href="cargo/intro.html"><strong aria-hidden="true">9.</strong> Cargo 使用指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cargo/getting-started.html"><strong aria-hidden="true">9.1.</strong> 上手使用</a></li><li class="chapter-item "><a href="cargo/guide/intro.html"><strong aria-hidden="true">9.2.</strong> 基础指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cargo/guide/why-exist.html"><strong aria-hidden="true">9.2.1.</strong> 为何会有 Cargo</a></li><li class="chapter-item "><a href="cargo/guide/download-package.html"><strong aria-hidden="true">9.2.2.</strong> 下载并构建 Package</a></li><li class="chapter-item "><a href="cargo/guide/dependencies.html"><strong aria-hidden="true">9.2.3.</strong> 添加依赖</a></li><li class="chapter-item "><a href="cargo/guide/package-layout.html"><strong aria-hidden="true">9.2.4.</strong> Package 目录结构</a></li><li class="chapter-item "><a href="cargo/guide/cargo-toml-lock.html"><strong aria-hidden="true">9.2.5.</strong> Cargo.toml vs Cargo.lock</a></li><li class="chapter-item "><a href="cargo/guide/tests-ci.html"><strong aria-hidden="true">9.2.6.</strong> 测试和 CI</a></li><li class="chapter-item "><a href="cargo/guide/cargo-cache.html"><strong aria-hidden="true">9.2.7.</strong> Cargo 缓存</a></li><li class="chapter-item "><a href="cargo/guide/build-cache.html"><strong aria-hidden="true">9.2.8.</strong> Build 缓存</a></li></ol></li><li class="chapter-item "><a href="cargo/reference/intro.html"><strong aria-hidden="true">9.3.</strong> 进阶指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cargo/reference/specify-deps.html"><strong aria-hidden="true">9.3.1.</strong> 指定依赖项</a></li><li class="chapter-item "><a href="cargo/reference/deps-overriding.html"><strong aria-hidden="true">9.3.2.</strong> 依赖覆盖</a></li><li class="chapter-item "><a href="cargo/reference/manifest.html"><strong aria-hidden="true">9.3.3.</strong> Cargo.toml 清单详解</a></li><li class="chapter-item "><a href="cargo/reference/cargo-target.html"><strong aria-hidden="true">9.3.4.</strong> Cargo Target</a></li><li class="chapter-item "><a href="cargo/reference/workspaces.html"><strong aria-hidden="true">9.3.5.</strong> 工作空间 Workspace</a></li><li class="chapter-item "><a href="cargo/reference/features/intro.html"><strong aria-hidden="true">9.3.6.</strong> 条件编译 Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cargo/reference/features/examples.html"><strong aria-hidden="true">9.3.6.1.</strong> Features 示例</a></li></ol></li><li class="chapter-item "><a href="cargo/reference/profiles.html"><strong aria-hidden="true">9.3.7.</strong> 发布配置 Profile</a></li><li class="chapter-item "><a href="cargo/reference/configuration.html"><strong aria-hidden="true">9.3.8.</strong> 通过 config.toml 对 Cargo 进行配置</a></li><li class="chapter-item "><a href="cargo/reference/publishing-on-crates.io.html"><strong aria-hidden="true">9.3.9.</strong> 发布到 crates.io</a></li><li class="chapter-item "><a href="cargo/reference/build-script/intro.html"><strong aria-hidden="true">9.3.10.</strong> 构建脚本 build.rs</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cargo/reference/build-script/examples.html"><strong aria-hidden="true">9.3.10.1.</strong> 构建脚本示例</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">开发实践</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="usecases/intro.html"><strong aria-hidden="true">10.</strong> 企业落地实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="usecases/aws-rust.html"><strong aria-hidden="true">10.1.</strong> AWS 为何这么喜欢 Rust?</a></li></ol></li><li class="chapter-item "><a href="logs/intro.html"><strong aria-hidden="true">11.</strong> 日志和监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="logs/about-log.html"><strong aria-hidden="true">11.1.</strong> 日志详解</a></li><li class="chapter-item "><a href="logs/log.html"><strong aria-hidden="true">11.2.</strong> 日志门面 log</a></li><li class="chapter-item "><a href="logs/tracing.html"><strong aria-hidden="true">11.3.</strong> 使用 tracing 记录日志</a></li><li class="chapter-item "><a href="logs/tracing-logger.html"><strong aria-hidden="true">11.4.</strong> 自定义 tracing 的输出格式</a></li><li class="chapter-item "><a href="logs/observe/intro.html"><strong aria-hidden="true">11.5.</strong> 监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="logs/observe/about-observe.html"><strong aria-hidden="true">11.5.1.</strong> 可观测性</a></li><li class="chapter-item "><a href="logs/observe/trace.html"><strong aria-hidden="true">11.5.2.</strong> 分布式追踪</a></li></ol></li></ol></li><li class="chapter-item "><a href="practice/intro.html"><strong aria-hidden="true">12.</strong> Rust 最佳实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="practice/third-party-libs.html"><strong aria-hidden="true">12.1.</strong> 日常开发三方库精选</a></li><li class="chapter-item "><a href="practice/naming.html"><strong aria-hidden="true">12.2.</strong> 命名规范</a></li><li class="chapter-item "><a href="practice/interview.html"><strong aria-hidden="true">12.3.</strong> 面试经验</a></li><li class="chapter-item "><a href="practice/best-pratice.html"><strong aria-hidden="true">12.4.</strong> 代码开发实践 todo</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/intro.html"><strong aria-hidden="true">13.</strong> 手把手带你实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/do-we-need-it.html"><strong aria-hidden="true">13.1.</strong> 我们到底需不需要链表</a></li><li class="chapter-item "><a href="too-many-lists/bad-stack/intro.html"><strong aria-hidden="true">13.2.</strong> 不太优秀的单向链表：栈</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/bad-stack/layout.html"><strong aria-hidden="true">13.2.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="too-many-lists/bad-stack/basic-operations.html"><strong aria-hidden="true">13.2.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="too-many-lists/bad-stack/final-code.html"><strong aria-hidden="true">13.2.3.</strong> 最后实现</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/ok-stack/intro.html"><strong aria-hidden="true">13.3.</strong> 还可以的单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/ok-stack/type-optimizing.html"><strong aria-hidden="true">13.3.1.</strong> 优化类型定义</a></li><li class="chapter-item "><a href="too-many-lists/ok-stack/peek.html"><strong aria-hidden="true">13.3.2.</strong> 定义 Peek 函数</a></li><li class="chapter-item "><a href="too-many-lists/ok-stack/iter.html"><strong aria-hidden="true">13.3.3.</strong> IntoIter 和 Iter</a></li><li class="chapter-item "><a href="too-many-lists/ok-stack/itermut.html"><strong aria-hidden="true">13.3.4.</strong> IterMut 以及完整代码</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/persistent-stack/intro.html"><strong aria-hidden="true">13.4.</strong> 持久化单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/persistent-stack/layout.html"><strong aria-hidden="true">13.4.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="too-many-lists/persistent-stack/drop-arc.html"><strong aria-hidden="true">13.4.2.</strong> Drop、Arc 及完整代码</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/deque/intro.html"><strong aria-hidden="true">13.5.</strong> 不咋样的双端队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/deque/layout.html"><strong aria-hidden="true">13.5.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="too-many-lists/deque/peek.html"><strong aria-hidden="true">13.5.2.</strong> Peek</a></li><li class="chapter-item "><a href="too-many-lists/deque/symmetric.html"><strong aria-hidden="true">13.5.3.</strong> 基本操作的对称镜像</a></li><li class="chapter-item "><a href="too-many-lists/deque/iterator.html"><strong aria-hidden="true">13.5.4.</strong> 迭代器</a></li><li class="chapter-item "><a href="too-many-lists/deque/final-code.html"><strong aria-hidden="true">13.5.5.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/intro.html"><strong aria-hidden="true">13.6.</strong> 不错的 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/unsafe-queue/layout.html"><strong aria-hidden="true">13.6.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/basics.html"><strong aria-hidden="true">13.6.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/miri.html"><strong aria-hidden="true">13.6.3.</strong> Miri</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/stacked-borrow.html"><strong aria-hidden="true">13.6.4.</strong> 栈借用</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/testing-stacked-borrow.html"><strong aria-hidden="true">13.6.5.</strong> 测试栈借用</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/layout2.html"><strong aria-hidden="true">13.6.6.</strong> 数据布局 2</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/extra-junk.html"><strong aria-hidden="true">13.6.7.</strong> 额外的操作</a></li><li class="chapter-item "><a href="too-many-lists/unsafe-queue/final-code.html"><strong aria-hidden="true">13.6.8.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/intro.html"><strong aria-hidden="true">13.7.</strong> 生产级的双向 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/layout.html"><strong aria-hidden="true">13.7.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/variance-and-phantomData.html"><strong aria-hidden="true">13.7.2.</strong> 型变与子类型</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/basics.html"><strong aria-hidden="true">13.7.3.</strong> 基础结构</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/drop-and-panic-safety.html"><strong aria-hidden="true">13.7.4.</strong> 恐慌与安全</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/boring-combinatorics.html"><strong aria-hidden="true">13.7.5.</strong> 无聊的组合</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/filling-in-random-bits.html"><strong aria-hidden="true">13.7.6.</strong> 其它特征</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/testing.html"><strong aria-hidden="true">13.7.7.</strong> 测试</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.html"><strong aria-hidden="true">13.7.8.</strong> Send,Sync和编译测试</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/implementing-cursors.html"><strong aria-hidden="true">13.7.9.</strong> 实现游标</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/testing-cursors.html"><strong aria-hidden="true">13.7.10.</strong> 测试游标</a></li><li class="chapter-item "><a href="too-many-lists/production-unsafe-deque/final-code.html"><strong aria-hidden="true">13.7.11.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="too-many-lists/advanced-lists/intro.html"><strong aria-hidden="true">13.8.</strong> 使用高级技巧实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="too-many-lists/advanced-lists/double-singly.html"><strong aria-hidden="true">13.8.1.</strong> 双单向链表</a></li><li class="chapter-item "><a href="too-many-lists/advanced-lists/stack-allocated.html"><strong aria-hidden="true">13.8.2.</strong> 栈上的链表</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">攻克编译错误</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="compiler/intro.html"><strong aria-hidden="true">14.</strong> 征服编译错误</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="compiler/fight-with-compiler/intro.html"><strong aria-hidden="true">14.1.</strong> 对抗编译检查</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="compiler/fight-with-compiler/lifetime/intro.html"><strong aria-hidden="true">14.1.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="compiler/fight-with-compiler/lifetime/too-long1.html"><strong aria-hidden="true">14.1.1.1.</strong> 生命周期过大-01</a></li><li class="chapter-item "><a href="compiler/fight-with-compiler/lifetime/too-long2.html"><strong aria-hidden="true">14.1.1.2.</strong> 生命周期过大-02</a></li><li class="chapter-item "><a href="compiler/fight-with-compiler/lifetime/loop.html"><strong aria-hidden="true">14.1.1.3.</strong> 循环中的生命周期</a></li><li class="chapter-item "><a href="compiler/fight-with-compiler/lifetime/closure-with-static.html"><strong aria-hidden="true">14.1.1.4.</strong> 闭包碰到特征对象-01</a></li></ol></li><li class="chapter-item "><a href="compiler/fight-with-compiler/borrowing/intro.html"><strong aria-hidden="true">14.1.2.</strong> 重复借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.html"><strong aria-hidden="true">14.1.2.1.</strong> 同时在函数内外使用引用</a></li><li class="chapter-item "><a href="compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html"><strong aria-hidden="true">14.1.2.2.</strong> 智能指针引起的重复借用错误</a></li></ol></li><li class="chapter-item "><a href="compiler/fight-with-compiler/unconstrained.html"><strong aria-hidden="true">14.1.3.</strong> 类型未限制(todo)</a></li><li class="chapter-item "><a href="compiler/fight-with-compiler/phantom-data.html"><strong aria-hidden="true">14.1.4.</strong> 幽灵数据(todo)</a></li></ol></li><li class="chapter-item "><a href="compiler/pitfalls/index.html"><strong aria-hidden="true">14.2.</strong> Rust 常见陷阱</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="compiler/pitfalls/use-vec-in-for.html"><strong aria-hidden="true">14.2.1.</strong> for 循环中使用外部数组</a></li><li class="chapter-item "><a href="compiler/pitfalls/stack-overflow.html"><strong aria-hidden="true">14.2.2.</strong> 线程类型导致的栈溢出</a></li><li class="chapter-item "><a href="compiler/pitfalls/arithmetic-overflow.html"><strong aria-hidden="true">14.2.3.</strong> 算术溢出导致的 panic</a></li><li class="chapter-item "><a href="compiler/pitfalls/closure-with-lifetime.html"><strong aria-hidden="true">14.2.4.</strong> 闭包中奇怪的生命周期</a></li><li class="chapter-item "><a href="compiler/pitfalls/the-disabled-mutability.html"><strong aria-hidden="true">14.2.5.</strong> 可变变量不可变？</a></li><li class="chapter-item "><a href="compiler/pitfalls/multiple-mutable-references.html"><strong aria-hidden="true">14.2.6.</strong> 可变借用失败引发的深入思考</a></li><li class="chapter-item "><a href="compiler/pitfalls/lazy-iterators.html"><strong aria-hidden="true">14.2.7.</strong> 不太勤快的迭代器</a></li><li class="chapter-item "><a href="compiler/pitfalls/weird-ranges.html"><strong aria-hidden="true">14.2.8.</strong> 奇怪的序列 x..y</a></li><li class="chapter-item "><a href="compiler/pitfalls/iterator-everywhere.html"><strong aria-hidden="true">14.2.9.</strong> 无处不在的迭代器</a></li><li class="chapter-item "><a href="compiler/pitfalls/main-with-channel-blocked.html"><strong aria-hidden="true">14.2.10.</strong> 线程间传递消息导致主线程无法结束</a></li><li class="chapter-item "><a href="compiler/pitfalls/utf8-performance.html"><strong aria-hidden="true">14.2.11.</strong> 警惕 UTF-8 引发的性能隐患</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">性能优化</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><a href="profiling/intro.html"><strong aria-hidden="true">15.</strong> Rust 性能优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="profiling/memory/intro.html"><strong aria-hidden="true">15.1.</strong> 深入内存 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="profiling/memory/pointer-ref.html"><strong aria-hidden="true">15.1.1.</strong> 指针和引用 todo</a></li><li class="chapter-item "><a href="profiling/memory/uninit.html"><strong aria-hidden="true">15.1.2.</strong> 未初始化内存 todo</a></li><li class="chapter-item "><a href="profiling/memory/allocation.html"><strong aria-hidden="true">15.1.3.</strong> 内存分配 todo</a></li><li class="chapter-item "><a href="profiling/memory/layout.html"><strong aria-hidden="true">15.1.4.</strong> 内存布局 todo</a></li><li class="chapter-item "><a href="profiling/memory/virtual.html"><strong aria-hidden="true">15.1.5.</strong> 虚拟内存 todo</a></li></ol></li><li class="chapter-item "><a href="profiling/performance/intro.html"><strong aria-hidden="true">15.2.</strong> 性能调优 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="profiling/performance/string.html"><strong aria-hidden="true">15.2.1.</strong> 字符串操作性能</a></li><li class="chapter-item "><a href="profiling/performance/deep-into-move.html"><strong aria-hidden="true">15.2.2.</strong> 深入理解 move</a></li><li class="chapter-item "><a href="profiling/performance/early-optimise.html"><strong aria-hidden="true">15.2.3.</strong> 糟糕的提前优化 todo</a></li><li class="chapter-item "><a href="profiling/performance/clone-copy.html"><strong aria-hidden="true">15.2.4.</strong> Clone 和 Copy todo</a></li><li class="chapter-item "><a href="profiling/performance/runtime-check.html"><strong aria-hidden="true">15.2.5.</strong> 减少 Runtime check(todo)</a></li><li class="chapter-item "><a href="profiling/performance/cpu-cache.html"><strong aria-hidden="true">15.2.6.</strong> CPU 缓存性能优化 todo</a></li><li class="chapter-item "><a href="profiling/performance/calculate.html"><strong aria-hidden="true">15.2.7.</strong> 计算性能优化 todo</a></li><li class="chapter-item "><a href="profiling/performance/heap-stack.html"><strong aria-hidden="true">15.2.8.</strong> 堆和栈 todo</a></li><li class="chapter-item "><a href="profiling/performance/allocator.html"><strong aria-hidden="true">15.2.9.</strong> 内存 allocator todo</a></li><li class="chapter-item "><a href="profiling/performance/tools.html"><strong aria-hidden="true">15.2.10.</strong> 常用性能测试工具 todo</a></li><li class="chapter-item "><a href="profiling/performance/enum.html"><strong aria-hidden="true">15.2.11.</strong> Enum 内存优化 todo</a></li></ol></li><li class="chapter-item "><a href="profiling/compiler/intro.html"><strong aria-hidden="true">15.3.</strong> 编译优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="profiling/compiler/llvm.html"><strong aria-hidden="true">15.3.1.</strong> LLVM todo</a></li><li class="chapter-item "><a href="profiling/compiler/attributes.html"><strong aria-hidden="true">15.3.2.</strong> 常见属性标记 todo</a></li><li class="chapter-item "><a href="profiling/compiler/speed-up.html"><strong aria-hidden="true">15.3.3.</strong> 提升编译速度 todo</a></li><li class="chapter-item "><a href="profiling/compiler/optimization/intro.html"><strong aria-hidden="true">15.3.4.</strong> 编译器优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="profiling/compiler/optimization/option.html"><strong aria-hidden="true">15.3.4.1.</strong> Option 枚举 todo</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">附录</li><li class="chapter-item affix "><li class="spacer"></li><li class="chapter-item "><div><strong aria-hidden="true">16.</strong> Appendix</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="appendix/keywords.html"><strong aria-hidden="true">16.1.</strong> 关键字</a></li><li class="chapter-item "><a href="appendix/operators.html"><strong aria-hidden="true">16.2.</strong> 运算符与符号</a></li><li class="chapter-item "><a href="appendix/expressions.html"><strong aria-hidden="true">16.3.</strong> 表达式</a></li><li class="chapter-item "><a href="appendix/derive.html"><strong aria-hidden="true">16.4.</strong> 派生特征 trait</a></li><li class="chapter-item "><a href="appendix/prelude.html"><strong aria-hidden="true">16.5.</strong> prelude 模块 todo</a></li><li class="chapter-item "><a href="appendix/rust-version.html"><strong aria-hidden="true">16.6.</strong> Rust 版本说明</a></li><li class="chapter-item "><a href="appendix/rust-versions/intro.html"><strong aria-hidden="true">16.7.</strong> Rust 历次版本更新解读</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="appendix/rust-versions/1.58.html"><strong aria-hidden="true">16.7.1.</strong> 1.58</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.59.html"><strong aria-hidden="true">16.7.2.</strong> 1.59</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.60.html"><strong aria-hidden="true">16.7.3.</strong> 1.60</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.61.html"><strong aria-hidden="true">16.7.4.</strong> 1.61</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.62.html"><strong aria-hidden="true">16.7.5.</strong> 1.62</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.63.html"><strong aria-hidden="true">16.7.6.</strong> 1.63</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.64.html"><strong aria-hidden="true">16.7.7.</strong> 1.64</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.65.html"><strong aria-hidden="true">16.7.8.</strong> 1.65</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.66.html"><strong aria-hidden="true">16.7.9.</strong> 1.66</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.67.html"><strong aria-hidden="true">16.7.10.</strong> 1.67</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.68.html"><strong aria-hidden="true">16.7.11.</strong> 1.68</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.69.html"><strong aria-hidden="true">16.7.12.</strong> 1.69</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.70.html"><strong aria-hidden="true">16.7.13.</strong> 1.70</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.71.html"><strong aria-hidden="true">16.7.14.</strong> 1.71</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.72.html"><strong aria-hidden="true">16.7.15.</strong> 1.72</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.73.html"><strong aria-hidden="true">16.7.16.</strong> 1.73</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.74.html"><strong aria-hidden="true">16.7.17.</strong> 1.74</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.75.html"><strong aria-hidden="true">16.7.18.</strong> 1.75</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.76.html"><strong aria-hidden="true">16.7.19.</strong> 1.76</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.77.html"><strong aria-hidden="true">16.7.20.</strong> 1.77</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.78.html"><strong aria-hidden="true">16.7.21.</strong> 1.78</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.79.html"><strong aria-hidden="true">16.7.22.</strong> 1.79</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.80.html"><strong aria-hidden="true">16.7.23.</strong> 1.80</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.81.html"><strong aria-hidden="true">16.7.24.</strong> 1.81</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.82.html"><strong aria-hidden="true">16.7.25.</strong> 1.82</a></li><li class="chapter-item "><a href="appendix/rust-versions/1.83.html"><strong aria-hidden="true">16.7.26.</strong> 1.83</a></li></ol></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-        
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
@@ -132,13 +124,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,8 +170,6 @@
                 </script>
 
                 <div id="content" class="content">
-                    <!-- Page table of contents -->
-                    <div class="sidetoc"><nav class="pagetoc"></nav></div>
                     <main>
                         <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
 <p>Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有 GC 也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...</p>
@@ -204,6 +195,7 @@
 <br />
 <p>🏆</p>
 <table>
+    <tbody>
     <tr>
         <td align="center">
             <a href="https://github.com/EluvK">
@@ -220,10 +212,12 @@
             </a>
         </td>
     </tr>
+    </tbody>
 </table>
 <br />
 <p>🏅</p>
 <table>
+    <tbody>
     <tr>
         <td align="center">
             <a href="https://github.com/JesseAtSZ">
@@ -254,6 +248,7 @@
             </a>
         </td>
     </tr>
+    </tbody>
 </table>
 <div style="break-before: page; page-break-before: always;"></div><img src="https://pic1.zhimg.com/80/v2-e9cfbd08d2ebca51b588d1beaed3c0dd_1440w.jpg" />
 <div align="center">正在努力学 Rust 的 Ferris</div>
@@ -534,6 +529,18 @@
 <p><strong>Linux 下：</strong></p>
 <p>Linux 用户一般应按照相应发行版的文档来安装 <code>GCC</code> 或 <code>Clang</code>。</p>
 <p>例如，如果你使用 Ubuntu，则可安装 <code>build-essential</code>。</p>
+<h2 id="在-freebsd-上安装-rustup"><a class="header" href="#在-freebsd-上安装-rustup">在 FreeBSD 上安装 <code>rustup</code></a></h2>
+<ul>
+<li>使用 pkg 安装：</li>
+</ul>
+<pre><code class="language-sh"># pkg install rustup-init
+</code></pre>
+<ul>
+<li>使用 Ports 安装：</li>
+</ul>
+<pre><code class="language-sh"># cd /usr/ports/devel/rustup-init/ 
+# make install clean
+</code></pre>
 <h2 id="在-windows-上安装-rustup"><a class="header" href="#在-windows-上安装-rustup">在 Windows 上安装 <code>rustup</code></a></h2>
 <p>Windows 上安装 Rust 需要有 <code>C++</code> 环境，以下为安装的两种方式：</p>
 <p><strong>1. <code>x86_64-pc-windows-msvc</code>（官方推荐）</strong></p>
@@ -1267,7 +1274,7 @@ error[E0282]: type annotations needed
 <p>每个有符号类型规定的数字范围是 -(2<sup>n - 1</sup>) ~ 2<sup>n -
 1</sup> - 1，其中 <code>n</code> 是该定义形式的位长度。因此 <code>i8</code> 可存储数字范围是 -(2<sup>7</sup>) ~ 2<sup>7</sup> - 1，即 -128 ~ 127。无符号类型可以存储的数字范围是 0 ~ 2<sup>n</sup> - 1，所以 <code>u8</code> 能够存储的数字为 0 ~ 2<sup>8</sup> - 1，即 0 ~ 255。</p>
 <p>此外，<code>isize</code> 和 <code>usize</code> 类型取决于程序运行的计算机 CPU 类型： 若 CPU 是 32 位的，则这两个类型是 32 位的，同理，若 CPU 是 64 位，那么它们则是 64 位。</p>
-<p>整形字面量可以用下表的形式书写：</p>
+<p>整型字面量可以用下表的形式书写：</p>
 <div class="table-wrapper"><table><thead><tr><th>数字字面量</th><th>示例</th></tr></thead><tbody>
 <tr><td>十进制</td><td><code>98_222</code></td></tr>
 <tr><td>十六进制</td><td><code>0xff</code></td></tr>
@@ -1466,6 +1473,14 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
     a &lt;&lt;= b;
     println!("(a &lt;&lt; b) value is {:08b}", a);
 }</code></pre></pre>
+<p>对于移位运算，Rust 会检查它是否超出该整型的位数范围，如果超出，则会报错 overflow。比如，一个 8 位的整型，如果试图移位 8 位，就会报错，但如果移位 7 位就不会。Rust 这样做的理由也很简单，如果移位太多，那么这个移位后的数字就是全 0 或者全 1，所以移位操作不如直接写 0 或者 -1，这很可能意味着这里的代码是有问题的。需要注意的是，不论 debug 模式还是 release 模式，Rust 都会检查溢出。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+   let a: u8 = 255;
+   let b = a&gt;&gt;7; // ok
+   let b = a&lt;&lt;7; // ok
+   let b = a&gt;&gt;8; // overflow
+   let b = a&lt;&lt;8; // overflow
+}</code></pre></pre>
 <h2 id="序列range"><a class="header" href="#序列range">序列(Range)</a></h2>
 <p>Rust 提供了一个非常简洁的方式，用来生成连续的数值，例如 <code>1..5</code>，生成从 1 到 4 的连续数字，不包含 5 ；<code>1..=5</code>，生成从 1 到 5 的连续数字，包含 5，它的用途很简单，常常用于循环中：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -1541,7 +1556,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
 <p>由于 <code>Unicode</code> 都是 4 个字节编码，因此字符类型也是占用 4 个字节：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let x = '中';
-    println!("字符'中'占用了{}字节的内存大小",std::mem::size_of_val(&amp;x));
+    println!("字符'中'占用了{}字节的内存大小", size_of_val(&amp;x));
 }</code></pre></pre>
 <p>输出如下:</p>
 <pre><code class="language-console">$ cargo run
@@ -1564,10 +1579,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
     }
 }</code></pre></pre>
 <p>使用布尔类型的场景主要在于流程控制，例如上述代码的中的 <code>if</code> 就是其中之一。</p>
-<h2 id="单元类型"><a class="header" href="#单元类型">单元类型</a></h2>
+<h2 id="单元类型unit"><a class="header" href="#单元类型unit">单元类型(unit)</a></h2>
 <p>单元类型就是 <code>()</code> ，对，你没看错，就是 <code>()</code> ，唯一的值也是 <code>()</code> ，一些读者读到这里可能就不愿意了，你也太敷衍了吧，管这叫类型？</p>
 <p>只能说，再不起眼的东西，都有其用途，在目前为止的学习过程中，大家已经看到过很多次 <code>fn main()</code> 函数的使用吧？那么这个函数返回什么呢？</p>
-<p>没错， <code>main</code> 函数就返回这个单元类型 <code>()</code>，你不能说 <code>main</code> 函数无返回值，因为没有返回值的函数在 Rust 中是有单独的定义的：<code>发散函数( diverge function )</code>，顾名思义，无法收敛的函数。</p>
+<p>没错， <code>main</code> 函数就返回这个单元类型 <code>()</code>，你不能说 <code>main</code> 函数无返回值，因为没有返回值的函数在 Rust 中是有单独的定义的：<code>发散函数( diverging functions )</code>，顾名思义，无法收敛的函数。</p>
 <p>例如常见的 <code>println!()</code> 的返回值也是单元类型 <code>()</code>。</p>
 <p>再比如，你可以用 <code>()</code> 作为 <code>map</code> 的值，表示我们不关注具体的值，只关注 <code>key</code>。 这种用法和 Go 语言的 <em><strong>struct{}</strong></em> 类似，可以作为一个值用来占位，但是完全<strong>不占用</strong>任何内存。</p>
 <h2 id="课后练习-2"><a class="header" href="#课后练习-2">课后练习</a></h2>
@@ -1677,7 +1692,7 @@ fn ret_unit_type() {
 <p>当你看懂了这张图，其实就等于差不多完成了函数章节的学习，但是这么短的章节显然对不起读者老爷们的厚爱，所以我们来展开下。</p>
 <h2 id="函数要点"><a class="header" href="#函数要点">函数要点</a></h2>
 <ul>
-<li>函数名和变量名使用<a href="https://course.rs/practice/naming.html">蛇形命名法(snake case)</a>，例如 <code>fn add_two() -&gt; {}</code></li>
+<li>函数名和变量名使用<a href="https://course.rs/practice/naming.html">蛇形命名法(snake case)</a>，例如 <code>fn add_two() {}</code></li>
 <li>函数的位置可以随便放，Rust 不关心我们在哪里定义了函数，只要有定义即可</li>
 <li>每个函数参数都需要标注类型</li>
 </ul>
@@ -1796,7 +1811,7 @@ fn report&lt;T: Debug&gt;(item: T) {
 </code></pre>
 <p>还记得我们在<a href="https://course.rs/basic/base-type/statement-expression.html">语句与表达式</a>中讲过的吗？只有表达式能返回值，而 <code>;</code> 结尾的是语句，在 Rust 中，一定要严格区分<strong>表达式</strong>和<strong>语句</strong>的区别，这个在其它语言中往往是被忽视的点。</p>
 <h5 id="永不返回的发散函数-"><a class="header" href="#永不返回的发散函数-">永不返回的发散函数 <code>!</code></a></h5>
-<p>当用 <code>!</code> 作函数返回类型的时候，表示该函数永不返回( diverge function )，特别的，这种语法往往用做会导致程序崩溃的函数：</p>
+<p>当用 <code>!</code> 作函数返回类型的时候，表示该函数永不返回( diverging functions )，特别的，这种语法往往用做会导致程序崩溃的函数：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn dead_end() -&gt; ! {
@@ -2240,7 +2255,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 <p>其实这个也很好理解，正在借用不可变引用的用户，肯定不希望他借用的东西，被另外一个人莫名其妙改变了。多个不可变借用被允许是因为没有人会去试图修改数据，每个人都只读这一份数据而不做修改，因此不用担心数据被污染。</p>
 <blockquote>
-<p>注意，引用的作用域 <code>s</code> 从创建开始，一直持续到它最后一次使用的地方，这个跟变量的作用域有所不同，变量的作用域从创建持续到某一个花括号 <code>}</code></p>
+<p>注意，引用 <code>r1</code>,<code>r2</code>,<code>r3</code> 的作用域从创建开始，一直持续到它最后一次使用的地方 <code>println!(....)</code>，这个跟变量的作用域有所不同，变量的作用域从创建持续到某一个花括号 <code>}</code></p>
 </blockquote>
 <p>Rust 的编译器一直在优化，早期的时候，引用的作用域跟变量作用域是一致的，这对日常使用带来了很大的困扰，你必须非常小心的去安排可变、不可变变量的借用，免得无法通过编译，例如以下代码：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
@@ -2486,7 +2501,7 @@ assert_eq!(slice, &amp;[2, 3]);
 <p>顾名思义，字符串是由字符组成的连续集合，但是在上一节中我们提到过，<strong>Rust 中的字符是 Unicode 类型，因此每个字符占据 4 个字节内存空间，但是在字符串中不一样，字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)</strong>，这样有助于大幅降低字符串所占用的内存空间。</p>
 <p>Rust 在语言级别，只有一种字符串类型： <code>str</code>，它通常是以引用类型出现 <code>&amp;str</code>，也就是上文提到的字符串切片。虽然语言级别只有上述的 <code>str</code> 类型，但是在标准库里，还有多种不同用途的字符串类型，其中使用最广的即是 <code>String</code> 类型。</p>
 <p><code>str</code> 类型是硬编码进可执行文件，也无法被修改，但是 <code>String</code> 则是一个可增长、可改变且具有所有权的 UTF-8 编码字符串，<strong>当 Rust 用户提到字符串时，往往指的就是 <code>String</code> 类型和 <code>&amp;str</code> 字符串切片类型，这两个类型都是 UTF-8 编码</strong>。</p>
-<p>除了 <code>String</code> 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 <code>OsString</code>， <code>OsStr</code>， <code>CsString</code> 和 <code>CsStr</code> 等，注意到这些名字都以 <code>String</code> 或者 <code>Str</code> 结尾了吗？它们分别对应的是具有所有权和被借用的变量。</p>
+<p>除了 <code>String</code> 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 <code>OsString</code>， <code>OsStr</code>， <code>CString</code> 和 <code>CStr</code> 等，注意到这些名字都以 <code>String</code> 或者 <code>Str</code> 结尾了吗？它们分别对应的是具有所有权和被借用的变量。</p>
 <h2 id="string-与-str-的转换"><a class="header" href="#string-与-str-的转换">String 与 &amp;str 的转换</a></h2>
 <p>在之前的代码中，已经见到好几种从 <code>&amp;str</code> 类型生成 <code>String</code> 类型的操作：</p>
 <ul>
@@ -3470,7 +3485,7 @@ not satisfied
 </code></pre>
 <p>很好！事实上，错误信息意味着 Rust 不知道该如何将 <code>Option&lt;i8&gt;</code> 与 <code>i8</code> 相加，因为它们的类型不同。当在 Rust 中拥有一个像 <code>i8</code> 这样类型的值时，编译器确保它总是有一个有效的值，我们可以放心使用而无需做空值检查。只有当使用 <code>Option&lt;i8&gt;</code>（或者任何用到的类型）的时候才需要担心可能没有值，而编译器会确保我们在使用值之前处理了为空的情况。</p>
 <p>换句话说，在对 <code>Option&lt;T&gt;</code> 进行 <code>T</code> 的运算之前必须将其转换为 <code>T</code>。通常这能帮助我们捕获到空值最常见的问题之一：期望某值不为空但实际上为空的情况。</p>
-<p>不再担心会错误的使用一个空值，会让你对代码更加有信心。为了拥有一个可能为空的值，你必须要显式的将其放入对应类型的 <code>Option&lt;T&gt;</code> 中。接着，当使用这个值时，必须明确的处理值为空的情况。只要一个值不是 <code>Option&lt;T&gt;</code> 类型，你就 <strong>可以</strong> 安全的认定它的值不为空。这是 Rust 的一个经过深思熟虑的设计决策，来限制空值的泛滥以增加 Rust 代码的安全性。</p>
+<p>不再担心会错误地使用一个空值，会让你对代码更加有信心。为了拥有一个可能为空的值，你必须要显式的将其放入对应类型的 <code>Option&lt;T&gt;</code> 中。接着，当使用这个值时，必须明确的处理值为空的情况。只要一个值不是 <code>Option&lt;T&gt;</code> 类型，你就 <strong>可以</strong> 安全的认定它的值不为空。这是 Rust 的一个经过深思熟虑的设计决策，来限制空值的泛滥以增加 Rust 代码的安全性。</p>
 <p>那么当有一个 <code>Option&lt;T&gt;</code> 的值时，如何从 <code>Some</code> 成员中取出 <code>T</code> 的值来使用它呢？<code>Option&lt;T&gt;</code> 枚举拥有大量用于各种情况的方法：你可以查看<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的文档</a>。熟悉 <code>Option&lt;T&gt;</code> 的方法将对你的 Rust 之旅非常有用。</p>
 <p>总的来说，为了使用 <code>Option&lt;T&gt;</code> 值，需要编写处理每个成员的代码。你想要一些代码只当拥有 <code>Some(T)</code> 值时运行，允许这些代码使用其中的 <code>T</code>。也希望一些代码在值为 <code>None</code> 时运行，这些代码并没有一个可用的 <code>T</code> 值。<code>match</code> 表达式就是这么一个处理枚举的控制流结构：它会根据枚举的成员运行不同的代码，这些代码可以使用匹配到的值中的数据。</p>
 <p>这里先简单看一下 <code>match</code> 的大致模样，在<a href="https://course.rs/basic/match-pattern/intro.html">模式匹配</a>中，我们会详细讲解：</p>
@@ -4533,7 +4548,7 @@ match x {
     _ =&gt; println!("something else"),
 }
 <span class="boring">}</span></code></pre></pre>
-<p>如果 <code>x</code> 是 1、2、3、4 或 5，第一个分支就会匹配。这相比使用 <code>|</code> 运算符表达相同的意思更为方便；相比 <code>1..=5</code>，使用 <code>|</code> 则不得不指定 <code>1 | 2 | 3 | 4 | 5</code> 这五个值，而使用 <code>..=</code> 指定序列就简短的多，比如希望匹配比如从 1 到 1000 的数字的时候！</p>
+<p>如果 <code>x</code> 是 1、2、3、4 或 5，第一个分支就会匹配。这相比使用 <code>|</code> 运算符表达相同的意思更为方便；相比 <code>1..=5</code>，使用 <code>|</code> 则不得不指定 <code>1 | 2 | 3 | 4 | 5</code> 这五个值，而使用 <code>..=</code> 指定序列就简短的多，比如希望匹配从 1 到 1000 的数字的时候！</p>
 <p>序列只允许用于数字或字符类型，原因是：它们可以连续，同时编译器在编译期可以检查该序列是否为空，字符和数字值是 Rust 中仅有的可以用于判断是否为空的类型。</p>
 <p>如下是一个使用字符类型序列的例子：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -4868,7 +4883,7 @@ match num {
 <p>这个例子会打印出 <code>less than five: 4</code>。当 <code>num</code> 与模式中第一个分支匹配时，<code>Some(4)</code> 可以与 <code>Some(x)</code> 匹配，接着匹配守卫检查 <code>x</code> 值是否小于 5，因为 4 小于 5，所以第一个分支被选择。</p>
 <p>相反如果 <code>num</code> 为 <code>Some(10)</code>，因为 10 不小于 5 ，所以第一个分支的匹配守卫为假。接着 Rust 会前往第二个分支，因为这里没有匹配守卫所以会匹配任何 <code>Some</code> 成员。</p>
 <p>模式中无法提供类如 <code>if x &lt; 5</code> 的表达能力，我们可以通过匹配守卫的方式来实现。</p>
-<p>在之前，我们提到可以使用匹配守卫来解决模式中变量覆盖的问题，那里 <code>match</code> 表达式的模式中新建了一个变量而不是使用 <code>match</code> 之外的同名变量。内部变量覆盖了外部变量，意味着此时不能够使用外部变量的值，下面代码展示了如何使用匹配守卫修复这个问题。</p>
+<p>在<a href="basic/match-pattern/all-patterns.html#%E5%8C%B9%E9%85%8D%E5%91%BD%E5%90%8D%E5%8F%98%E9%87%8F">之前</a>，我们提到可以使用匹配守卫来解决模式中变量覆盖的问题，那里 <code>match</code> 表达式的模式中新建了一个变量而不是使用 <code>match</code> 之外的同名变量。内部变量覆盖了外部变量，意味着此时不能够使用外部变量的值，下面代码展示了如何使用匹配守卫修复这个问题。</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let x = Some(5);
     let y = 10;
@@ -4881,7 +4896,7 @@ match num {
 
     println!("at the end: x = {:?}, y = {}", x, y);
 }</code></pre></pre>
-<p>现在这会打印出 <code>Default case, x = Some(5)</code>。现在第二个匹配分支中的模式不会引入一个覆盖外部 <code>y</code> 的新变量 <code>y</code>，这意味着可以在匹配守卫中使用外部的 <code>y</code>。相比指定会覆盖外部 <code>y</code> 的模式 <code>Some(y)</code>，这里指定为 <code>Some(n)</code>。此新建的变量 <code>n</code> 并没有覆盖任何值，因为 <code>match</code> 外部没有变量 <code>n</code>。</p>
+<p>上面代码会打印 <code>Default case, x = Some(5)</code>。其中，第二个匹配分支由于没有新建局部变量 <code>y</code>，因此在匹配守卫中使用的是外部的 <code>y</code>。</p>
 <p>匹配守卫 <code>if n == y</code> 并不是一个模式所以没有引入新变量。这个 <code>y</code> <strong>正是</strong> 外部的 <code>y</code> 而不是新的覆盖变量 <code>y</code>，这样就可以通过比较 <code>n</code> 和 <code>y</code> 来表达寻找一个与外部 <code>y</code> 相同的值的概念了。</p>
 <p>也可以在匹配守卫中使用 <strong>或</strong> 运算符 <code>|</code> 来指定多个模式，<strong>同时匹配守卫的条件会作用于所有的模式</strong>。下面代码展示了匹配守卫与 <code>|</code> 的优先级。这个例子中看起来好像 <code>if y</code> 只作用于 <code>6</code>，但实际上匹配守卫 <code>if y</code> 作用于 <code>4</code>、<code>5</code> <strong>和</strong> <code>6</code> ，在满足 <code>x</code> 属于 <code>4 | 5 | 6</code> 后才会判断 <code>y</code> 是否为 <code>true</code>：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -5101,7 +5116,7 @@ fn main() {
 <h3 id="--运算符到哪去了"><a class="header" href="#--运算符到哪去了"><code>-&gt;</code> 运算符到哪去了？</a></h3>
 <p>在 C/C++ 语言中，有两个不同的运算符来调用方法：<code>.</code> 直接在对象上调用方法，而 <code>-&gt;</code> 在一个对象的指针上调用方法，这时需要先解引用指针。换句话说，如果 <code>object</code> 是一个指针，那么 <code>object-&gt;something()</code> 和 <code>(*object).something()</code> 是一样的。</p>
 <p>Rust 并没有一个与 <code>-&gt;</code> 等效的运算符；相反，Rust 有一个叫 <strong>自动引用和解引用</strong>的功能。方法调用是 Rust 中少数几个拥有这种行为的地方。</p>
-<p>他是这样工作的：当使用 <code>object.something()</code> 调用方法时，Rust 会自动为 <code>object</code> 添加 <code>&amp;</code>、<code>&amp;mut</code> 或 <code>*</code> 以便使 <code>object</code> 与方法签名匹配。也就是说，这些代码是等价的：</p>
+<p>他是这样工作的：当使用 <code>object.something()</code> 调用方法时，Rust 会自动为 <code>object</code> 添加 <code>&amp;</code>（视可见性添加<code>&amp;mut</code>)、 <code>*</code> 以便使 <code>object</code> 与方法签名匹配。也就是说，这些代码是等价的：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[derive(Debug,Copy,Clone)]
@@ -5583,7 +5598,7 @@ impl IsTrue for Assert&lt;true&gt; {
 <p>在讨论完 <code>const</code> 泛型后，不得不提及另一个与之密切相关且强大的特性：<code>const fn</code>，即常量函数。<code>const fn</code> 允许我们在编译期对函数进行求值，从而实现更高效、更灵活的代码设计。</p>
 <h5 id="为什么需要-const-fn"><a class="header" href="#为什么需要-const-fn">为什么需要 const fn</a></h5>
 <p>通常情况下，函数是在运行时被调用和执行的。然而，在某些场景下，我们希望在编译期就计算出一些值，以提高运行时的性能或满足某些编译期的约束条件。例如，定义数组的长度、计算常量值等。</p>
-<p>有了 <code>const fn</code>，我们可以在编译期执行这些函数，从而将计算结果直接嵌入到生成的代码中。这不仅以高了运行时的性能，还使代码更加简洁和安全。</p>
+<p>有了 <code>const fn</code>，我们可以在编译期执行这些函数，从而将计算结果直接嵌入到生成的代码中。这不仅提高了运行时的性能，还使代码更加简洁和安全。</p>
 <h5 id="const-fn-的基本用法"><a class="header" href="#const-fn-的基本用法">const fn 的基本用法</a></h5>
 <p>要定义一个常量函数，只需要在函数声明前加上 <code>const</code> 关键字。例如：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">const fn add(a: usize, b: usize) -&gt; usize {
@@ -5736,7 +5751,7 @@ sunface发表了微博好像微博没Tweet好用
 <p>但是你无法在当前作用域中，为 <code>String</code> 类型实现 <code>Display</code> 特征，因为它们俩都定义在标准库中，其定义所在的位置都不在当前作用域，跟你半毛钱关系都没有，看看就行了。</p>
 <p>该规则被称为<strong>孤儿规则</strong>，可以确保其它人编写的代码不会破坏你的代码，也确保了你不会莫名其妙就破坏了风马牛不相及的代码。</p>
 <h4 id="默认实现"><a class="header" href="#默认实现">默认实现</a></h4>
-<p>你可以在特征中定义具有<strong>默认实现</strong>的方法，这样其它类型无需再实现该方法，或者也可以选择重载该方法：</p>
+<p>你可以在特征中定义具有<strong>默认实现</strong>的方法，这样其它类型无需再实现该方法，或者也可以选择重写该方法：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Summary {
@@ -5756,7 +5771,7 @@ impl Summary for Weibo {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>可以看到，<code>Post</code> 选择了默认实现，而 <code>Weibo</code> 重载了该方法，调用和输出如下：</p>
+<p>可以看到，<code>Post</code> 选择了默认实现，而 <code>Weibo</code> 重写了该方法，调用和输出如下：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    println!("{}",post.summarize());
@@ -6009,7 +6024,7 @@ fn main() {
 <p>在本书中，形如 <code>#[derive(Debug)]</code> 的代码已经出现了很多次，这种是一种特征派生语法，被 <code>derive</code> 标记的对象会自动实现对应的默认特征代码，继承相应的功能。</p>
 <p>例如 <code>Debug</code> 特征，它有一套自动实现的默认代码，当你给一个结构体标记后，就可以使用 <code>println!("{:?}", s)</code> 的形式打印该结构体的对象。</p>
 <p>再如 <code>Copy</code> 特征，它也有一套自动实现的默认代码，当标记到一个类型上时，可以让这个类型自动实现 <code>Copy</code> 特征，进而可以调用 <code>copy</code> 方法，进行自我复制。</p>
-<p>总之，<code>derive</code> 派生出来的是 Rust 默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重载该实现。</p>
+<p>总之，<code>derive</code> 派生出来的是 Rust 默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重写该实现。</p>
 <p>详细的 <code>derive</code> 列表参见<a href="https://course.rs/appendix/derive.html">附录-派生特征</a>。</p>
 <h2 id="调用方法需要引入特征"><a class="header" href="#调用方法需要引入特征">调用方法需要引入特征</a></h2>
 <p>在一些场景中，使用 <code>as</code> 关键字做类型转换会有比较大的限制，因为你想要在类型转换上拥有完全的控制，例如处理转换错误，那么你将需要 <code>TryInto</code>：</p>
@@ -6452,7 +6467,7 @@ fn main() {
 <p>特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，<a href="https://course.rs/basic/trait/trait.html">第一篇</a>在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。</p>
 <h2 id="关联类型"><a class="header" href="#关联类型">关联类型</a></h2>
 <p>在方法一章中，我们讲到了<a href="https://course.rs/basic/method#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0">关联函数</a>，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。</p>
-<p>关联类型是在特征定义的语句块中，申明一个自定义类型，这样就可以在特征的方法签名中使用该类型：</p>
+<p>关联类型是在特征定义的语句块中，声明一个自定义类型，这样就可以在特征的方法签名中使用该类型：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Iterator {
@@ -6514,6 +6529,15 @@ fn difference&lt;A,B,C&gt;(container: &amp;C) -&gt; i32
 }
 
 fn difference&lt;C: Container&gt;(container: &amp;C) {}
+<span class="boring">}</span></code></pre></pre>
+<p>关联类型还可以被其它特征进行约束，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Container{
+    type A：Display;
+    type B;
+    fn contains(&amp;self, a: &amp;Self::A, b: &amp;Self::B) -&gt; bool;
+}
 <span class="boring">}</span></code></pre></pre>
 <h2 id="默认泛型类型参数"><a class="header" href="#默认泛型类型参数">默认泛型类型参数</a></h2>
 <p>当使用泛型类型参数时，可以为其指定一个默认的具体类型，例如标准库中的 <code>std::ops::Add</code> 特征：</p>
@@ -7201,7 +7225,7 @@ my_gems.insert("河边捡的误以为是宝石的破石头", 18);
     println!("{:?}",teams_map)
 }</code></pre></pre>
 <p>代码很简单，<code>into_iter</code> 方法将列表转为迭代器，接着通过 <code>collect</code> 进行收集，不过需要注意的是，<code>collect</code> 方法在内部实际上支持生成多种类型的目标集合，因此我们需要通过类型标注 <code>HashMap&lt;_,_&gt;</code> 来告诉编译器：请帮我们收集为 <code>HashMap</code> 集合类型，具体的 <code>KV</code> 类型，麻烦编译器您老人家帮我们推导。</p>
-<p>由此可见，Rust 中的编译器时而小聪明，时而大聪明，不过好在，它大聪明的时候，会自家人知道自己事，总归会通知你一声：</p>
+<p>由此可见，Rust 中的编译器时而小聪明，时而大聪明，不过好在，它大聪明的时候，会自家人知道自家事，总归会通知你一声：</p>
 <pre><code class="language-console">error[E0282]: type annotations needed // 需要类型标注
   --&gt; src/main.rs:10:9
    |
@@ -7283,6 +7307,23 @@ let score: Option&lt;&amp;i32&gt; = scores.get(&amp;team_name);
 <ul>
 <li><code>get</code> 方法返回一个 <code>Option&lt;&amp;i32&gt;</code> 类型：当查询不到时，会返回一个 <code>None</code>，查询到时返回 <code>Some(&amp;i32)</code></li>
 <li><code>&amp;i32</code> 是对 <code>HashMap</code> 中值的借用，如果不使用借用，可能会发生所有权的转移</li>
+<li><code>get</code> 方法的 <code>key</code> 参数必须是一个引用，如这里的 <code>scores.get(&amp;team_name)</code>，这是因为 <code>HashMap&lt;K, V&gt;</code> 的 <code>get</code> 方法的签名如下：</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;K, V&gt; HashMap&lt;K, V&gt;
+where
+    K: Eq + Hash,
+{
+    pub fn get&lt;Q&gt;(&amp;self, k: &amp;Q) -&gt; Option&lt;&amp;V&gt;
+    where
+        K: Borrow&lt;Q&gt;,
+        Q: Hash + Eq + ?Sized,
+    { ... }
+}
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>可以看到签名中的 <code>k: &amp;Q</code>。下面的特征约束 <code>K: Borrow&lt;Q&gt;</code> 是指类型 <code>K</code> 需要能以另一种形式 <code>Q</code> 被借用。在这种情况下，<code>String</code> 实现了 <code>Borrow&lt;str&gt;</code>，所以 <code>&amp;String</code> 和 <code>&amp;str</code> 类型都可以用于 <code>get</code> 方法。</li>
 </ul>
 <p>还可以继续拓展下，上面的代码中，如果我们想直接获得值类型的 <code>score</code> 该怎么办，答案简约但不简单：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -7391,7 +7432,7 @@ assert_eq!(hash.get(&amp;42), Some(&amp;"the answer"));
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="认识生命周期"><a class="header" href="#认识生命周期">认识生命周期</a></h1>
 <p>各位读者，之前的集合章节挺简单吧？是不是安逸了挺久了？要不咱们加点料？来试试 Rust 中令人闻风丧胆的生命周期？</p>
-<p>生命周期，简而言之就是引用的有效作用域。在大多数时候，我们无需手动的声明生命周期，因为编译器可以自动进行推导，用类型来类比下：</p>
+<p>生命周期，简而言之就是引用的有效作用域。在大多数时候，我们无需手动声明生命周期，因为编译器可以自动进行推导，用类型来类比下：</p>
 <ul>
 <li>就像编译器大部分时候可以自动推导类型 &lt;-&gt; 一样，编译器大多数时候也可以自动推导生命周期</li>
 <li>在多种类型存在时，编译器往往要求我们手动标明类型 &lt;-&gt; 当多个生命周期存在，且编译器无法推导出某个引用的生命周期时，就需要我们手动标明生命周期</li>
@@ -7610,7 +7651,7 @@ help: consider introducing a named lifetime parameter // 考虑引入一个生�
 </code></pre>
 <p>主要问题就在于，<code>result</code> 在函数结束后就被释放，但是在函数结束后，对 <code>result</code> 的引用依然在继续。在这种情况下，没有办法指定合适的生命周期来让编译通过，因此我们也就在 Rust 中避免了悬垂引用。</p>
 <p>那遇到这种情况该怎么办？最好的办法就是返回内部字符串的所有权，然后把字符串的所有权转移给调用者：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn longest&lt;'a&gt;(_x: &amp;str, _y: &amp;str) -&gt; String {
+<pre><pre class="playground"><code class="language-rust edition2021">fn longest(_x: &amp;str, _y: &amp;str) -&gt; String {
     String::from("really long string")
 }
 
@@ -7911,7 +7952,7 @@ where
 <p>依然是熟悉的配方 <code>longest</code>，但是多了一段废话： <code>ann</code>，因为要用格式化 <code>{}</code> 来输出 <code>ann</code>，因此需要它实现 <code>Display</code> 特征。</p>
 <h2 id="课后练习-22"><a class="header" href="#课后练习-22">课后练习</a></h2>
 <blockquote>
-<p><a href="https://practice-zh.course.rs/lifetime/basic.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）</p>
+<p><a href="https://practice-zh.course.rs/lifetime/basic.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/lifetime/basic.md">习题解答</a>。</p>
 </blockquote>
 <h2 id="总结-4"><a class="header" href="#总结-4">总结</a></h2>
 <p>我不知道支撑我一口气写完的勇气是什么，也许是不做完不爽夫斯基，也许是一些读者对本书的期待，不管如何，这章足足写了 17000 字，可惜不是写小说，不然肯定可以获取很多月票 :)</p>
@@ -9614,7 +9655,7 @@ hello, world!
 </span>eprintln!("Error: Could not complete task")
 <span class="boring">}</span></code></pre></pre>
 <p>它们仅应该被用于输出错误信息和进度信息，其它场景都应该使用 <code>print!</code> 系列。</p>
-<h2 :?="">{} 与</h2>
+<h2 id="-与-"><a class="header" href="#-与-"><code>{}</code> 与 <code>{:?}</code></a></h2>
 <p>与其它语言常用的 <code>%d</code>，<code>%s</code> 不同，Rust 特立独行地选择了 <code>{}</code> 作为格式化占位符（说到这个，有点想吐槽下，Rust 中自创的概念其实还挺多的，真不知道该夸奖还是该吐槽-,-），事实证明，这种选择非常正确，它帮助用户减少了很多使用成本，你无需再为特定的类型选择特定的占位符，统一用 <code>{}</code> 来替代即可，剩下的类型推导等细节只要交给 Rust 去做。</p>
 <p>与 <code>{}</code> 类似，<code>{:?}</code> 也是占位符：</p>
 <ul>
@@ -9658,7 +9699,7 @@ println!("{}, {}, {}, {}", i, s, v, p);
 <li>使用 <code>newtype</code> 为外部类型实现 <code>Display</code> 特征</li>
 </ul>
 <p>下面来一一看看这三种方式。</p>
-<h4 :#?=""></h4>
+<h4 id=""><a class="header" href="#"><code>{:#?}</code></a></h4>
 <p><code>{:#?}</code> 与 <code>{:?}</code> 几乎一样，唯一的区别在于它能更优美地输出内容：</p>
 <pre><code class="language-console">// {:?}
 [1, 2, 3], Person { name: "sunface", age: 18 }
@@ -9950,7 +9991,7 @@ fn main() {
     let args: Vec&lt;String&gt; = env::args().collect();
     dbg!(args);
 }</code></pre></pre>
-<p>首先通过 <code>use</code> 引入标准库中的 <code>env</code> 包，然后 <code>env::args</code> 方法会读取并分析传入的命令行参数，最终通过 <code>collect</code> 方法输出一个集合类型 <code>Vector</code>。</p>
+<p>首先通过 <code>use</code> 引入标准库中的 <code>env</code> 模块，然后 <code>env::args</code> 方法会读取并分析传入的命令行参数，最终通过 <code>collect</code> 方法输出一个集合类型 <code>Vector</code>。</p>
 <p>可能有同学疑惑，为啥不直接引入 <code>args</code> ，例如 <code>use std::env::args</code> ，这样就无需 <code>env::args</code> 来繁琐调用，直接<code>args().collect()</code> 即可。原因很简单，<code>args</code> 方法只会使用一次，啰嗦就啰嗦点吧，把相同的好名字让给 <code>let args..</code> 这位大哥不好吗？毕竟人家要出场多次的。</p>
 <blockquote>
 <h3 id="不可信的输入"><a class="header" href="#不可信的输入">不可信的输入</a></h3>
@@ -9959,7 +10000,7 @@ fn main() {
 <p>原因是当传入的命令行参数包含非 Unicode 字符时， <code>std::env::args</code> 会直接崩溃，如果有这种特殊需求，建议大家使用 <code>std::env::args_os</code>，该方法产生的数组将包含 <code>OsString</code> 类型，而不是之前的 <code>String</code> 类型，前者对于非 Unicode 字符会有更好的处理。</p>
 <p>至于为啥我们不用，两个理由，你信哪个：1. 用户爱输入啥输入啥，反正崩溃了，他就知道自己错了 2. <code>args_os</code> 会引入额外的跨平台复杂性</p>
 </blockquote>
-<p><code>collect</code> 方法其实并不是<code>std::env</code>包提供的，而是迭代器自带的方法(<code>env::args()</code> 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 <code>collect</code> 的具体介绍，请参考<a href="https://course.rs/advance/functional-programing/iterator.html">这里</a>。</p>
+<p><code>collect</code> 方法其实并不是<code>std::env</code>模块提供的，而是迭代器自带的方法(<code>env::args()</code> 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 <code>collect</code> 的具体介绍，请参考<a href="https://course.rs/advance/functional-programing/iterator.html">这里</a>。</p>
 <p>最后，代码中使用 <code>dbg!</code> 宏来输出读取到的数组内容，来看看长啥样：</p>
 <pre><code class="language-shell">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -10037,7 +10078,7 @@ fn main() {
 
     println!("With text:\n{contents}");
 }</code></pre></pre>
-<p>首先，通过 <code>use std::fs</code> 引入文件操作包，然后通过 <code>fs::read_to_string</code> 读取指定的文件内容，最后返回的 <code>contents</code> 是 <code>std::io::Result&lt;String&gt;</code> 类型。</p>
+<p>首先，通过 <code>use std::fs</code> 引入文件操作模块，然后通过 <code>fs::read_to_string</code> 读取指定的文件内容，最后返回的 <code>contents</code> 是 <code>std::io::Result&lt;String&gt;</code> 类型。</p>
 <p>运行下试试，这里无需输入第二个参数，因为我们还没有实现查询功能:</p>
 <pre><code class="language-shell">$ cargo run -- the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -10065,7 +10106,7 @@ To an admiring bog!
 <li><strong>单一且庞大的函数</strong>。对于 <code>minigrep</code> 程序而言， <code>main</code> 函数当前执行两个任务：解析命令行参数和读取文件。但随着代码的增加，<code>main</code> 函数承载的功能也将快速增加。从软件工程角度来看，一个函数具有的功能越多，越是难以阅读和维护。因此最好的办法是将大的函数拆分成更小的功能单元。</li>
 <li><strong>配置变量散乱在各处</strong>。还有一点要考虑的是，当前 <code>main</code> 函数中的变量都是独立存在的，这些变量很可能被整个程序所访问，在这个背景下，独立的变量越多，越是难以维护，因此我们还可以将这些用于配置的变量整合到一个结构体中。</li>
 <li><strong>细化错误提示</strong>。 目前的实现中，我们使用 <code>expect</code> 方法来输出文件读取失败时的错误信息，这个没问题，但是无论任何情况下，都只输出 <code>Should have been able to read the file</code> 这条错误提示信息，显然是有问题的，毕竟文件不存在、无权限等等都是可能的错误，一条大一统的消息无法给予用户更多的提示。</li>
-<li><strong>使用错误而不是异常</strong>。 假如用户不给任何命令行参数，那我们的程序显然会无情崩溃，原因很简单：<code>index out of bounds</code>，一个数组访问越界的 <code>panic</code>，但问题来了，用户能看懂吗？甚至于未来接收的维护者能看懂吗？因此需要增加合适的错误处理代码，来给予使用者给详细友善的提示。还有就是需要在一个统一的位置来处理所有错误，利人利己！</li>
+<li><strong>使用错误而不是异常</strong>。 假如用户不给任何命令行参数，那我们的程序显然会无情崩溃，原因很简单：<code>index out of bounds</code>，一个数组访问越界的 <code>panic</code>，但问题来了，用户能看懂吗？甚至于未来接手的维护者能看懂吗？因此需要增加合适的错误处理代码，来给予使用者详细、友善的提示。还有就是需要在一个统一的位置来处理所有错误，利人利己！</li>
 </ul>
 <h2 id="分离-main-函数"><a class="header" href="#分离-main-函数">分离 main 函数</a></h2>
 <p>关于如何处理庞大的 <code>main</code> 函数，Rust 社区给出了统一的指导方案:</p>
@@ -12391,7 +12432,7 @@ for val in v1_iter {
 <h2 id="消费者与适配器"><a class="header" href="#消费者与适配器">消费者与适配器</a></h2>
 <p>消费者是迭代器上的方法，它会消费掉迭代器中的元素，然后返回其类型的值，这些消费者都有一个共同的特点：在它们的定义中，都依赖 <code>next</code> 方法来消费元素，因此这也是为什么迭代器要实现 <code>Iterator</code> 特征，而该特征必须要实现 <code>next</code> 方法的原因。</p>
 <h4 id="消费者适配器"><a class="header" href="#消费者适配器">消费者适配器</a></h4>
-<p>只要迭代器上的某个方法 <code>A</code> 在其内部调用了 <code>next</code> 方法，那么 <code>A</code> 就被称为<strong>消费性适配器</strong>：因为 <code>next</code> 方法会消耗掉迭代器上的元素，所以方法 <code>A</code> 的调用也会消耗掉迭代器上的元素。</p>
+<p>只要迭代器上的某个方法 <code>A</code> 在其内部调用了 <code>next</code> 方法，那么 <code>A</code> 就被称为<strong>消费者适配器</strong>：因为 <code>next</code> 方法会消耗掉迭代器上的元素，所以方法 <code>A</code> 的调用也会消耗掉迭代器上的元素。</p>
 <p>其中一个例子是 <code>sum</code> 方法，它会拿走迭代器的所有权，然后通过不断调用 <code>next</code> 方法对里面的元素进行求和：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let v1 = vec![1, 2, 3];
@@ -12538,8 +12579,8 @@ assert_eq!(18, sum);
 <p>其中 <code>zip</code>，<code>map</code>，<code>filter</code> 是迭代器适配器：</p>
 <ul>
 <li><code>zip</code> 把两个迭代器合并成一个迭代器，新迭代器中，每个元素都是一个元组，由之前两个迭代器的元素组成。例如将<strong>形如</strong> <code>[1, 2, 3, 4, 5]</code> 和 <code>[2, 3, 4, 5]</code> 的迭代器合并后，新的迭代器形如 <code>[(1, 2),(2, 3),(3, 4),(4, 5)]</code></li>
-<li><code>map</code> 是将迭代器中的值经过映射后，转换成新的值[2, 6, 12, 20]</li>
-<li><code>filter</code> 对迭代器中的元素进行过滤，若闭包返回 <code>true</code> 则保留元素[6, 12]，反之剔除</li>
+<li><code>map</code> 是将迭代器中的值经过映射后，转换成新的值<code>[2, 6, 12, 20]</code></li>
+<li><code>filter</code> 对迭代器中的元素进行过滤，若闭包返回 <code>true</code> 则保留元素，反之剔除。过滤后的迭代器形如<code>[6, 12]</code></li>
 </ul>
 <p>而 <code>sum</code> 是消费者适配器，对迭代器中的所有元素求和，最终返回一个 <code>u32</code> 值 <code>18</code>。</p>
 <h5 id="enumerate"><a class="header" href="#enumerate">enumerate</a></h5>
@@ -16884,18 +16925,20 @@ fn main() {
         println!("{:?}", CONFIG)
     }
 }</code></pre></pre>
-<h2 id="标准库中的-oncecell"><a class="header" href="#标准库中的-oncecell">标准库中的 OnceCell</a></h2>
-<p>在 <code>Rust</code> 标准库中提供了实验性的 <code>lazy::OnceCell</code> 和 <code>lazy::SyncOnceCell</code> (在 <code>Rust</code>
-1.70.0版本及以上的标准库中，替换为稳定的 <code>cell::OnceCell</code> 和 <code>sync::OnceLock</code> )两种
-<code>Cell</code> ，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最
-多只能赋值一次的特性。 如实现一个多线程的日志组件 <code>Logger</code>：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">// 低于Rust 1.70版本中， OnceCell 和 SyncOnceCell 的API为实验性的 ，
-// 需启用特性 `#![feature(once_cell)]`。
-#![feature(once_cell)]
-use std::{lazy::SyncOnceCell, thread};
-
-// Rust 1.70版本以上,
-// use std::{sync::OnceLock, thread};
+<h2 id="标准库中的-once-和-lazy"><a class="header" href="#标准库中的-once-和-lazy">标准库中的 Once 和 Lazy</a></h2>
+<p>在 Rust 1.70.0 版本之前，标准库通过实验性 API 提供 <code>lazy::OnceCell</code> 和 <code>lazy::SyncOnceCell</code> 来实现单次初始化容器，这时，懒初始化主要依靠 <code>lazy_static</code> 。
+随着 <code>cell::OnceCell</code> 和 <code>sync::OnceLock</code> 在 1.70.0 中稳定和 <code>LazyCell</code> 和 <code>LazyLock</code> 在 1.80.0 中稳定，只使用标准库实现懒加载成为可能。</p>
+<p>这4个容器可以这样区分：</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th>单线程</th><th>多线程</th></tr></thead><tbody>
+<tr><td>Once</td><td>OnceCell</td><td>OnceLock</td></tr>
+<tr><td>Lazy</td><td>LazyCell</td><td>LazyLock</td></tr>
+</tbody></table>
+</div>
+<p>其中，<code>Lazy</code> 会自动按需加载内容，让代码更简洁，更人性化，而 <code>Once</code> 则可以手动指定初始化的时机或使用不同的方法初始化，更强大。
+<code>Cell</code> 的实现更简单，效率也更高，但是他并不保证线程安全，而 <code>Lock</code> 通过内部同步机制实现了线程安全。</p>
+<h4 id="once-使用方法"><a class="header" href="#once-使用方法">Once 使用方法</a></h4>
+<p>下面，我们先看一下 <code>Once</code> 的使用方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{sync::OnceLock, thread};
 
 fn main() {
     // 子线程中调用
@@ -16917,11 +16960,7 @@ fn main() {
 #[derive(Debug)]
 struct Logger;
 
-// 低于Rust 1.70版本
-static LOGGER: SyncOnceCell&lt;Logger&gt; = SyncOnceCell::new();
-
-// Rust 1.70版本以上
-// static LOGGER: OnceLock&lt;Logger&gt; = OnceLock::new();
+static LOGGER: OnceLock&lt;Logger&gt; = OnceLock::new();
 
 impl Logger {
     fn global() -&gt; &amp;'static Logger {
@@ -16936,14 +16975,52 @@ impl Logger {
         println!("{}", message)
     }
 }</code></pre></pre>
-<p>以上代码我们声明了一个 <code>global()</code> 关联函数，并在其内部调用 <code>get_or_init</code> 进行初始化 <code>Logger</code>，之后在不同线程上多次调用 <code>Logger::global()</code> 获取其实例：</p>
+<p>以上代码我们声明了一个 <code>global()</code> 关联函数，并在其内部调用 <code>get_or_init</code> 进行初始化 <code>Logger</code>，之后在不同线程上多次调用 <code>Logger::global()</code> 获取其实例。
+由于需要在多个线程中使用，所以我们使用了 <code>OnceLock</code>。以下是输出：</p>
 <pre><code class="language-console">Logger is being created...
 some message
 other message
 thread message
 </code></pre>
 <p>可以看到，<code>Logger is being created...</code> 在多个线程中使用也只被打印了一次。</p>
-<p>特别注意，目前 <code>OnceCell</code> 和 <code>SyncOnceCell</code> API 暂未稳定，需启用特性 <code>#![feature(once_cell)]</code>。</p>
+<h4 id="lazy-使用方法"><a class="header" href="#lazy-使用方法">Lazy 使用方法</a></h4>
+<p>上述例子如果使用 <code>LazyLock</code> 来实现，则可以变得更加简洁：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{sync::LazyLock, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = &amp;LOGGER;
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = &amp;LOGGER;
+    logger.log("some message".to_string());
+
+    let logger2 = &amp;LOGGER;
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: LazyLock&lt;Logger&gt; = LazyLock::new(Logger::new);
+
+impl Logger {
+    fn new() -&gt; Logger {
+        println!("Logger is being created...");
+        Logger
+    }
+
+    fn log(&amp;self, message: String) {
+        println!("{}", message)
+    }
+}</code></pre></pre>
+<p>以上代码中，我们使用 <code>LazyLock::new</code> 方法直接对全局变量 <code>LOGGER</code> 进行赋值，并传入一个初始化函数。
+使用的时候，可以直接使用对全局变量的引用。在获取引用的时候， <code>LazyLock</code> 会自动检查初始化的状态并进行初始化。</p>
 <h2 id="总结-20"><a class="header" href="#总结-20">总结</a></h2>
 <p>在 Rust 中有很多方式可以创建一个全局变量，本章也只是介绍了其中一部分，更多的还等待大家自己去挖掘学习(当然，未来可能本章节会不断完善，最后变成一个巨无霸- , -)。</p>
 <p>简单来说，全局变量可以分为两种：</p>
@@ -17517,7 +17594,6 @@ fn render() -&gt; Result&lt;String&gt; {
     let source = read_to_string(file)?;
     Ok(source)
 }</code></pre></pre>
-<p>关于如何选用 <code>thiserror</code> 和 <code>anyhow</code> 只需要遵循一个原则即可：<strong>是否关注自定义错误消息</strong>，关注则使用 <code>thiserror</code>（常见业务代码），否则使用 <code>anyhow</code>（编写第三方库代码）。</p>
 <h2 id="总结-21"><a class="header" href="#总结-21">总结</a></h2>
 <p>Rust 一个为人津津乐道的点就是强大、易用的错误处理，对于新手来说，这个机制可能会有些复杂，但是一旦体会到了其中的好处，你将跟我一样沉醉其中不能自拔。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="unsafe-简介"><a class="header" href="#unsafe-简介">unsafe 简介</a></h1>
@@ -18103,12 +18179,12 @@ fn main() {
     let name = core::str::from_utf8(&amp;name_buf).unwrap();
     println!("CPU Manufacturer ID: {}", name);
 }</code></pre></pre>
-<p>例子中，我们使用 <code>cpuid</code> 指令来读取 CPU ID，该指令会将值写入到 <code>eax</code> 、<code>edx</code> 和 <code>ecx</code> 中。</p>
-<p>即使 <code>eax</code> 从没有被读取，我们依然需要告知编译器这个寄存器被修改过，这样编译器就可以在汇编代码之前存储寄存器中的值。这个需要通过将输出声明为 <code>_</code> 而不是一个具体的变量名，代表着该输出值被丢弃。</p>
+<p>例子中，我们使用了<code>cpuid</code> 指令。这个指令会将CPU的最大cpuid参数写入<code>eax</code>中，同时将CPU的生厂商ID以ASCII字符的形式写入到 <code>ebx</code> 、<code>edx</code> 和 <code>ecx</code> 中。</p>
+<p>即使 <code>eax</code> 从没有被读取，我们依然需要告知编译器这个寄存器被修改过，这样编译器就可以在执行汇编之前存储寄存器中的值。这个需要通过将输出声明为 <code>_</code> 而不是一个具体的变量名，代表着该输出值被丢弃。</p>
 <p>这段代码也会绕过一个限制： <code>ebx</code> 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它拥有寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器使用该寄存器的满足一个通用寄存器的需求(例如 <code>in(reg)</code> )。 但这样使用后， <code>reg</code> 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。</p>
 <p>为了解决这个问题，我们使用 <code>rdi</code> 来存储指向输出数组的指针，通过 <code>push</code> 的方式存储 <code>ebx</code>：在汇编代码块的内部读取 <code>ebx</code> 的值，然后写入到输出数组。后面再可以通过 <code>pop</code> 的方式来回复 <code>ebx</code> 到初始的状态。</p>
 <p><code>push</code> 和 <code>pop</code> 使用完成的 64 位 <code>rbx</code> 寄存器，来确保整个寄存器的内容都被保存。如果是在 32 位机器上，代码将使用 <code>ebx</code> 替代。</p>
-<p>还还可以在汇编代码内部使用通用寄存器:</p>
+<p>还可以在汇编代码内部使用通用寄存器:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::arch::asm;
@@ -18210,14 +18286,26 @@ macro_rules! vec {
 <h4 id="模式解析"><a class="header" href="#模式解析">模式解析</a></h4>
 <p>而现在，我们先来简单讲解下 <code>( $( $x:expr ),* )</code> 的含义。</p>
 <p>首先，我们使用圆括号 <code>()</code> 将整个宏模式包裹其中。紧随其后的是 <code>$()</code>，跟括号中模式相匹配的值(传入的 Rust 源代码)会被捕获，然后用于代码替换。在这里，模式 <code>$x:expr</code> 会匹配任何 Rust 表达式并给予该模式一个名称：<code>$x</code>。</p>
-<p><code>$()</code> 之后的逗号说明在 <code>$()</code> 所匹配的代码的后面会有一个可选的逗号分隔符，紧随逗号之后的 <code>*</code> 说明 <code>*</code> 之前的模式会被匹配零次或任意多次(类似正则表达式)。</p>
+<p><code>$()</code> 之后的逗号说明 <code>$()</code> 所匹配的代码使用逗号分隔符分割，紧随逗号之后的 <code>*</code> 说明 <code>*</code> 之前的模式(<code>$()</code>内的部分)会被匹配零次或任意多次(类似正则表达式)(且以逗号分割)。</p>
 <p>当我们使用 <code>vec![1, 2, 3]</code> 来调用该宏时，<code>$x</code> 模式将被匹配三次，分别是 <code>1</code>、<code>2</code>、<code>3</code>。为了帮助大家巩固，我们再来一起过一下：</p>
 <ol>
 <li><code>$()</code> 中包含的是模式 <code>$x:expr</code>，该模式中的 <code>expr</code> 表示会匹配任何 Rust 表达式，并给予该模式一个名称 <code>$x</code></li>
 <li>因此 <code>$x</code> 模式可以跟整数 <code>1</code> 进行匹配，也可以跟字符串 "hello" 进行匹配: <code>vec!["hello", "world"]</code></li>
-<li><code>$()</code> 之后的逗号，意味着<code>1</code> 和 <code>2</code> 之间可以使用逗号进行分割，也意味着 <code>3</code> 既可以没有逗号，也可以有逗号：<code>vec![1, 2, 3,]</code></li>
+<li><code>$()</code> 之后的逗号，意味着 <code>1</code> 、 <code>2</code> 和 <code>3</code> 之间使用逗号进行分割</li>
 <li><code>*</code> 说明之前的模式可以出现零次也可以任意次，这里出现了三次</li>
 </ol>
+<p><strong>需要注意的是，此处简化的 <code>vec!</code> 实现中， <code>3</code> 后面是不能继续接逗号的( <code>vec![1, 2, 3]</code> 合法，但 <code>vec![1, 2, 3,]</code> 不合法)，要匹配最后一个可有可无的逗号，可参考Rust官方的 <code>vec!</code> 宏定义，关键代码如下：</strong></p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>($($x:expr),+ $(,)?) =&gt; (
+    &lt;[_]&gt;::into_vec(
+        // This rustc_box is not required, but it produces a dramatic improvement in compile
+        // time when constructing arrays with many elements.
+        #[rustc_box]
+        $crate::boxed::Box::new([$($x),+])
+    )
+);
+<span class="boring">}</span></code></pre></pre>
 <p>接下来，我们再来看看与模式相关联、在 <code>=&gt;</code> 之后的代码：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -23803,18 +23891,15 @@ impl Future for Delay {
 <blockquote>
 <p>关于 <code>Send</code> 和 <code>Sync</code> 的具体讲解见<a href="https://course.rs/advance/concurrency-with-threads/send-sync.html">这里</a></p>
 </blockquote>
-<p>基于以上理由，我们选择使用来自于 <code>crossbeam</code> 的消息通道，因为标准库中的消息通道不是 <code>Sync</code> 的。在 <code>Cargo.toml</code> 中添加以下依赖：</p>
-<pre><code class="language-toml">crossbeam = "0.8"
-</code></pre>
-<p>再来更新下 <code>MiniTokio</code> 结构体：</p>
+<p>基于以上理由，选择 <code>std::sync::mpsc</code>  重新实现 <code>MiniTokio</code> 结构体：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>use crossbeam::channel;
+</span>use std::sync::mpsc;
 use std::sync::Arc;
 
 struct MiniTokio {
-    scheduled: channel::Receiver&lt;Arc&lt;Task&gt;&gt;,
-    sender: channel::Sender&lt;Arc&lt;Task&gt;&gt;,
+    scheduled: mpsc::Receiver&lt;Arc&lt;Task&gt;&gt;,
+    sender: mpsc::Sender&lt;Arc&lt;Task&gt;&gt;,
 }
 
 struct Task {
@@ -23831,7 +23916,7 @@ struct Task {
     // `Mutex` 是为了让 `Task` 实现 `Sync` 特征，它能保证同一时间只有一个线程可以访问 `Future`。
     // 事实上 `Mutex` 并没有在 Tokio 中被使用，这里我们只是为了简化： Tokio 的真实代码实在太长了 :D
     future: Mutex&lt;Pin&lt;Box&lt;dyn Future&lt;Output = ()&gt; + Send&gt;&gt;&gt;,
-    executor: channel::Sender&lt;Arc&lt;Task&gt;&gt;,
+    executor: mpsc::Sender&lt;Arc&lt;Task&gt;&gt;,
 }
 
 impl Task {
@@ -23868,7 +23953,7 @@ impl ArcWake for Task {
 
     /// 初始化一个新的 mini-tokio 实例
     fn new() -&gt; MiniTokio {
-        let (sender, scheduled) = channel::unbounded();
+        let (sender, scheduled) = mpsc::channel();
 
         MiniTokio { scheduled, sender }
     }
@@ -23899,7 +23984,7 @@ impl Task {
     // 使用给定的 future 来生成新的任务
     //
     // 新的任务会被推到 `sender` 中，接着该消息通道的接收端就可以获取该任务，然后执行
-    fn spawn&lt;F&gt;(future: F, sender: &amp;channel::Sender&lt;Arc&lt;Task&gt;&gt;)
+    fn spawn&lt;F&gt;(future: F, sender: &amp;mpsc::Sender&lt;Arc&lt;Task&gt;&gt;)
     where
         F: Future&lt;Output = ()&gt; + Send + 'static,
     {
@@ -25372,7 +25457,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <li>测试用例是分批执行的，<code>running 1 test</code> 表示下面的输出 <code>test result</code> 来自一个测试用例的运行结果。</li>
 <li><code>test tests::it_works</code> 中包含了测试用例的名称</li>
 <li><code>test result: ok</code> 中的 <code>ok</code> 表示测试成功通过</li>
-<li><code>1 passed</code> 代表成功通过一个测试用例(因为只有一个)，<code>0 failed</code> : 没有测试用例失败，<code>0 ignored</code> 说明我们没有将任何测试函数标记为运行时可忽略，<code>0 filtered</code> 意味着没有对测试结果做任何过滤，<code>0 mesasured</code> 代表<a href="https://course.rs/test/benchmark.html">基准测试(benchmark)</a>的结果</li>
+<li><code>1 passed</code> 代表成功通过一个测试用例(因为只有一个)，<code>0 failed</code> : 没有测试用例失败，<code>0 ignored</code> 说明我们没有将任何测试函数标记为运行时可忽略，<code>0 filtered</code> 意味着没有对测试结果做任何过滤，<code>0 measured</code> 代表<a href="https://course.rs/test/benchmark.html">基准测试(benchmark)</a>的结果</li>
 </ul>
 <p>关于 <code>filtered</code> 和 <code>ignored</code> 的使用，在本章节的后续内容我们会讲到，这里暂且略过。</p>
 <p>还有一个很重要的点，输出中的 <code>Doc-tests adder</code> 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 <code>0</code>，关于文档测试的详细介绍请参见<a href="https://course.rs/basic/comment.html#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A">这里</a>。</p>
@@ -28115,7 +28200,7 @@ parallel = ["jpeg-decoder/rayon"]
 <p><strong>当一个依赖被多个包所使用时，这些包对该依赖所设置的 <code>feature</code> 将被进行合并，这样才能确保该依赖只有一个拷贝存在，这个过程就被称之为同一化</strong>。大家可以查看<a href="https://doc.rust-lang.org/stable/cargo/reference/resolver.html#features">这里</a>了解下解析器如何对 feature 进行解析处理。</p>
 <p>这里，我们使用 <code>winapi</code> 为例来说明这个过程。首先，<code>winapi</code> 使用了大量的 <code>features</code>；然后我们有两个包 <code>foo</code> 和 <code>bar</code> 分别使用了它的两个 features，那么在合并后，最终 <code>winapi</code> 将同时启四个 features :</p>
 <img src="https://pic2.zhimg.com/80/v2-251973b0cc83f35cd6858bf21dd00ed6_1440w.png" />
-<p>由于这种不可控性，我们需要让 <code>启用feature = 添加特性</code> 这个等式成立，换而言之，<strong>启用一个 feature 不应该导致某个功能被禁止</strong>。这样才能的让多个包启用同一个依赖的不同 features。</p>
+<p>由于这种不可控性，我们需要让 <code>启用feature = 添加特性</code> 这个等式成立，换而言之，<strong>启用一个 feature 不应该导致某个功能被禁止</strong>。这样才能让多个包启用同一个依赖的不同 features。</p>
 <p>例如，如果我们想可选的支持 <code>no_std</code> 环境(不使用标准库)，那么有两种做法：</p>
 <ul>
 <li>默认代码使用标准库的，当 <code>no_std</code> feature 启用时，禁用相关的标准库代码</li>
@@ -29386,7 +29471,7 @@ pub fn init() -&gt; Result&lt;(), SetLoggerError&gt; {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="使用-tracing-记录日志"><a class="header" href="#使用-tracing-记录日志">使用 tracing 记录日志</a></h1>
 <p>严格来说，tracing 并不是一个日志库，而是一个分布式跟踪的 SDK，用于采集监控数据的。</p>
 <p>随着微服务的流行，现在一个产品有多个系统组成是非常常见的，这种情况下，一条用户请求可能会横跨几个甚至几十个服务。此时再用传统的日志方式去跟踪这条用户请求就变得较为困难，这就是分布式追踪在现代化监控系统中这么炽手可热的原因。</p>
-<p>关于分布式追踪，在后面的监控章节进行详细介绍，大家只要知道：分布式追踪的核心就是在请求的开始生成一个 <code>trace_id</code>，然后将该 <code>trace_id</code> 一直往后透穿，请求经过的每个服务都会使用该 <code>trace_id</code> 记录相关信息，最终将整个请求形成一个完整的链路予以记录下来。</p>
+<p>关于分布式追踪，在后面的监控章节进行详细介绍，大家只要知道：分布式追踪的核心就是在请求的开始生成一个 <code>trace_id</code>，然后将该 <code>trace_id</code> 一直往后透传，请求经过的每个服务都会使用该 <code>trace_id</code> 记录相关信息，最终将整个请求形成一个完整的链路予以记录下来。</p>
 <p>那么后面当要查询这次请求的相关信息时，只要使用 <code>trace_id</code> 就可以获取整个请求链路的所有信息了，非常简单好用。看到这里，相信大家也明白为什么这个库的名称叫 <code>tracing</code> 了吧？</p>
 <p>至于为何把它归到日志库的范畴呢？因为 <code>tracing</code> 支持 <code>log</code> 门面库的 API，因此，它既可以作为分布式追踪的 SDK 来使用，也可以作为日志库来使用。</p>
 <blockquote>
@@ -29665,7 +29750,7 @@ event!(Level::TRACE, "guid:x-request-id" = "abcdef", "type" = "request");
 // TRACE test_tracing: user.name="ferris" user.email="ferris@rust-lang.org"
 // TRACE test_tracing: guid:x-request-id="abcdef" type="request"
 <span class="boring">}</span></code></pre></pre>
-<h4 id=""><a class="header" href="#">?</a></h4>
+<h4 id="-1"><a class="header" href="#-1">?</a></h4>
 <p><code>?</code> 符号用于说明该字段将使用 <code>fmt::Debug</code> 来格式化。</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -29688,7 +29773,7 @@ event!(Level::TRACE, greeting = tracing::field::debug(&amp;my_struct));
 
 // 日志输出 -&gt; TRACE test_tracing: greeting=MyStruct { field: "Hello world!" }
 <span class="boring">}</span></code></pre></pre>
-<h4 id="-1"><a class="header" href="#-1">%</a></h4>
+<h4 id="-2"><a class="header" href="#-2">%</a></h4>
 <p><code>%</code> 说明字段将用 <code>fmt::Display</code> 来格式化。</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -30741,7 +30826,7 @@ fn on_record(
 <li><a href="https://doc.rust-lang.org/std/primitive.str.html#method.to_lowercase"><code>str::to_lowercase()</code></a> 在调用过程中会遍历字符串的字符，且可能会分配新的内存对象。输入是一个借用的 <code>str</code>，输出是一个有独立所有权的 <code>String</code></li>
 <li><a href="https://doc.rust-lang.org/std/string/struct.String.html#method.into_bytes"><code>String::into_bytes()</code></a> 返回 <code>String</code> 底层的 <code>Vec&lt;u8&gt;</code> 数组，转换本身是零消耗的。该方法获取 <code>String</code> 的所有权，然后返回一个新的有独立所有权的 <code>Vec&lt;u8&gt;</code></li>
 </ul>
-<p>当一个单独的值被某个类型所包装时，访问该类型的内部值应通过 <code>into_inner()</code> 方法来访问。例如将一个缓冲区值包装为 <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html#method.into_inner"><code>BufReader</code></a> 类型，还有 <a href="https://docs.rs/flate2/0.2.19/flate2/read/struct.GzDecoder.html#method.into_inner"><code>GzDecoder</code></a>、<a href="https://doc.rust-lang.org/std/sync/atomic/struct.AtomicBool.html#method.into_inner"><code>AtomicBool</code></a> 等，都是这种类型。</p>
+<p>当一个单独的值被某个类型所包装时，访问该类型的内部值应通过 <code>into_inner()</code> 方法来访问。例如将一个缓冲区值包装为 <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html#method.into_inner"><code>BufReader</code></a> 类型，还有 <a href="https://starry-network.github.io/starry_node/flate2/write/struct.GzDecoder.html#method.into_inner"><code>GzDecoder</code></a>、<a href="https://doc.rust-lang.org/std/sync/atomic/struct.AtomicBool.html#method.into_inner"><code>AtomicBool</code></a> 等，都是这种类型。</p>
 <p>如果 <code>mut</code> 限定符在返回类型中出现，那么在命名上也<strong>应该</strong>体现出来。例如，<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.as_mut_slice"><code>Vec::as_mut_slice</code></a> 就说明它返回了一个 <code>mut</code> 切片，在这种情况下 <code>as_mut_slice</code> 比 <code>as_slice_mut</code> 更适合。</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -36630,7 +36715,7 @@ struct Node&lt;T&gt; {
 <p>Rust 中的裸指针其实就是让你可以做任何事情，但它们只有一个安全特性：因为大多数人都不知道 Rust 中还有 <em>Variance(型变)</em> 和子类型，而错误地使用 <em>covariant(协变的)</em> 会非常危险，所以 <code>*mut T</code> 是<em>invariant(不变的)</em>，因为它很有可能被 "作为" <code>&amp;mut T</code> 使用。</p>
 <p>作为一个花了大量时间在 Rust 中编写集合的人，这让我感到厌烦。这就是为什么我在制作 <a href="https://doc.rust-lang.org/std/ptr/struct.NonNull.html">std::ptr::NonNull</a>, 时添加了这个小魔法：</p>
 <blockquote>
-<p>与 <em>mut T 不同，NonNull<T> 在 T 上是 <em>covariant(协变的)</em>。这使得使用 NonNull<T> 构建</em>covariant(协变的)*类型成为可能，但如果在不应该是 <em>covariant(协变的)</em> 的地方中使用，则会带来不健全的风险。</p>
+<p>与 <em>mut T 不同，<code>NonNull&lt;T&gt;</code> 在 T 上是 <em>covariant(协变的)</em>。这使得使用 <code>NonNull&lt;T&gt;</code> 构建</em>covariant(协变的)*类型成为可能，但如果在不应该是 <em>covariant(协变的)</em> 的地方中使用，则会带来不健全的风险。</p>
 </blockquote>
 <p>这是一个围绕着 <code>*mut T</code> 构建的类型。真的是魔法吗？让我们来看一下：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -36648,7 +36733,7 @@ impl&lt;T&gt; NonNull&lt;T&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>不，这里没有魔法！NonNull 只是滥用了 *const T 是 <em>covariant(协变的)</em> 这一事实，并将其存储起来。这就是 Rust 中集合的协变方式！这可真是惨不忍睹！所以我为你做了这个 Good Pointer Type ！不客气好好享受子类型吧</p>
-<p>解决你所有问题的办法就是使用 NonNull，然后如果你想再次使用可空指针，就使用 Option&lt;NonNull<T>&gt;。我们真的要这么做吗？</p>
+<p>解决你所有问题的办法就是使用 NonNull，然后如果你想再次使用可空指针，就使用 <code>Option&lt;NonNull&lt;T&gt;&gt;</code>。我们真的要这么做吗？</p>
 <p>是的！这很糟糕，但我们要做的是生产级的链表，所以我们要吃尽千辛万苦（我们可以直接使用裸*const T，然后在任何地方都进行转换，但我真的想看看这样做有多痛苦......为了人体工程学科学）。</p>
 <p>下面就是我们最终的类型定义：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -36687,7 +36772,7 @@ pub struct LinkedList&lt;T&gt; {
 <p>PhantomData 是我们给编译器提供一个额外的 "示例 "字段的方法，这个字段在概念上存在于你的类型中，但由于各种原因（间接、类型擦除......）并不存在。在本例中，我们使用 NonNull 是因为我们声称我们的类型 "好像 "存储了一个值 T，所以我们添加了一个 PhantomData 来明确这一点。</p>
 <p>...好吧，我们现在已经完成了布局！进入实际的基本功能！</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
-<p>好了，这就是本书最烂的部分，也是我花了 7 年时间才写完这一章的原因！是时候把我们已经做过 5 次的枯燥乏味的东西再写一遍了，但因为我们必须使用 Option&lt;NonNull&lt;Node<T>&gt; 把每件事都做两遍，所以显得格外冗长！</p>
+<p>好了，这就是本书最烂的部分，也是我花了 7 年时间才写完这一章的原因！是时候把我们已经做过 5 次的枯燥乏味的东西再写一遍了，但因为我们必须使用 <code>Option&lt;NonNull&lt;Node&lt;T&gt;&gt;</code> 把每件事都做两遍，所以显得格外冗长！</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; LinkedList&lt;T&gt; {
@@ -38818,7 +38903,7 @@ return.front -&gt; A &lt;-&gt; B &lt;- return.back
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>你可能注意到，我们没有处理 prev 是幽灵节点的情况。但据我所知，其他一切都只是顺便做了正确的事。等我们写测试的时候就知道了！(复制粘贴完成 split_after）。</p>
+<p>你可能注意到，我们没有处理 prev 是幽灵节点的情况。但据我所知，其他一切都只是顺便做了正确的事。等我们写测试的时候就知道了！（复制粘贴完成 split_after）。</p>
 <h1 id="splice"><a class="header" href="#splice"><a href="https://rust-unofficial.github.io/too-many-lists/sixth-cursors-impl.html#splice">Splice</a></a></h1>
 <p>还有一个老大难，那就是 splice_before 和 splice_after，我估计这是最容易出错的一个。这两个函数接收一个 LinkedList，并将其内容嫁接到我们的列表中。我们的列表可能是空的，他们的列表也可能是空的，我们还有幽灵节点要处理......叹口气，让我们一步一步来吧，从 splice_before 开始。</p>
 <ul>
@@ -38890,7 +38975,7 @@ return.front -&gt; A &lt;-&gt; B &lt;- return.back
         }
     }
 <span class="boring">}</span></code></pre></pre>
-<p>好吧，这个程序真的很可怕，现在真的感觉到 Option<NonNull> 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。</p>
+<p>好吧，这个程序真的很可怕，现在真的感觉到 <code>Option&lt;NonNull&gt;</code> 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>self.list.len += input.len;
@@ -46103,8 +46188,300 @@ const C: i32 = {
 <p>这些新能力和稳定的API解锁了在 <code>const</code> 上下文中执行的全新代码类别，我们很高兴看到Rust生态系统将如何利用这一点！</p>
 <h2 id="others-18"><a class="header" href="#others-18">Others</a></h2>
 <p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2024/11/28/Rust-1.83.0.html#stabilized-apis">原Blog</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-新版解读--184--const-能力拓展"><a class="header" href="#rust-新版解读--184--const-能力拓展">Rust 新版解读 | 1.84 | Const 能力拓展</a></h1>
+<blockquote>
+<p>Rust 1.84 官方 release doc: <a href="https://blog.rust-lang.org/2025/01/09/Rust-1.84.0.html">Announcing Rust 1.84.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.84 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="cargo-在依赖版本选择中考虑-rust-版本"><a class="header" href="#cargo-在依赖版本选择中考虑-rust-版本">Cargo 在依赖版本选择中考虑 Rust 版本</a></h2>
+<p>1.84.0 稳定了支持最低 Rust 版本（MSRV, minimum supported Rust version）的解析器，该解析器优先选择与项目声明的 MSRV （<code>Cargo.toml</code> 里的 <code>package.rust_version</code>） 兼容的依赖版本。通过支持 MSRV 的版本选择，维护者可以减少支持旧工具链的工作量，因为不再需要为每个依赖手动选择旧版本。</p>
+<p>你可以通过 <code>.cargo/config.toml</code> 启用支持 MSRV 的解析器：</p>
+<pre><code class="language-toml">[resolver]
+incompatible-rust-versions = "fallback"
+</code></pre>
+<p>然后在添加依赖时：</p>
+<pre><code class="language-bash">$ cargo add clap
+    Updating crates.io index
+warning: ignoring clap@4.5.23 (which requires rustc 1.74) to maintain demo's rust-version of 1.60
+      Adding clap v4.0.32 to dependencies
+    Updating crates.io index
+     Locking 33 packages to latest Rust 1.60 compatible versions
+      Adding clap v4.0.32 (available: v4.5.23, requires Rust 1.74)
+</code></pre>
+<p>在 CI 中<a href="https://doc.rust-lang.org/cargo/guide/continuous-integration.html#verifying-latest-dependencies">验证最新依赖</a>时，你可以覆盖此行为：</p>
+<pre><code class="language-bash">$ CARGO_RESOLVER_INCOMPATIBLE_RUST_VERSIONS=allow cargo update
+    Updating crates.io index
+     Locking 12 packages to latest compatible versions
+    Updating clap v4.0.32 -&gt; v4.5.23
+</code></pre>
+<p>你也可以通过在 <code>Cargo.toml</code> 清单文件中设置 <a href="https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions"><code>package.resolver = "3"</code></a> 来启用此功能，但这需要将 MSRV 提升到 1.84。对于使用 Rust 2024 的项目（将在 1.85 中稳定），新的解析器将默认启用。</p>
+<p>这为库作者在决定采用新 Rust 工具链功能的策略时提供了更大的灵活性。以前，库采用新 Rust 工具链的功能会迫使使用旧 Rust 版本的下游用户要么升级工具链，要么手动选择与工具链兼容的旧版本库（并避免运行 <code>cargo update</code>）。现在，这些用户将能够自动使用与其旧工具链兼容的旧库版本。</p>
+<p>有关决定 MSRV 策略时的更多注意事项，请参阅<a href="https://doc.rust-lang.org/cargo/reference/rust-version.html#setting-and-updating-rust-version">文档</a>。</p>
+<h2 id="新-trait-求解器的迁移开始"><a class="header" href="#新-trait-求解器的迁移开始">新 trait 求解器的迁移开始</a></h2>
+<p>Rust 编译器正在迁移到新的 trait 求解器实现。下一代 trait 求解器是 Rust 类型系统核心组件的重新实现。它不仅负责检查 trait 边界（例如 <code>Vec&lt;T&gt;: Clone</code>）是否成立，还被类型系统的许多其他部分使用，例如规范化（确定 <code>&lt;Vec&lt;T&gt; as IntoIterator&gt;::Item</code> 的基础类型）和类型等价（检查 <code>T</code> 和 <code>U</code> 是否相同）。</p>
+<p>在 1.84 中，新求解器用于检查 trait 实现的一致性。从高层次来看，一致性负责确保在考虑其他 crate 中尚未编写或不可见的代码时，给定类型的 trait 实现最多只有一个。</p>
+<p>此稳定化修复了旧实现中的一些主要理论上的正确性问题，导致可能会报告以前未报告的“trait 冲突实现”错误。根据 <a href="https://github.com/rust-lang/crater/">Crater</a> 对可用代码的评估，我们预计受影响的模式非常罕见。此次稳定版本还提高了我们证明实现不重叠的能力，在某些情况下允许编写更多代码。</p>
+<p>有关更多详细信息，请参阅之前的<a href="https://blog.rust-lang.org/inside-rust/2024/12/04/trait-system-refactor-initiative.html">博客文章</a>和<a href="https://github.com/rust-lang/rust/pull/130654">稳定报告</a>。</p>
+<h2 id="严格来源-api"><a class="header" href="#严格来源-api">严格来源 API</a></h2>
+<p>在 Rust 中，<a href="https://rust-lang.github.io/rfcs/3559-rust-has-provenance.html">指针不仅仅是“整数”或“地址”</a>。例如，“释放后使用”是未定义行为，即使你“幸运”并且在读取/写入之前重新分配了释放的内存。另一个例子是，通过从 <code>&amp;i32</code> 引用派生的指针写入是未定义行为，即使通过不同指针写入同一地址是合法的。这里的底层模式是，指针的计算方式很重要，而不仅仅是计算结果的地址。因此，我们说指针具有<strong>来源</strong>：要完全描述 Rust 中与指针相关的未定义行为，我们不仅需要知道指针指向的地址，还需要跟踪它是从哪些其他指针“派生”的。</p>
+<p>大多数情况下，程序员不需要过多担心来源，指针的派生方式非常清晰。然而，当将指针转换为整数并返回时，结果指针的来源是不明确的。在此版本中，Rust 添加了一组 API，可以在许多情况下替代整数指针转换的使用，从而避免此类转换固有的歧义。特别是，现在可以在不将指针转换为整数(或反方向将整数转换成指针)的情况下实现使用对齐指针的最低有效位存储额外信息的模式。这使得代码更易于推理，更易于编译器分析，并且还有益于像 <a href="https://github.com/rust-lang/miri">Miri</a> 这样的工具和像 <a href="https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/">CHERI</a> 这样的架构，旨在检测和诊断指针滥用。</p>
+<p>有关更多详细信息，请参阅标准库中关于<a href="https://doc.rust-lang.org/std/ptr/index.html#provenance">来源</a>的文档。</p>
+<h2 id="others-19"><a class="header" href="#others-19">Others</a></h2>
+<p>其它更新细节，和稳定的 API 列表，包括上述 <code>provenance</code> 相关 API，参考<a href="https://blog.rust-lang.org/2025/01/09/Rust-1.84.0.html#stabilized-apis">原Blog</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-新版解读--185--rust-2024-稳定版async-闭包"><a class="header" href="#rust-新版解读--185--rust-2024-稳定版async-闭包">Rust 新版解读 | 1.85 | Rust 2024 稳定版、<code>async</code> 闭包</a></h1>
+<blockquote>
+<p>Rust 1.85 官方 release doc: <a href="https://blog.rust-lang.org/2025/02/20/Rust-1.85.0.html">Announcing Rust 1.85.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.85 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="rust-2024"><a class="header" href="#rust-2024">Rust 2024</a></h2>
+<p>我们很高兴地宣布，Rust 2024 版现已稳定！
+大的新版本也是一种用于选择可能带来向后兼容性风险的更改的机制。有关如何实现此目标的详细信息以及迁移的详细说明，请参阅<a href="https://doc.rust-lang.org/edition-guide/editions/index.html">版本指南</a>。</p>
+<p><a href="https://doc.rust-lang.org/edition-guide/rust-2024/index.html">版本指南</a>里包含了每个更改的详细信息，这里有一份简要总结：</p>
+<ul>
+<li>语言
+<ul>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rpit-lifetime-capture.html">RPIT 生命周期捕获规则</a> — 当 <code>use&lt;..&gt;</code> 不存在时，更改 <code>impl Trait</code> 类型对参数的默认捕获。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/temporary-if-let-scope.html"><code>if let</code> 临时作用域</a> — 更改 <code>if let</code> 表达式的临时作用域。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/temporary-tail-expr-scope.html">尾表达式临时作用域</a> — 更改块中尾表达式的临时作用域。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/match-ergonomics.html">预留模式匹配的人性化改进</a> — 禁止某些模式组合以避免混淆并为未来的改进留出空间。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-extern.html">不安全的 <code>extern</code> 块</a> — <code>extern</code> 块现在需要 <code>unsafe</code> 关键字。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-attributes.html">不安全属性</a> — <code>export_name</code>、<code>link_section</code> 和 <code>no_mangle</code> 属性现在必须标记为 <code>unsafe</code>。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html"><code>unsafe_op_in_unsafe_fn</code> 警告</a> — <a href="https://doc.rust-lang.org/rustc/lints/listing/allowed-by-default.html#unsafe-op-in-unsafe-fn"><code>unsafe_op_in_unsafe_fn</code></a> lint 现在默认警告，要求在 <code>unsafe</code> 函数中显式使用 <code>unsafe {}</code> 块。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html">禁止引用 <code>static mut</code></a> — 对 <code>static mut</code> 项的引用现在会生成默认拒绝的错误。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/never-type-fallback.html">Never 类型 fallback 更改</a> — 更改了 never 类型 <code>!</code> 的强制转换方式，并将 <a href="https://doc.rust-lang.org/rustc/lints/listing/warn-by-default.html#never-type-fallback-flowing-into-unsafe"><code>never_type_fallback_flowing_into_unsafe</code></a> lint 级别更改为“拒绝”。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/macro-fragment-specifiers.html">宏片段说明符</a> — <code>macro_rules!</code> 宏中的 <code>expr</code> 宏片段说明符现在也匹配 <code>const</code> 和 <code>_</code> 表达式。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/missing-macro-fragment-specifiers.html">缺失的宏片段说明符</a> — <a href="https://doc.rust-lang.org/rustc/lints/listing/deny-by-default.html#missing-fragment-specifier"><code>missing_fragment_specifier</code></a> lint 现在是一个错误，拒绝没有片段说明符类型的宏元变量。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/gen-keyword.html"><code>gen</code> 关键字</a> — 保留 <code>gen</code> 关键字，以便将来添加生成器块。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/reserved-syntax.html">保留语法</a> — 保留 <code>#"foo"#</code> 风格的字符串和 <code>##</code> 标记，以便将来更改如何解析受保护的字符串字面量。</li>
+</ul>
+</li>
+<li>标准库
+<ul>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/prelude.html">prelude 的更改</a> — 将 <code>Future</code> 和 <code>IntoFuture</code> 添加到 prelude 中。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/intoiterator-box-slice.html">为 <code>Box&lt;[T]&gt;</code> 添加 <code>IntoIterator</code></a> — 更改了迭代器与 <code>Box&lt;[T]&gt;</code> 的工作方式。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/newly-unsafe-functions.html">新不安全的函数</a> — <code>std::env::set_var</code>、<code>std::env::remove_var</code> 和 <code>std::os::unix::process::CommandExt::before_exec</code> 现在是不安全的函数。</li>
+</ul>
+</li>
+<li>Cargo
+<ul>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/cargo-resolver.html">Cargo: Rust 版本感知解析器</a> — 更改默认依赖解析器行为以考虑 <code>rust-version</code> 字段。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/cargo-table-key-names.html">Cargo: 表和键名一致性</a> — 删除了一些过时的 <code>Cargo.toml</code> 键。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/cargo-inherited-default-features.html">Cargo: 报错错误使用默认特性开关的继承情况</a> — 更改了 <code>default-features = false</code> 与继承的工作区依赖项的工作方式。</li>
+</ul>
+</li>
+<li>Rustdoc
+<ul>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustdoc-doctests.html">Rustdoc 组合测试</a> — 文档测试现在组合成一个可执行文件，显著提高了性能。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustdoc-nested-includes.html">Rustdoc 嵌套 <code>include!</code> 更改</a> — 更改了嵌套 <code>include!</code> 文件的相对路径行为。</li>
+</ul>
+</li>
+<li>Rustfmt
+<ul>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustfmt-style-edition.html">Rustfmt: 样式版本</a> — 引入了“样式版本”的概念，允许你分开控制格式化版本与 Rust 版本。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustfmt-formatting-fixes.html">Rustfmt: 格式化修复</a> — 大量修复了各种情况的格式化问题。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustfmt-raw-identifier-sorting.html">Rustfmt: 原始标识符排序</a> — 更改了诸如 <code>r#async</code> 带有 <code>r#</code> 标识符的排序方式。</li>
+<li><a href="https://doc.rust-lang.org/edition-guide/rust-2024/rustfmt-version-sorting.html">Rustfmt: 带数字的排序</a> — 更改了包含整数的标识符的排序方式。</li>
+</ul>
+</li>
+</ul>
+<h3 id="迁移到-2024"><a class="header" href="#迁移到-2024">迁移到 2024</a></h3>
+<p>指南包含了所有新功能的迁移说明，以及<a href="https://doc.rust-lang.org/edition-guide/editions/transitioning-an-existing-project-to-a-new-edition.html">将现有项目迁移到新版本</a>的一般说明。
+在许多情况下，<code>cargo fix</code> 可以自动完成必要的更改。你甚至可能会发现，2024 版不需要对你的代码进行任何更改！</p>
+<p>请注意，通过 <code>cargo fix</code> 进行的自动修复非常保守，以避免更改代码的语义。在许多情况下，你可能希望保持代码不变并使用 Rust 2024 的新语义；例如，继续使用 <code>expr</code> 宏匹配器，并忽略条件表达式的转换，因为你希望使用新的 2024 版 drop 顺序语义。<code>cargo fix</code> 的结果不应被视为建议，而只是保持行为的保守转换。</p>
+<h2 id="async-闭包"><a class="header" href="#async-闭包"><code>async</code> 闭包</a></h2>
+<p>Rust 现在支持异步闭包，如 <code>async || {}</code>，它在调用时返回 future。这类似于 <code>async fn</code>，它也可以从本地环境中捕获值，就像普通闭包和函数之间的区别一样。标准库 prelude 中还提供了 3 个类似的 trait：<code>AsyncFn</code>、<code>AsyncFnMut</code> 和 <code>AsyncFnOnce</code>。</p>
+<p>在某些情况下，你可以通过普通闭包和异步块来近似实现这一点，例如 <code>|| async {}</code>。然而，这种内部块返回的 future 无法从闭包捕获中借用，但 <code>async</code> 闭包可以做到这一点：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut vec: Vec&lt;String&gt; = vec![];
 
-                        <div id="giscus-container"></div>
+let closure = async || {
+    vec.push(ready(String::from("")).await);
+};
+<span class="boring">}</span></code></pre></pre>
+<p>此外，使用 <code>Fn</code> trait 返回 <code>Future</code> 时，无法正确表达函数签名，但你可以使用 <code>AsyncFn</code> trait 来编写：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use core::future::Future;
+async fn f&lt;Fut&gt;(_: impl for&lt;'a&gt; Fn(&amp;'a u8) -&gt; Fut)
+where
+    Fut: Future&lt;Output = ()&gt;,
+{ todo!() }
+
+async fn f2(_: impl for&lt;'a&gt; AsyncFn(&amp;'a u8))
+{ todo!() }
+
+async fn main() {
+    async fn g(_: &amp;u8) { todo!() }
+    f(g).await;
+    //~^ ERROR 类型不匹配
+    //~| ERROR 一个类型比另一个更通用
+
+    f2(g).await; // 没问题！
+}</code></pre></pre>
+<p>因此，<code>async</code> 闭包为这两个问题提供了一流的解决方案！有关更多详细信息，请参阅 <a href="https://rust-lang.github.io/rfcs/3668-async-closures.html">RFC 3668</a> 和<a href="https://github.com/rust-lang/rust/pull/132706">稳定报告</a>。</p>
+<h2 id="从诊断中隐藏-trait-实现"><a class="header" href="#从诊断中隐藏-trait-实现">从诊断中隐藏 trait 实现</a></h2>
+<p>新的 <code>#[diagnostic::do_not_recommend]</code> 属性是给编译器的一个提示，不要将注释的 trait 实现显示为诊断消息的一部分。对于库作者来说，这是一种防止编译器提出可能无益或误导的建议的方式。例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">pub trait Foo {}
+pub trait Bar {}
+
+impl&lt;T: Foo&gt; Bar for T {}
+
+struct MyType;
+
+fn main() {
+    let _object: &amp;dyn Bar = &amp;MyType;
+}</code></pre></pre>
+<pre><code class="language-text">error[E0277]: 未满足 trait 绑定 `MyType: Bar`
+ --&gt; src/main.rs:9:29
+  |
+9 |     let _object: &amp;dyn Bar = &amp;MyType;
+  |                             ^^^^ trait `Foo` 未为 `MyType` 实现
+  |
+note: 需要 `MyType` 实现 `Bar`
+ --&gt; src/main.rs:4:14
+  |
+4 | impl&lt;T: Foo&gt; Bar for T {}
+  |         ---  ^^^     ^
+  |         |
+  |         在此处引入的未满足的 trait 绑定
+  = note: 需要将 `&amp;MyType` 转换为 `&amp;dyn Bar`
+</code></pre>
+<p>对于某些 API，实现 <code>Foo</code> 并通过该泛型实现间接获得 <code>Bar</code> 可能是有意义的。对于其他 API，可能期望大多数用户直接实现 <code>Bar</code>，因此 <code>Foo</code> 建议是一个误导。在这种情况下，添加诊断提示将更改错误消息如下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[diagnostic::do_not_recommend]
+impl&lt;T: Foo&gt; Bar for T {}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-text">error[E0277]: 未满足 trait 绑定 `MyType: Bar`
+  --&gt; src/main.rs:10:29
+   |
+10 |     let _object: &amp;dyn Bar = &amp;MyType;
+   |                             ^^^^ trait `Bar` 未为 `MyType` 实现
+   |
+   = note: 需要将 `&amp;MyType` 转换为 `&amp;dyn Bar`
+</code></pre>
+<p>有关原始动机，请参阅 <a href="https://rust-lang.github.io/rfcs/2397-do-not-recommend.html">RFC 2397</a>，以及当前的<a href="https://doc.rust-lang.org/reference/attributes/diagnostics.html#the-diagnosticdo_not_recommend-attribute">参考</a>以获取更多详细信息。</p>
+<h2 id="元组的-fromiterator-和-extend"><a class="header" href="#元组的-fromiterator-和-extend">元组的 <code>FromIterator</code> 和 <code>Extend</code></a></h2>
+<p>早期版本的 Rust 为 <code>(T, U)</code> 元组对的迭代器实现了便利的 trait，使其行为类似于 <code>Iterator::unzip</code>，其中 <code>Extend</code> 在 1.56 版中实现，<code>FromIterator</code> 在 1.79 版中实现。这些现在已<em>扩展</em>到更多的元组长度，从单例 <code>(T,)</code> 到 12 个元素长的 <code>(T1, T2, .., T11, T12)</code>。例如，你现在可以使用 <code>collect()</code> 一次性分发到多个集合中：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::collections::{LinkedList, VecDeque};
+fn main() {
+    let (squares, cubes, tesseracts): (Vec&lt;_&gt;, VecDeque&lt;_&gt;, LinkedList&lt;_&gt;) =
+        (0i32..10).map(|i| (i * i, i.pow(3), i.pow(4))).collect();
+    println!("{squares:?}");
+    println!("{cubes:?}");
+    println!("{tesseracts:?}");
+}</code></pre></pre>
+<pre><code class="language-text">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+[0, 1, 8, 27, 64, 125, 216, 343, 512, 729]
+[0, 1, 16, 81, 256, 625, 1296, 2401, 4096, 6561]
+</code></pre>
+<h2 id="stdenvhome_dir-的更新"><a class="header" href="#stdenvhome_dir-的更新"><code>std::env::home_dir()</code> 的更新</a></h2>
+<p><code>std::env::home_dir()</code> 已被弃用多年，因为如果设置了 <code>HOME</code> 环境变量（这不是 Windows 上的标准配置），它可能会在某些 Windows 配置中给出令人惊讶的结果。我们之前避免更改其行为，因为担心与依赖此非标准配置的代码的兼容性。鉴于该函数已被弃用很长时间，我们现在将其行为更新为错误修复，后续版本将取消对该函数的弃用。</p>
+<h2 id="others-20"><a class="header" href="#others-20">Others</a></h2>
+<p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2025/02/20/Rust-1.85.0.html#stabilized-apis">原Blog</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-新版解读--186--trait-upcasting"><a class="header" href="#rust-新版解读--186--trait-upcasting">Rust 新版解读 | 1.86 | Trait upcasting</a></h1>
+<blockquote>
+<p>Rust 1.86 官方 release doc: <a href="https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html">Announcing Rust 1.86.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.86 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="特征向上转型trait-upcasting"><a class="header" href="#特征向上转型trait-upcasting">特征向上转型(Trait upcasting)</a></h2>
+<p>本次更新包含了一个期待已久的功能————特征对象的向上转型能力。如果一个特征拥有 <a href="https://doc.rust-lang.org/reference/items/traits.html#supertraits">supertrait</a>，你可以将指向该特征对象的引用强制转换为指向 supertrait 对象的引用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Trait: Supertrait {}
+trait Supertrait {}
+
+fn upcast(x: &amp;dyn Trait) -&gt; &amp;dyn Supertrait {
+    x
+}
+<span class="boring">}</span></code></pre></pre>
+<p>该功能同样适用于其他类型的（智能）指针，例如 <code>Arc&lt;dyn Trait&gt; -&gt; Arc&lt;dyn Supertrait&gt;</code> 或 <code>*const dyn Trait -&gt; *const dyn Supertrait</code>。</p>
+<p>此前需要通过特征内部定义 <code>upcast</code> 方法（如 <code>fn as_supertrait(&amp;self) -&gt; &amp;dyn Supertrait</code> ）来实现，且仅适用于单一引用/指针类型。现在不再需要此类变通方案。</p>
+<p>需注意：这意味着特征对象的裸指针具有一个特别的约束：“泄漏”一个指向无效虚表的裸指针到安全代码可能导致未定义行为。当前尚不清楚在严格受控环境下临时创建此类裸指针是否会立即引发未定义行为，因此应避免在任何条件下创建此类指针（Miri 会强制执行此约束）。</p>
+<p>特征向上转型在与 <code>Any</code> 特征结合时尤为实用，无需添加特征方法或使用外部crate即可将特征对象向上转型为 <code>dyn Any</code> 来调用 <code>Any</code> 的向下转型方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::any::Any;
+
+trait MyAny: Any {}
+
+impl dyn MyAny {
+    fn downcast_ref&lt;T&gt;(&amp;self) -&gt; Option&lt;&amp;T&gt; {
+        (self as &amp;dyn Any).downcast_ref()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>更多细节请参阅<a href="https://doc.rust-lang.org/reference/type-coercions.html#unsized-coercions">Rust参考文档中关于特征向上转型的内容</a>。</p>
+<h2 id="hashmap和切片现支持可变索引多个元素"><a class="header" href="#hashmap和切片现支持可变索引多个元素">HashMap和切片现支持可变索引多个元素</a></h2>
+<p>借用检查器原先会阻止通过重复调用 <code>get_mut</code> 方法获取的借用同时使用。为安全地支持获取多个可变引用，标准库现在为切片和 <code>HashMap</code> 提供 <code>get_disjoint_mut</code> 辅助方法，可同时获取多个元素的可变引用。示例取自 <a href="https://doc.rust-lang.org/stable/std/primitive.slice.html#method.get_disjoint_mut"><code>slice::get_disjoint_mut</code> API 文档</a>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = &amp;mut [1, 2, 3];
+if let Ok([a, b]) = v.get_disjoint_mut([0, 2]) {
+    *a = 413;
+    *b = 612;
+}
+assert_eq!(v, &amp;[413, 2, 612]);
+
+if let Ok([a, b]) = v.get_disjoint_mut([0..1, 1..3]) {
+    a[0] = 8;
+    b[0] = 88;
+    b[1] = 888;
+}
+assert_eq!(v, &amp;[8, 88, 888]);
+
+if let Ok([a, b]) = v.get_disjoint_mut([1..=2, 0..=0]) {
+    a[0] = 11;
+    a[1] = 111;
+    b[0] = 1;
+}
+assert_eq!(v, &amp;[1, 11, 111]);
+<span class="boring">}</span></code></pre></pre>
+<h2 id="允许安全函数标记-target_feature-属性"><a class="header" href="#允许安全函数标记-target_feature-属性">允许安全函数标记 <code>#[target_feature]</code> 属性</a></h2>
+<p>此前仅 <code>unsafe</code> 函数可标记 <code>#[target_feature]</code> 属性，因未启用目标特性时调用此类函数会导致未定义行为。本次更新稳定了 <code>target_feature_11</code> 特性，允许<em>安全</em>函数标记该属性。</p>
+<p>标记目标特性的安全函数仅可被同标记函数安全调用，但不可传递给以 <code>Fn*</code> 特征约束的泛型函数，且仅支持在标记函数内部强制转换为函数指针。</p>
+<p>在未标记函数内部可通过 <code>unsafe</code> 块调用，但调用者需确保目标特性可用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[target_feature(enable = "avx2")]
+fn requires_avx2() {
+    // ... 省略
+}
+
+#[target_feature(enable = "avx2")]
+fn safe_callsite() {
+    requires_avx2(); // 安全调用
+}
+
+fn unsafe_callsite() {
+    if is_x86_feature_detected!("avx2") {
+        unsafe { requires_avx2() }; // 需手动验证
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>详情参阅 <a href="https://github.com/rust-lang/rfcs/blob/master/text/2396-target-feature-1.1.md"><code>target_features_11</code> RFC</a>。</p>
+<h2 id="为保障内存安全添加指针非空调试断言"><a class="header" href="#为保障内存安全添加指针非空调试断言">为保障内存安全添加指针非空调试断言</a></h2>
+<p>编译器现会在以下场景插入调试断言：对非零大小类型的读写操作前，以及将指针重新借用为引用时。例如以下代码在启用调试断言时将触发 panic：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let _x = *std::ptr::null::&lt;u8&gt;();
+let _x = &amp;*std::ptr::null::&lt;u8&gt;();
+<span class="boring">}</span></code></pre></pre>
+<p>自Rust 1.53.0起简单案例已产生警告，新运行时检查可检测任意复杂场景。这些断言仅在调试模式下生效，因此<strong>不应该</strong>依赖其保障内存安全。且调试模式禁用的依赖项（如标准库）即使被调试模式代码调用也不会触发断言。</p>
+<h2 id="默认启用-missing_abi-lint-警告"><a class="header" href="#默认启用-missing_abi-lint-警告">默认启用 <code>missing_abi</code> lint 警告</a></h2>
+<p>在 extern 块和函数中省略 ABI（如 <code>extern {}</code> 和 <code>extern fn</code>）现在会触发 <code>missing_abi</code> lint 警告。<code>extern</code> 关键字后省略 ABI 始终隐式采用 <code>"C"</code> ABI，现建议显式指定（如 <code>extern "C" {}</code> 和 <code>extern "C" fn</code>）。</p>
+<p>参阅<a href="https://rust-lang.github.io/rfcs/3722-explicit-extern-abis.html">显式外部 ABI RFC</a>获取详情。</p>
+<h2 id="1870版本目标弃用警告"><a class="header" href="#1870版本目标弃用警告">1.87.0版本目标弃用警告</a></h2>
+<p>Tier-2 目标 <code>i586-pc-windows-msvc</code> 将在Rust 1.87.0移除。该目标与更流行的<code>i686-pc-windows-msvc</code>的区别在于不要求SSE2指令支持，所有<code>windows</code>目标（除<code>win7</code>目标外）的最低要求系统版本，即 Windows 10 本身就需要SSE2指令。</p>
+<p>当前使用该目标的用户应在1.87.0发布前迁移至<code>i686-pc-windows-msvc</code>。详情参见<a href="https://github.com/rust-lang/compiler-team/issues/840">重大变更提案</a>。</p>
+<h2 id="others-21"><a class="header" href="#others-21">Others</a></h2>
+<p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html#stabilized-apis">原Blog</a></p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -46130,8 +46507,8 @@ const C: i32 = {
         </script>
 
         <script src="ace.js"></script>
-        <script src="editor.js"></script>
         <script src="mode-rust.js"></script>
+        <script src="editor.js"></script>
         <script src="theme-dawn.js"></script>
         <script src="theme-tomorrow_night.js"></script>
 
@@ -46142,11 +46519,6 @@ const C: i32 = {
         <script src="clipboard.min.js"></script>
         <script src="highlight.js"></script>
         <script src="book.js"></script>
-
-        <script type="text/javascript" charset="utf-8">
-        var pagePath = "print.md"
-        </script>
-
 
         <!-- Custom JS scripts -->
         <script src="assets/custom.js"></script>
