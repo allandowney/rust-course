@@ -37,6 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -93,10 +94,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -144,7 +148,7 @@
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/errors.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/errors.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -153,7 +157,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -250,34 +259,6 @@
     assert_eq!(o1.or_else(fn_err), o1); // Ok or_else Err = Ok
     assert_eq!(e1.or_else(fn_ok), o2);  // Err or_else Ok = Ok
     assert_eq!(e1.or_else(fn_err), e2); // Err1 or_else Err2 = Err2
-}</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
-    // and_then with Option
-    let s1 = Some("some1");
-    let s2 = Some("some2");
-    let fn_some = |_| Some("some2"); // 类似于: let fn_some = |_| -&gt; Option&lt;&amp;str&gt; { Some("some2") };
-
-    let n: Option&lt;&amp;str&gt; = None;
-    let fn_none = |_| None;
-
-    assert_eq!(s1.and_then(fn_some), s2); // Some1 and_then Some2 = Some2
-    assert_eq!(s1.and_then(fn_none), n);  // Some and_then None = None
-    assert_eq!(n.and_then(fn_some), n);   // None and_then Some = None
-    assert_eq!(n.and_then(fn_none), n);   // None1 and_then None2 = None1
-
-    // and_then with Result
-    let o1: Result&lt;&amp;str, &amp;str&gt; = Ok("ok1");
-    let o2: Result&lt;&amp;str, &amp;str&gt; = Ok("ok2");
-    let fn_ok = |_| Ok("ok2"); // 类似于: let fn_ok = |_| -&gt; Result&lt;&amp;str, &amp;str&gt; { Ok("ok2") };
-
-    let e1: Result&lt;&amp;str, &amp;str&gt; = Err("error1");
-    let e2: Result&lt;&amp;str, &amp;str&gt; = Err("error2");
-    let fn_err = |_| Err("error2");
-
-    assert_eq!(o1.and_then(fn_ok), o2);  // Ok1 and_then Ok2 = Ok2
-    assert_eq!(o1.and_then(fn_err), e2); // Ok and_then Err = Err
-    assert_eq!(e1.and_then(fn_ok), e1);  // Err and_then Ok = Err
-    assert_eq!(e1.and_then(fn_err), e1); // Err1 and_then Err2 = Err1
 }</code></pre></pre>
 <h4 id="filter"><a class="header" href="#filter">filter</a></h4>
 <p><code>filter</code> 用于对 <code>Option</code> 进行过滤：</p>
@@ -795,6 +776,7 @@ fn render() -&gt; Result&lt;String&gt; {
         <!-- Custom JS scripts -->
         <script src="../assets/custom.js"></script>
         <script src="../assets/bigPicture.js"></script>
+
 
 
     </div>

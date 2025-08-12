@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>1.63 - Rust语言圣经(Rust Course)</title>
+        <title>1.88 - Rust语言圣经(Rust Course)</title>
 
 
         <!-- Custom HTML head -->
@@ -148,7 +148,7 @@
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.63.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.88.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -182,72 +182,62 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="rust-新版解读--163--重点-scoped-threads"><a class="header" href="#rust-新版解读--163--重点-scoped-threads">Rust 新版解读 | 1.63 | 重点: Scoped threads</a></h1>
+                        <h1 id="rust-新版解读--188--let_chains"><a class="header" href="#rust-新版解读--188--let_chains">Rust 新版解读 | 1.88 | let_chains</a></h1>
 <blockquote>
-<p>Rust 1.63 官方 release doc: <a href="https://blog.rust-lang.org/2022/08/11/Rust-1.63.0.html">Announcing Rust 1.63.0 | Rust Blog</a></p>
+<p>Rust 1.88 官方 release doc: <a href="https://blog.rust-lang.org/2025/06/26/Rust-1.88.0/">Announcing Rust 1.88.0 | Rust Blog</a></p>
 </blockquote>
-<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.63 版本:</p>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.88 版本:</p>
 <pre><code class="language-shell">$ rustup update stable
 </code></pre>
-<h2 id="区域线程-scoped-threads"><a class="header" href="#区域线程-scoped-threads">区域线程 Scoped threads</a></h2>
-<p>Rust 从 1.0 版本起，就可以使用 <code>std::thread::spawn</code> 来创建一个线程，但是这个函数要求了其生成的线程必须拥有任何传递进去的参数的所有权，也就是说你不能把引用数据传递进去。在一些线程会在方法末尾退出的情况下（通常使用 <code>join()</code> 方法），这个严格的约束显得不必要，在此之前也通常使用 <code>Arc</code> 包裹数据的的方法来妥协。</p>
-<p>随着 1.63 版本的推出，标准库新增了<strong>区域线程</strong>，允许在区域 <code>scope</code> 内创建使用当前调用栈内引用数据的线程。<code>std::thread::scope</code> 的API保证其中创建的线程会在自身返回前推出，也就允许安全的借用数据。看下面的例子，在 <code>scope</code> 内创建两个线程来，分别借用了数据：</p>
+<h2 id="let-链式表达式"><a class="header" href="#let-链式表达式">let 链式表达式</a></h2>
+<p>该特性允许在 <code>if</code> 和 <code>while</code> 条件中使用 <code>&amp;&amp;</code> 连接的 <code>let</code> 语句，甚至可以与布尔表达式混合使用，从而减少 <code>if</code>/<code>if let</code> 和 <code>while</code>/<code>while let</code> 之间的差异。<code>let</code> 子表达式中的模式可以是不可反驳或可反驳的，绑定变量可以在链式后续部分和代码体中使用。</p>
+<p>例如，以下代码片段组合了多个条件，之前需要嵌套 <code>if let</code> 和 <code>if</code> 块才能实现：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let mut a = vec![1, 2, 3];
-let mut x = 0;
-
-std::thread::scope(|s| {
-    s.spawn(|| {
-        println!("hello from the first scoped thread");
-        // 可以借用变量 `a`
-        dbg!(&amp;a);
-    });
-    s.spawn(|| {
-        println!("hello from the second scoped thread");
-        // 没有其它线程在使用，所以也可以可变借用 `x`
-        x += a[0] + a[2];
-    });
-    println!("hello from the main thread");
-});
-
-// Scope 退出后，可以继续修改、访问变量。
-a.push(4);
-assert_eq!(x, a.len());
+</span>if let Channel::Stable(v) = release_info()
+    &amp;&amp; let Semver { major, minor, .. } = v
+    &amp;&amp; major == 1
+    &amp;&amp; minor == 88
+{
+    println!("`let_chains` 在此版本中已稳定");
+}
 <span class="boring">}</span></code></pre></pre>
-<h2 id="rust-对原始文件描述符句柄的所有权"><a class="header" href="#rust-对原始文件描述符句柄的所有权">Rust 对原始文件描述符/句柄的所有权</a></h2>
-<p>之前 Rust 代码在使用平台相关 API ，涉及到文件描述符（file descriptor on unix）或句柄（handles on windows）的时候，都是直接使用对应的描述符（比如，<code>c_int</code> alias <code>RawFd</code>）。因此类型系统无法判断 API 是会获取文件描述符的所有权，还是仅仅借用它。</p>
-<p>现在，Rust 提供了封装类型诸如 <code>BorrowedFd</code> 和 <code>OwnedFd</code>。这些封装类型都标记为了 <code>#[repr(transparent)]</code>，意味着 <code>extern "C"</code> 绑定下也可以直接使用这些类型来编码所有权语义。完整的封装类型参见原文下的 <a href="https://blog.rust-lang.org/2022/08/11/Rust-1.63.0.html#stabilized-apis">stabilized apis in 1.63</a></p>
-<h2 id="mutex-rwlock-condvar-作为静态变量"><a class="header" href="#mutex-rwlock-condvar-作为静态变量"><code>Mutex</code>, <code>RwLock</code>, <code>Condvar</code> 作为静态变量</a></h2>
-<p><code>Condvar::new</code>, <code>Mutex::new</code> 和 <code>RwLock::new</code> 可以在 <code>const</code> 上下文里被调用了，不必再使用 <code>lazy_static</code> 库来写全局静态的 <code>Mutex</code>, <code>RwLock</code>, <code>Condvar</code> 了。</p>
-<h2 id="turbofish-可用于含有-impl-trait-的泛型函数上"><a class="header" href="#turbofish-可用于含有-impl-trait-的泛型函数上">Turbofish 可用于含有 <code>impl Trait</code> 的泛型函数上</a></h2>
-<p>诸如 <code>fn foo&lt;T&gt;(value: T, f: impl Copy)</code> 的函数签名，使用 Turbofish <code>foo::&lt;u32&gt;(3,3)</code> 来指定 <code>T</code> 的具体类型会出现编译错误：</p>
-<pre><code class="language-shell">error[E0632]: cannot provide explicit generic arguments when `impl Trait` is used in argument position
- --&gt; src/lib.rs:4:11
-  |
-4 |     foo::&lt;u32&gt;(3, 3);
-  |           ^^^ explicit generic argument not allowed
-  |
-  = note: see issue #83701 &lt;https://github.com/rust-lang/rust/issues/83701&gt; for more information
-</code></pre>
-<p>1.63里这个限制被放松了，显式泛型类型可以用 Turbofish 来指定了。不过 <code>impl Trait</code> 参数，尽管已经脱糖(desugare)成了泛型，因为还是不透明的所以无法通过 Turbofish 指定。</p>
-<h2 id="完成了-non-lexical-lifetime-的生命周期检查器的迁移"><a class="header" href="#完成了-non-lexical-lifetime-的生命周期检查器的迁移">完成了 Non-lexical-lifetime 的生命周期检查器的迁移</a></h2>
-<p>1.63 的rustc，完全删除了之前的词法借用检查，完全启用了新的 NLL 借用检查器。这不会对编译结果有任何变化，但对编译器的借用错误检查有优化效果。</p>
-<p>如果对NLL不了解，在本书 <a href="https://course.rs/basic/ownership/borrowing.html#NLL">引用与借用</a> 一章里有介绍。</p>
-<p>或者看官方博客的介绍 <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">NLL</a></p>
-<p>更详细内容可以看原博客 <a href="https://blog.rust-lang.org/2022/08/05/nll-by-default.html">blog</a></p>
+<p>由于一些边界场景难以兼容，let 链式表达式仅在 Rust 2024 版本中可用，因为该特性依赖于 <a href="https://doc.rust-lang.org/edition-guide/rust-2024/temporary-if-let-scope.html"><code>if let</code> 临时作用域</a> 变更以实现更一致的析构顺序。</p>
+<h2 id="裸函数"><a class="header" href="#裸函数">裸函数</a></h2>
+<p>Rust 现在支持编写没有编译器生成的收尾代码和序言的裸函数，允许完全控制特定函数的生成汇编代码。这是在 <code>global_asm!</code> 块中定义函数的更符合人体工程学的替代方案。裸函数使用 <code>#[unsafe(naked)]</code> 属性标记，其函数体由单个 <code>naked_asm!</code> 调用组成。</p>
+<p>例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[unsafe(naked)]
+pub unsafe extern "sysv64" fn wrapping_add(a: u64, b: u64) -&gt; u64 {
+    // 等同于 `a.wrapping_add(b)`。
+    core::arch::naked_asm!(
+        "lea rax, [rdi + rsi]",
+        "ret"
+    );
+}
+<span class="boring">}</span></code></pre></pre>
+<p>手写的汇编块定义了整个函数体：与非裸函数不同，编译器不会对参数或返回值添加任何特殊处理。裸函数用于 Rust 的 <a href="https://github.com/rust-lang/compiler-builtins">compiler-builtins</a>、操作系统和嵌入式应用程序等场景。</p>
+<h2 id="布尔配置"><a class="header" href="#布尔配置">布尔配置</a></h2>
+<p><code>cfg</code> 谓词现在支持布尔字面量 <code>true</code> 和 <code>false</code>，分别作为始终启用或禁用的配置。这适用于 Rust 的<a href="https://doc.rust-lang.org/reference/conditional-compilation.html">条件编译</a>中的 <code>cfg</code> 和 <code>cfg_attr</code> 属性以及内置的 <code>cfg!</code> 宏，也适用于 Cargo <code>[target]</code> 表中的<a href="https://doc.rust-lang.org/cargo/reference/config.html#target">配置</a>和<a href="https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#platform-specific-dependencies">清单</a>。</p>
+<p>此前，空谓词列表可以用于无条件配置，例如 <code>cfg(all())</code> 用于启用，<code>cfg(any())</code> 用于禁用，但这种含义相当隐式且容易搞反。<code>cfg(true)</code> 和 <code>cfg(false)</code> 提供了一种更直接的方式来表达你的意图。</p>
+<p>具体背景细节可以参考 <a href="https://rust-lang.github.io/rfcs/3695-cfg-boolean-literals.html">RFC-3695</a></p>
+<h2 id="cargo-自动缓存清理"><a class="header" href="#cargo-自动缓存清理">Cargo 自动缓存清理</a></h2>
+<p>从 1.88.0 开始，Cargo 将自动对其主目录中的缓存运行垃圾回收！</p>
+<p>构建时，Cargo 会下载并缓存所需的依赖项。历史上，这些下载的文件永远不会被清理，导致 Cargo 主目录中的磁盘使用量无限增长。在此版本中，Cargo 引入了垃圾回收机制来自动清理旧文件（例如 <code>.crate</code> 文件）。Cargo 将删除从网络下载且 3 个月内未访问的文件，以及从本地系统获取且 1 个月内未访问的文件。请注意，如果在离线状态下运行（使用 <code>--offline</code> 或 <code>--frozen</code>），则不会进行此自动垃圾回收。</p>
+<p>Cargo 1.78 以后会跟踪所需的访问信息以进行此垃圾回收。这是在实际清理开始之前引入的，以减少仍使用早期版本的用户的缓存更换。如果你经常使用比 1.78 版本更早的 Cargo 版本，并且希望某些仅由旧版本访问的 crate 不被重新下载，你可以在 Cargo 配置中设置 <code>cache.auto-clean-frequency = "never"</code>，如<a href="https://doc.rust-lang.org/nightly/cargo/reference/config.html#cache">文档</a>所述。</p>
+<p>有关更多信息，请参阅此功能的原始<a href="https://blog.rust-lang.org/2023/12/11/cargo-cache-cleaning/">不稳定公告</a>。该设计的某些部分仍不稳定，例如 <a href="https://github.com/rust-lang/cargo/issues/13060">cargo#13060</a> 中跟踪的 <code>gc</code> 子命令，因此仍有更多值得期待的内容！</p>
+<h2 id="others"><a class="header" href="#others">Others</a></h2>
+<p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2025/06/26/Rust-1.88.0/#stabilized-apis">原Blog</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../appendix/rust-versions/1.62.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../appendix/rust-versions/1.87.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../appendix/rust-versions/1.64.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -255,13 +245,10 @@ assert_eq!(x, a.len());
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../appendix/rust-versions/1.62.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../appendix/rust-versions/1.87.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../appendix/rust-versions/1.64.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

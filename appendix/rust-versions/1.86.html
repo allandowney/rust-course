@@ -37,6 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc.js"></script>
@@ -93,10 +94,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -144,7 +148,7 @@
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.86.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.86.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -153,7 +157,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -175,7 +184,7 @@
                     <main>
                         <h1 id="rust-新版解读--186--trait-upcasting"><a class="header" href="#rust-新版解读--186--trait-upcasting">Rust 新版解读 | 1.86 | Trait upcasting</a></h1>
 <blockquote>
-<p>Rust 1.86 官方 release doc: <a href="https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html">Announcing Rust 1.86.0 | Rust Blog</a></p>
+<p>Rust 1.86 官方 release doc: <a href="https://blog.rust-lang.org/2025/04/03/Rust-1.86.0/">Announcing Rust 1.86.0 | Rust Blog</a></p>
 </blockquote>
 <p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.86 版本:</p>
 <pre><code class="language-shell">$ rustup update stable
@@ -281,6 +290,9 @@ let _x = &amp;*std::ptr::null::&lt;u8&gt;();
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="../../appendix/rust-versions/1.87.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -292,6 +304,9 @@ let _x = &amp;*std::ptr::null::&lt;u8&gt;();
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="../../appendix/rust-versions/1.87.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -320,6 +335,7 @@ let _x = &amp;*std::ptr::null::&lt;u8&gt;();
         <!-- Custom JS scripts -->
         <script src="../../assets/custom.js"></script>
         <script src="../../assets/bigPicture.js"></script>
+
 
 
     </div>
