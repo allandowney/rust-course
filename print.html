@@ -24429,7 +24429,7 @@ async fn race(
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
-<p>这里其实有一个很有趣的题外话，由于 TCP 连接过程是在模式中发生的，因此当某一个连接过程失败后，它通过 <code>?</code> 返回的 <code>Err</code> 类型并无法匹配 <code>Ok</code>，因此另一个分支会继续被执行，继续连接。</p>
+<p>有趣的题外话：由于 TCP 的连接过程是在模式中发生，因此当某一个连接过程失败后，它通过 <code>?</code> 返回的 <code>Err</code> 类型无法匹配 <code>Ok</code>，导致另一个分支会继续被执行、继续连接。</p>
 <p>如果你把连接过程放在了结果处理中，那连接失败会直接从 <code>race</code> 函数中返回，而不是继续执行另一个分支中的连接！</p>
 <p>还有一个非常重要的点，<strong>借用规则在分支表达式和结果处理中存在很大的不同</strong>。例如上面代码中，我们在两个分支表达式中分别对 <code>data</code> 做了不可变借用，这当然 ok，但是若是两次可变借用，那编译器会立即进行报错。但是转折来了：当在结果处理中进行两次可变借用时，却不会报错，大家可以思考下为什么，提示下：思考下分支在执行完成后会发生什么？</p>
 <pre><pre class="playground"><code class="language-rust edition2021">use tokio::sync::oneshot;
@@ -46622,6 +46622,134 @@ pub unsafe extern "sysv64" fn wrapping_add(a: u64, b: u64) -&gt; u64 {
 <p>有关更多信息，请参阅此功能的原始<a href="https://blog.rust-lang.org/2023/12/11/cargo-cache-cleaning/">不稳定公告</a>。该设计的某些部分仍不稳定，例如 <a href="https://github.com/rust-lang/cargo/issues/13060">cargo#13060</a> 中跟踪的 <code>gc</code> 子命令，因此仍有更多值得期待的内容！</p>
 <h2 id="others-23"><a class="header" href="#others-23">Others</a></h2>
 <p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2025/06/26/Rust-1.88.0/#stabilized-apis">原Blog</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-新版解读--189--todo"><a class="header" href="#rust-新版解读--189--todo">Rust 新版解读 | 1.89 | TODO</a></h1>
+<blockquote>
+<p>Rust 1.89 官方 release doc: <a href="https://blog.rust-lang.org/2025/08/07/Rust-1.89.0/">Announcing Rust 1.89.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.89 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="常量泛型的显式推断参数"><a class="header" href="#常量泛型的显式推断参数">常量泛型的显式推断参数</a></h2>
+<p>Rust现在支持在常量泛型参数中使用 <code>_</code>，从上下文推断其值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn all_false&lt;const LEN: usize&gt;() -&gt; [bool; LEN] {
+  [false; _]
+}
+<span class="boring">}</span></code></pre></pre>
+<p>与类型中使用 <code>_</code> 的规则类似，在函数签名中不允许将 <code>_</code> 作为常量泛型参数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 不允许这样做
+pub const fn all_false&lt;const LEN: usize&gt;() -&gt; [bool; _] {
+  [false; LEN]
+}
+
+// 这个也不允许
+pub const ALL_FALSE: [bool; _] = all_false::&lt;10&gt;();
+<span class="boring">}</span></code></pre></pre>
+<h2 id="生命周期语法不匹配的警告"><a class="header" href="#生命周期语法不匹配的警告">生命周期语法不匹配的警告</a></h2>
+<p>函数签名中的<a href="https://doc.rust-lang.org/1.89.0/book/ch10-03-lifetime-syntax.html#lifetime-elision">生命周期省略</a>是 Rust 语言的一个便利特性，但也可能成为新手和专家的绊脚石。特别是当类型中隐含生命周期但语法上不明显时：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 返回类型 `std::slice::Iter` 有一个生命周期，
+// 但是看起来没有任何提示。
+//
+// 生命周期省略推断返回类型的生命周期
+// 与 `scores` 相同。
+fn items(scores: &amp;[u8]) -&gt; std::slice::Iter&lt;u8&gt; {
+   scores.iter()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>类似这样的代码现在会默认产生警告：</p>
+<pre><code class="language-text">warning: hiding a lifetime that's elided elsewhere is confusing
+ --&gt; src/lib.rs:1:18
+  |
+1 | fn items(scores: &amp;[u8]) -&gt; std::slice::Iter&lt;u8&gt; {
+  |                  ^^^^^     -------------------- the same lifetime is hidden here
+  |                  |
+  |                  the lifetime is elided here
+  |
+  = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+  = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+  |
+1 | fn items(scores: &amp;[u8]) -&gt; std::slice::Iter&lt;'_, u8&gt; {
+  |                                             +++
+</code></pre>
+<p>我们<a href="https://github.com/rust-lang/rust/pull/46254">最初在2018年</a>尝试改进这种情况，作为 <a href="https://github.com/rust-lang/rust/issues/54910"><code>rust_2018_idioms</code></a> 警告组的一部分，但关于 <code>elided_lifetimes_in_paths</code> 警告的<a href="https://github.com/rust-lang/rust/issues/131725">强烈反馈</a>表明它过于生硬，因为它会警告那些对理解函数无关紧要的生命周期：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+
+struct Greeting;
+
+impl fmt::Display for Greeting {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        //                -----^^^^^^^^^ expected lifetime parameter
+        // 知道`Formatter`有生命周期并不会帮助程序员
+        "howdy".fmt(f)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们随后意识到，我们想要消除的混淆发生在以下情况：</p>
+<ol>
+<li>生命周期省略推断规则将输入生命周期与输出生命周期<em>连接</em>起来</li>
+<li>语法上不明显存在生命周期</li>
+</ol>
+<p>Rust中有两种语法表明生命周期的存在：<code>&amp;</code> 和 <code>'</code>，其中 <code>'</code> 又分为推断生命周期 <code>'_</code> 和命名生命周期 <code>'a</code>。当类型使用命名生命周期时，生命周期省略不会为该类型推断生命周期。根据这些标准，我们可以构建三组：</p>
+<div class="table-wrapper"><table><thead><tr><th>明显有生命周期</th><th>允许生命周期省略推断生命周期</th><th>示例</th></tr></thead><tbody>
+<tr><td>否</td><td>是</td><td><code>ContainsLifetime</code></td></tr>
+<tr><td>是</td><td>是</td><td><code>&amp;T</code>, <code>&amp;'_ T</code>, <code>ContainsLifetime&lt;'_&gt;</code></td></tr>
+<tr><td>是</td><td>否</td><td><code>&amp;'a T</code>, <code>ContainsLifetime&lt;'a&gt;</code></td></tr>
+</tbody></table>
+</div>
+<p><code>mismatched_lifetime_syntaxes</code> 警告检查函数的输入和输出是否属于同一组。对于上面的初始示例，<code>&amp;[u8]</code> 属于第二组，而<code>std::slice::Iter&lt;u8&gt;</code> 属于第一组。我们说第一组中的生命周期是<em>隐藏的</em>。</p>
+<p>由于输入和输出生命周期属于不同组，警告会提示这个函数，减少对不明显但重要的生命周期的混淆。</p>
+<p><code>mismatched_lifetime_syntaxes</code> 警告取代了 <code>elided_named_lifetimes</code> 警告，后者专门针对命名生命周期做了类似的事情。</p>
+<p>未来对 <code>elided_lifetimes_in_paths</code> 警告的工作计划将其拆分为更集中的子警告，并考虑最终警告其中的一部分。</p>
+<h2 id="更多-x86-目标特性"><a class="header" href="#更多-x86-目标特性">更多 x86 目标特性</a></h2>
+<p><code>target_feature</code> 属性现在支持 x86 上的 <code>sha512</code>、<code>sm3</code>、<code>sm4</code>、<code>kl</code> 和 <code>widekl</code> 目标特性。此外，x86 上也支持许多 <code>avx512</code> 内部函数和目标特性：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[target_feature(enable = "avx512bw")]
+pub fn cool_simd_code(/* .. */) -&gt; /* ... */ {
+    /* ... */
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="跨平台文档测试"><a class="header" href="#跨平台文档测试">跨平台文档测试</a></h2>
+<p>现在运行 <code>cargo test --doc --target other_target</code> 时会测试文档测试，这可能会导致一些文档测试因失败而被测试出来。</p>
+<p>可以通过用 <code>ignore-&lt;target&gt;</code> 注解文档测试来禁用失败的测试（<a href="https://doc.rust-lang.org/stable/rustdoc/write-documentation/documentation-tests.html#ignoring-targets">文档</a>）：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// ```ignore-x86_64
+/// panic!("something")
+/// ```
+pub fn my_function() { }
+<span class="boring">}</span></code></pre></pre>
+<h2 id="extern-c-函数中的-i128-和-u128"><a class="header" href="#extern-c-函数中的-i128-和-u128"><code>extern "C"</code> 函数中的 <code>i128</code> 和 <code>u128</code></a></h2>
+<p><code>i128</code> 和 <code>u128</code> 不再触发 <code>improper_ctypes_definitions</code> 警告，意味着这些类型可以在 <code>extern "C"</code> 函数中使用而不产生警告。这有一些注意事项：</p>
+<ul>
+<li>当类型可用时，Rust 类型与 C 中的（无符号）<code>__int128</code> 在 ABI 和布局上是兼容的。</li>
+<li>在 <code>__int128</code> 不可用的平台上，<code>i128</code> 和 <code>u128</code> 不一定与任何 C 类型对齐。</li>
+<li><code>i128</code> 不一定与任何平台上的 <code>_BitInt(128)</code> 兼容，因为 <code>_BitInt(128)</code> 和 <code>__int128</code> 可能有不同的 ABI（如在 x86-64 上）。</li>
+</ul>
+<p>这是去年布局变更的最后一点后续工作：<a href="https://blog.rust-lang.org/2024/03/30/i128-layout-update">https://blog.rust-lang.org/2024/03/30/i128-layout-update</a>。</p>
+<h2 id="将-x86_64-apple-darwin-降级为-tier-2-并保留工具链"><a class="header" href="#将-x86_64-apple-darwin-降级为-tier-2-并保留工具链">将 <code>x86_64-apple-darwin</code> 降级为 Tier 2 并保留工具链</a></h2>
+<p>GitHub 将很快<a href="https://github.blog/changelog/2025-07-11-upcoming-changes-to-macos-hosted-runners-macos-latest-migration-and-xcode-support-policy-updates/">停止</a>为公共仓库提供免费的 macOS x86_64 运行器。苹果也宣布了<a href="https://en.wikipedia.org/wiki/Mac_transition_to_Apple_silicon#Timeline">计划</a>停止支持 x86_64 架构。</p>
+<p>根据这些变化，Rust 项目正在<a href="https://github.com/rust-lang/rfcs/pull/3841">将 <code>x86_64-apple-darwin</code> 目标</a>从<a href="https://doc.rust-lang.org/stable/rustc/platform-support.html#tier-1-with-host-tools">带工具链的 Tier 1</a>降级为<a href="https://doc.rust-lang.org/stable/rustc/platform-support.html#tier-2-with-host-tools">带工具链的 Tier 2</a>。这意味着该目标（包括 <code>rustc</code> 和 <code>cargo</code> 等工具）将保证构建，但不保证通过我们的自动化测试套件。</p>
+<p>我们预计在 Rust 1.89 和 1.90 发布之间会接受降级为带工具链的 Tier 2 的 RFC，这意味着 Rust 1.89 将是 <code>x86_64-apple-darwin</code> 作为 Tier 1 目标的最后一个 Rust 版本。</p>
+<p>对于用户来说，这一变化不会立即产生影响。只要目标保持在 Tier 2，Rust 项目仍将通过 <code>rustup</code> 或其他安装方法分发标准库和编译器的构建。不过随着时间的推移，测试覆盖率的降低可能会导致问题或兼容性下降。</p>
+<h2 id="wasm32-unknown-unknown-目标上的标准兼容c-abi"><a class="header" href="#wasm32-unknown-unknown-目标上的标准兼容c-abi"><code>wasm32-unknown-unknown</code> 目标上的标准兼容C ABI</a></h2>
+<p><code>wasm32-unknown-unknown</code> 目标上的 <code>extern "C"</code> 函数现在具有标准兼容的 ABI。更多信息请参阅这篇博客文章：<a href="https://blog.rust-lang.org/2025/04/04/c-abi-changes-for-wasm32-unknown-unknown">https://blog.rust-lang.org/2025/04/04/c-abi-changes-for-wasm32-unknown-unknown</a>。</p>
+<h2 id="平台支持"><a class="header" href="#平台支持">平台支持</a></h2>
+<ul>
+<li><a href="https://github.com/rust-lang/rfcs/pull/3841"><code>x86_64-apple-darwin</code>正在被降级为带工具链的Tier 2</a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/142053">添加新的Tier-3目标<code>loongarch32-unknown-none</code>和<code>loongarch32-unknown-none-softfloat</code></a></li>
+</ul>
+<p>有关 Rust 的分层平台支持的更多信息，请参阅 Rust 的<a href="https://doc.rust-lang.org/stable/rustc/platform-support.html">平台支持页面</a>。</p>
+<h2 id="others-24"><a class="header" href="#others-24">Others</a></h2>
+<p>其它更新细节，和稳定的 API 列表，参考<a href="https://blog.rust-lang.org/2025/08/07/Rust-1.89.0/#stabilized-apis">原Blog</a></p>
 
                     </main>
 

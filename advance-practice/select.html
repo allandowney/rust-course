@@ -489,7 +489,7 @@ async fn race(
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
-<p>这里其实有一个很有趣的题外话，由于 TCP 连接过程是在模式中发生的，因此当某一个连接过程失败后，它通过 <code>?</code> 返回的 <code>Err</code> 类型并无法匹配 <code>Ok</code>，因此另一个分支会继续被执行，继续连接。</p>
+<p>有趣的题外话：由于 TCP 的连接过程是在模式中发生，因此当某一个连接过程失败后，它通过 <code>?</code> 返回的 <code>Err</code> 类型无法匹配 <code>Ok</code>，导致另一个分支会继续被执行、继续连接。</p>
 <p>如果你把连接过程放在了结果处理中，那连接失败会直接从 <code>race</code> 函数中返回，而不是继续执行另一个分支中的连接！</p>
 <p>还有一个非常重要的点，<strong>借用规则在分支表达式和结果处理中存在很大的不同</strong>。例如上面代码中，我们在两个分支表达式中分别对 <code>data</code> 做了不可变借用，这当然 ok，但是若是两次可变借用，那编译器会立即进行报错。但是转折来了：当在结果处理中进行两次可变借用时，却不会报错，大家可以思考下为什么，提示下：思考下分支在执行完成后会发生什么？</p>
 <pre><pre class="playground"><code class="language-rust edition2021">use tokio::sync::oneshot;
