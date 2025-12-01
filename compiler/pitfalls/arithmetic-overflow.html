@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-9ba322f2.js"></script>
@@ -189,23 +189,28 @@
 let v = x as u8;
 println!("{}", v)
 <span class="boring">}</span></code></pre>
-<p>最终程序会输出<code>255</code>, 因此大家可能会下意识地就觉得算数操作在 Rust 中只会导致结果的不正确，并不会导致异常。但是实际上，如果是因为算术操作符导致的溢出，就会让整个程序 panic:</p>
-<pre class="playground"><code class="language-rust edition2021">fn main() {
+<p>最终程序会输出<code>255</code>, 因此大家可能会猜测算术溢出在 Rust 中也会只导致截断。但是实际上，如果在 debug 模式下运行，算术溢出会引发 panic:</p>
+<pre class="playground"><code class="language-rust edition2021">#[allow(arithmetic_overflow)] // 阻止编译器在编译时发现问题
+fn main() {
     let x: u8 = 10;
-
     let v = x + u8::MAX;
     println!("{}", v)
 }</code></pre>
-<p>输出结果如下:</p>
-<pre><code class="language-console">thread 'main' panicked at 'attempt to add with overflow', src/main.rs:5:13
+<p>而在 release 模式下为了最大化性能，编译器不会插入算术溢出检查，所以不会导致 panic，而是变成<a href="https://stackoverflow.com/a/60238510/19171888">二补数</a>。</p>
+<p>如何理解这种拧巴的行为？为了处理算术溢出，Rust 的基本运算实则以下关联函数：</p>
+<ul>
+<li><code>wrapping_xxx</code>：正常时返回数值，溢出时回到值域的另一端（<code>MAX+1=MIN</code>, <code>MIN-1=MAX</code>）</li>
+<li><code>check_xxx</code>：正常时返回<code>Some(x)</code>，溢出时返回<code>None</code></li>
+<li><code>unchecked_xxx</code>：正常时返回数值，溢出时 UB，不安全</li>
+<li><code>saturating_xxx</code>：正常时返回数值，溢出时定在值域边缘（<code>MAX+1=MAX</code>, <code>MIN-1=MIN</code>）</li>
+<li><code>overflowing_xxx</code>：正常时返回<code>(x, false)</code>，溢出时返回<code>(wrapped(x), true)</code></li>
+<li><code>strict_xxx</code>：正常时返回数值，溢出时 panic</li>
+</ul>
+<p>特别地，除以<code>0</code>在任何情况下都会被检查。</p>
+<p>运算符的默认行为在 debug 模式下是<code>strict_xxx</code>，release 模式下是<code>wrapping</code>。想在 release 模式下也默认到<code>strict_xxx</code>，可以在<code>Cargo.toml</code>加上：</p>
+<pre><code class="language-toml">[profile.release]
+overflow-checks = true
 </code></pre>
-<p>那么当我们确实有这种需求时，该如何做呢？可以使用 Rust 提供的<code>checked_xxx</code>系列方法：</p>
-<pre class="playground"><code class="language-rust edition2021">fn main() {
-    let x: u8 = 10;
-
-    let v = x.checked_add(u8::MAX).unwrap_or(0);
-    println!("{}", v)
-}</code></pre>
 <p>也许你会觉得本章内容其实算不上什么陷阱，但是在实际项目快速迭代中，越是不起眼的地方越是容易出错：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let v = production_rate_per_hour(5);
@@ -225,10 +230,11 @@ pub fn production_rate_per_hour(speed: u8) -&gt; f64 {
 pub fn working_items_per_minute(speed: u8) -&gt; u32 {
     (production_rate_per_hour(speed) / 60 as f64) as u32
 }</code></pre>
-<p>上述代码中，<code>speed * cph</code>就会直接 panic:</p>
+<p>上述代码在 debug 模式下<code>speed * cph</code>就会直接 panic:</p>
 <pre><code class="language-console">thread 'main' panicked at 'attempt to multiply with overflow', src/main.rs:10:18
 </code></pre>
-<p>是不是还藏的挺隐蔽的？因此大家在 Rust 中做数学运算时，要多留一个心眼，免得上了生产才发现问题所在。或者，你也可以做好单元测试:)</p>
+<p>release 模式下则输出<code>72.9</code>。</p>
+<p>是不是还藏的挺隐蔽的？因此大家在 Rust 中做数学运算时，要多留一个心眼，免得上了生产才发现问题。或者直接打开<code>overflow-checks</code>直接 panic。</p>
 
                     </main>
 
@@ -286,7 +292,7 @@ pub fn working_items_per_minute(speed: u8) -&gt; u32 {
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

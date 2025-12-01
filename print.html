@@ -29,7 +29,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/style-78591068.css">
+        <link rel="stylesheet" href="theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-42c00304.js";
+            window.path_to_searchindex_js = "searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-9ba322f2.js"></script>
@@ -2456,8 +2456,8 @@ fn main() {
 fn greet(name: String) {
   println!("Hello, {}!", name);
 }</code></pre>
-<p><code>greet</code> 函数接受一个字符串类型的 <code>name</code> 参数，然后打印到终端控制台中，非常好理解，你们猜猜，这段代码能否通过编译？</p>
-<pre><code class="language-conole">error[E0308]: mismatched types
+<p><code>greet</code> 函数接受字符串类型的 <code>name</code> 参数，打印到终端控制台中，非常好理解。但大家猜猜，这段代码能否通过编译？</p>
+<pre><code class="language-console">error[E0308]: mismatched types
  --&gt; src/main.rs:3:11
   |
 3 |     greet(my_name);
@@ -5371,7 +5371,7 @@ fn main() {
 </span>fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
 <span class="boring">}</span></code></pre>
 <p>该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 <code>largest&lt;T&gt;</code> 对泛型参数 <code>T</code> 进行了声明，然后才在函数参数中进行使用该泛型参数 <code>list: &amp;[T]</code> （还记得 <code>&amp;[T]</code> 类型吧？这是<a href="https://course.rs/basic/compound-type/array.html#数组切片">数组切片</a>）。</p>
-<p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其类型是元素为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
+<p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其元素是类型为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
 <p>下面是一个错误的泛型函数的实现：</p>
 <pre class="playground"><code class="language-rust edition2021">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -7647,7 +7647,7 @@ help: consider introducing a named lifetime parameter // 考虑引入一个生�
 <blockquote>
 <p>生命周期标注并不会改变任何引用的实际作用域 – 鲁迅</p>
 </blockquote>
-<p>鲁迅说过的话，总是值得重点标注，当你未来更加理解生命周期时，你才会发现这句话的精髓和重要！现在先简单记住，<strong>标记的生命周期只是为了取悦编译器，让编译器不要难为我们</strong>，记住了吗？没记住，再回头看一遍，这对未来你遇到生命周期问题时会有很大的帮助！</p>
+<p>鲁迅说过的话，总是值得重点关注，当你未来更加理解生命周期时，你才会发现这句话的精髓和重要！现在先简单记住，<strong>标记的生命周期只是为了取悦编译器，让编译器不要难为我们</strong>，记住了吗？没记住，再回头看一遍，这对未来你遇到生命周期问题时会有很大的帮助！</p>
 <p>在很多时候编译器是很聪明的，但是总有些时候，它会化身大聪明，自以为什么都很懂，然后去拒绝我们代码的执行，此时，就需要我们通过生命周期标注来告诉这个大聪明：别自作聪明了，听我的就好。</p>
 <p>例如一个变量，只能活一个花括号，那么就算你给它标注一个活全局的生命周期，它还是会在前面的花括号结束处被释放掉，并不会真的全局存活。</p>
 <p>生命周期的语法也颇为与众不同，以 <code>'</code> 开头，名称往往是一个单独的小写字母，大多数人都用 <code>'a</code> 来作为生命周期的名称。 如果是引用类型的参数，那么生命周期会位于引用符号 <code>&amp;</code> 之后，并用一个空格来将生命周期和引用参数分隔开:</p>
@@ -13907,7 +13907,7 @@ fn display(s: &amp;str) {
     let s1: &amp;str = &amp;s;
     let s2: String = s.to_string();
 }</code></pre>
-<p>对于 <code>s1</code>，我们通过两次 <code>Deref</code> 将 <code>&amp;str</code> 类型的值赋给了它（<strong>赋值操作需要手动解引用</strong>）；而对于 <code>s2</code>，我们在其上直接调用方法 <code>to_string</code>，实际上 <code>MyBox</code> 并没有实现该方法，能调用 <code>to_string</code>，完全是因为编译器对 <code>MyBox</code> 应用了 <code>Deref</code> 的结果（<strong>方法调用会自动解引用</strong>）。</p>
+<p>对于 <code>s1</code>，我们通过两次 <code>Deref</code> 将 <code>&amp;str</code> 类型的值赋给了它（<strong>赋值操作需要手动解引用</strong>）；而对于 <code>s2</code>，我们在其上直接调用方法 <code>to_string</code>，实际上 <code>MyBox</code> 并没有实现该方法，能调用 <code>to_string</code>，完全是因为编译器对 <code>MyBox</code> 应用了 <code>Deref</code>（<strong>方法调用会自动解引用</strong>）。</p>
 <h2 id="deref-规则总结"><a class="header" href="#deref-规则总结">Deref 规则总结</a></h2>
 <p>在上面，我们零碎的介绍了不少关于 <code>Deref</code> 特征的知识，下面来通过较为正式的方式来对其规则进行下总结。</p>
 <p>一个类型为 <code>T</code> 的对象 <code>foo</code>，如果 <code>T: Deref&lt;Target=U&gt;</code>，那么，相关 <code>foo</code> 的引用 <code>&amp;foo</code> 在应用的时候会自动转换为 <code>&amp;U</code>。</p>
@@ -14073,7 +14073,7 @@ struct Foo;
 
 impl Drop for Foo {
     fn drop(&amp;mut self) {
-        println!("Dropping Foo!")
+        println!("Dropping Foo!");
     }
 }
 
@@ -14115,7 +14115,7 @@ Dropping HasDrop2!
 }
 <span class="boring">}</span></code></pre>
 <p>原因在于，Rust 自动为几乎所有类型都实现了 <code>Drop</code> 特征，因此就算你不手动为结构体实现 <code>Drop</code>，它依然会调用默认实现的 <code>drop</code> 函数，同时再调用每个字段的 <code>drop</code> 方法，最终打印出：</p>
-<pre><code class="language-cnosole">Dropping HasDrop1!
+<pre><code class="language-console">Dropping HasDrop1!
 Dropping HasDrop2!
 </code></pre>
 <h2 id="手动回收"><a class="header" href="#手动回收">手动回收</a></h2>
@@ -14942,7 +14942,7 @@ fn main() {
         pointer_to_value: &amp;s
     };
 }</code></pre>
-<p>运行后报错：</p>
+<p>编译时报错：</p>
 <pre><code class="language-console"> let v = SelfRef {
 12 |         value: s,
    |                - value moved here
@@ -16187,7 +16187,7 @@ fn main() {
 </ul>
 <p>这两点看起来不起眼，但要正确的使用，其实是相当不简单的，对于其它语言，忘记释放锁是经常发生的，虽然 Rust 通过智能指针的<code>drop</code>机制帮助我们避免了这一点，但是由于不及时释放锁导致的性能问题也是常见的。</p>
 <p>正因为这种困难性，导致很多用户都热衷于使用消息传递的方式来实现同步，例如 Go 语言直接把<code>channel</code>内置在语言特性中，甚至还有无锁的语言，例如<code>erlang</code>，完全使用<code>Actor</code>模型，依赖消息传递来完成共享和同步。幸好 Rust 的类型系统、所有权机制、智能指针等可以很好的帮助我们减轻使用锁时的负担。</p>
-<p>另一个值的注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://course.rs/advance/circle-self-ref/circle-reference.html">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
+<p>另一个值得注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://course.rs/advance/circle-self-ref/circle-reference.html">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
 <h2 id="死锁"><a class="header" href="#死锁">死锁</a></h2>
 <p>在 Rust 中有多种方式可以创建死锁，了解这些方式有助于你提前规避可能的风险，一起来看看。</p>
 <h4 id="单线程死锁"><a class="header" href="#单线程死锁">单线程死锁</a></h4>
@@ -18272,7 +18272,7 @@ fn mul(a: u64, b: u64) -&gt; u128 {
     unsafe {
         asm!(
             // The x86 mul instruction takes rax as an implicit input and writes
-            // the 128-bit result of the multiplication to rax:rdx.
+            // the 128-bit result of the multiplication to rdx:rax.
             "mul {}",
             in(reg) a,
             inlateout("rax") b =&gt; lo,
@@ -18286,7 +18286,7 @@ fn mul(a: u64, b: u64) -&gt; u128 {
 <p>这段代码使用了 <code>mul</code> 指令，将两个 64 位的输入相乘，生成一个 128 位的结果。</p>
 <p>首先将变量 <code>a</code> 的值存到寄存器 <code>reg</code> 中，其次显式使用寄存器 <code>rax</code>，它的值来源于变量 <code>b</code>。结果的低 64 位存储在 <code>rax</code> 中，然后赋给变量 <code>lo</code> ，而结果的高 64 位则存在 <code>rdx</code> 中，最后赋给 <code>hi</code>。</p>
 <h2 id="clobbered-寄存器"><a class="header" href="#clobbered-寄存器">Clobbered 寄存器</a></h2>
-<p>在很多情况下，无需作为输出的状态都会被内联汇编修改，这个状态被称之为 “clobbered”。</p>
+<p>在很多情况下，无需作为输出的寄存器的状态都会被内联汇编修改，这个状态被称之为 “clobbered”。</p>
 <p>我们需要告诉编译器相关的情况，因为编译器需要在内联汇编语句块的附近存储和恢复这种状态。</p>
 <pre class="playground"><code class="language-rust edition2021">use std::arch::asm;
 
@@ -18325,7 +18325,7 @@ fn main() {
 }</code></pre>
 <p>例子中，我们使用了<code>cpuid</code> 指令。这个指令会将CPU的最大cpuid参数写入<code>eax</code>中，同时将CPU的生厂商ID以ASCII字符的形式写入到 <code>ebx</code> 、<code>edx</code> 和 <code>ecx</code> 中。</p>
 <p>即使 <code>eax</code> 从没有被读取，我们依然需要告知编译器这个寄存器被修改过，这样编译器就可以在执行汇编之前存储寄存器中的值。这个需要通过将输出声明为 <code>_</code> 而不是一个具体的变量名，代表着该输出值被丢弃。</p>
-<p>这段代码也会绕过一个限制： <code>ebx</code> 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它拥有寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器使用该寄存器的满足一个通用寄存器的需求(例如 <code>in(reg)</code> )。 但这样使用后， <code>reg</code> 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。</p>
+<p>这段代码也会绕过一个限制： <code>ebx</code> 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它自己拥有该寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器在分配通用寄存器时恰好选择了它(例如 <code>in(reg)</code> )。 但这样使用后， <code>reg</code> 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。</p>
 <p>为了解决这个问题，我们使用 <code>rdi</code> 来存储指向输出数组的指针，通过 <code>push</code> 的方式存储 <code>ebx</code>：在汇编代码块的内部读取 <code>ebx</code> 的值，然后写入到输出数组。后面再可以通过 <code>pop</code> 的方式来回复 <code>ebx</code> 到初始的状态。</p>
 <p><code>push</code> 和 <code>pop</code> 使用完成的 64 位 <code>rbx</code> 寄存器，来确保整个寄存器的内容都被保存。如果是在 32 位机器上，代码将使用 <code>ebx</code> 替代。</p>
 <p>还可以在汇编代码内部使用通用寄存器:</p>
@@ -18352,7 +18352,7 @@ assert_eq!(x, 4 * 6);
 <p>感兴趣的同学可以看看如下英文资料: <a href="https://doc.rust-lang.org/reference/inline-assembly.html">Rust Reference</a> 和 <a href="https://doc.rust-lang.org/rust-by-example/unsafe/asm.html#clobbered-registers">Rust By Example</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="macro-宏编程"><a class="header" href="#macro-宏编程">Macro 宏编程</a></h1>
-<p>在编程世界可以说是谈“宏”色变，原因在于 C 语言中的宏是非常危险的东东，但并不是所有语言都像 C 这样，例如对于古老的语言 Lisp 来说，宏就是就是一个非常强大的好帮手。</p>
+<p>在编程世界可以说是谈“宏”色变，原因在于 C 语言中的宏是非常危险的东东，但并不是所有语言都像 C 这样，例如对于古老的语言 Lisp 来说，宏就是一个非常强大的好帮手。</p>
 <p>那话说回来，在 Rust 中宏到底是好是坏呢？本章将带你揭开它的神秘面纱。</p>
 <p>事实上，我们虽然没有见过宏，但是已经多次用过它，例如在全书的第一个例子中就用到了：<code>println!("你好，世界")</code>，这里 <code>println!</code> 就是一个最常用的宏，可以看到它和函数最大的区别是：它在调用时多了一个 <code>!</code>，除此之外还有 <code>vec!</code> 、<code>assert_eq!</code> 都是相当常用的，可以说<strong>宏在 Rust 中无处不在</strong>。</p>
 <p>细心的读者可能会注意到 <code>println!</code> 后面跟着的是 <code>()</code>，而 <code>vec!</code> 后面跟着的是 <code>[]</code>，这是因为宏的参数可以使用 <code>()</code>、<code>[]</code> 以及 <code>{}</code>:</p>
@@ -21203,7 +21203,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }
@@ -21228,7 +21228,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -21250,7 +21250,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -21287,7 +21287,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }
@@ -22454,7 +22454,7 @@ async fn process(socket: TcpStream) {
     }
 }</code></pre>
 <p>现在运行我们的简单服务器 :</p>
-<pre><code class="language-shel">cargo run
+<pre><code class="language-shell">cargo run
 </code></pre>
 <p>此时服务器会处于循环等待以接收连接的状态，接下来在一个新的终端窗口中启动上一章节中的 <code>redis</code> 客户端，由于相关代码已经放入 <code>examples</code> 文件夹下，因此我们可以使用 <code>--example</code> 来指定运行该客户端示例:</p>
 <pre><code class="language-shell">$ cargo run --example hello-redis
@@ -27034,9 +27034,9 @@ Hello, world!
 <p><code>Cargo</code> 解决了之前描述的所有问题，同时它保证了每次重复的构建都不会改变上一次构建的结果，这背后是通过完善且强大的依赖包版本管理来实现的。</p>
 <p>总之，<code>Cargo</code> 为了实现目标，做了四件事：</p>
 <ul>
-<li>引入两个元数据文件，包含项目的方方面面信息: <code>Cargo.toml</code> 和 <code>Cargo.lock</code></li>
+<li>引入两个元数据文件，包含项目方方面面的信息: <code>Cargo.toml</code> 和 <code>Cargo.lock</code></li>
 <li>获取和构建项目的依赖，例如 <code>Cargo.toml</code> 中的依赖包版本描述，以及从 <code>crates.io</code> 下载包</li>
-<li>调用 <code>rustc</code> (或其它编译器) 并使用的正确的参数来构建项目，例如 <code>cargo build</code></li>
+<li>调用 <code>rustc</code> (或其它编译器) 并使用正确的参数来构建项目，例如 <code>cargo build</code></li>
 <li>引入一些惯例，让项目的使用更加简单</li>
 </ul>
 <p>毫不夸张的说，得益于 <code>Cargo</code> 的标准化，只要你使用它构建过一个项目，那构建其它使用 <code>Cargo</code> 的项目，也将不存在任何困难。</p>
@@ -29508,7 +29508,7 @@ pub fn sha3_224() -&gt; MessageDigest {
 <p>有些开发为了让特定的日志在控制上显示更明显，还会为不同的级别使用不同颜色的文字。</p>
 <h4 id="输出位置"><a class="header" href="#输出位置">输出位置</a></h4>
 <p>通常来说，日志可以输出两个地方：终端控制台和文件。对于前者，我们还有一个称呼标准输出，例如使用 <code>println!</code> 打印到终端的信息就是输出到标准输出中。</p>
-<p>如果没有日志持久化的需求，你只是为了调试程序，建议输出到控制台即可。悄悄的说一句，我们还可以为不同的级别设定不同的输出位置，例如 <code>Debug</code> 日志输出到控制台，既方便开发查看，但又不会占用硬盘，而 <code>Info</code> 和 <code>Warning</code> 日志可以输出到文件 <code>info.log</code> 中，至于 <code>Error</code>、<code>Fatal</code> 则可以输出到 <code>error.log</code> 中。</p>
+<p>如果没有日志持久化的需求，你只是为了调试程序，建议输出到控制台即可。悄悄的说一句，我们还可以为不同的级别设定不同的输出位置，例如 <code>Debug</code> 日志输出到控制台，既方便开发查看，又不会占用硬盘，而 <code>Info</code> 和 <code>Warning</code> 日志可以输出到文件 <code>info.log</code> 中，至于 <code>Error</code>、<code>Fatal</code> 则可以输出到 <code>error.log</code> 中。</p>
 <p>但是如果大家以为只有输出到文件才能持久化日志，那你就错了，在后面的日志采集我们会详细介绍，先来看看日志查看。</p>
 <h2 id="日志查看"><a class="header" href="#日志查看">日志查看</a></h2>
 <p>关于如何查看日志，相信大家都非常熟悉了，常用的方式有三种(事实上，可能也只有这三种):</p>
@@ -30755,7 +30755,7 @@ fn on_record(
 <p>就目前而言，对于三种模型的数据处理和存储推荐如下:</p>
 <ul>
 <li>Trace，使用 jaeger 接收采集上来的 trace 数据，经过处理后存储到一个分布式数据库中，例如 cassandra、scyllaDB 等</li>
-<li>Log，如果对日志的关键词索引有较高的要求，还是建议使用 ElasticeSearch，如果可以提前在日志中通过 kv 的形式打上标签，然后未来也只需要通过标签来索引，那可以考虑使用 loki</li>
+<li>Log，如果对日志的关键词索引有较高的要求，还是建议使用 ElasticSearch，如果可以提前在日志中通过 kv 的形式打上标签，然后未来也只需要通过标签来索引，那可以考虑使用 loki</li>
 <li>Metrics，啥都不用说了，prometheus 走起，当然还可以使用 influxdb，后者正在使用 Rust 重写，期待未来的一飞冲天</li>
 </ul>
 <h2 id="数据查询和展示"><a class="header" href="#数据查询和展示">数据查询和展示</a></h2>
@@ -31307,7 +31307,7 @@ https://www.reddit.com/r/rust/comments/rxrkbo/what_is_your_workflow_when_working
 <pre><code class="language-shell">$ cargo new --lib lists
 $ cd lists
 </code></pre>
-<p>之后，我们会将每个一个链表放入单独的文件中，需要注意的是我们会尽量模拟真实的 Rust 开发场景：你写了一段代码，然后编译器开始跳出试图教你做事，只有这样才能真正学会 Rust，温室环境是无法培养出强大的 Rustacean 的。</p>
+<p>之后，我们会将每一个链表放入单独的文件中，需要注意的是我们会尽量模拟真实的 Rust 开发场景：你写了一段代码，然后编译器开始跳出试图教你做事，只有这样才能真正学会 Rust，温室环境是无法培养出强大的 Rustacean 的。</p>
 <h4 id="义务告知"><a class="header" href="#义务告知">义务告知</a></h4>
 <p>首先，本书不是保姆式教程，而且我个人认为编程应该是快乐，这种快乐往往需要你自己发现而不是别人的事无巨细的讲解。</p>
 <p>其次，我讨厌链表。链表真的是一种糟糕的数据结构，尽管它在部分场景下确实很有用：</p>
@@ -31935,7 +31935,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 <p>事实上，我们在这里做了提前优化，否则可以使用 <code>while let Some(_) = self.pop() { }</code>, 这种实现显然更加简单. 那么问题来了：它们的区别是什么，有哪些性能上的好处？特别是在链表不仅仅支持 <code>i32</code> 时。</p>
 <details>
   <summary>点击这里展开答案</summary>
-<p><code>self.pop()</code> 的会返回 <code>Option&lt;i32&gt;</code>, 而我们之前的实现仅仅对智能指针 <code>Box&lt;Node&gt;</code> 进行操作。前者会对值进行拷贝，而后者仅仅使用的是指针类型。</p>
+<p><code>self.pop()</code> 会返回 <code>Option&lt;i32&gt;</code>, 而我们之前的实现仅仅对智能指针 <code>Box&lt;Node&gt;</code> 进行操作。前者会对值进行拷贝，而后者仅仅使用的是指针类型。</p>
 <p>当链表中包含的值是其他较大的类型时，那这个拷贝的开销将变得非常高昂。</p>
 </details>
 <h2 id="最终代码"><a class="header" href="#最终代码">最终代码</a></h2>
@@ -34098,7 +34098,7 @@ impl&lt;T&gt; List&lt;T&gt; {
 
 impl&lt;T&gt; Iterator for IntoIter&lt;T&gt; {
     type Item = T;
-    fn next(&amp;mut self) -&gt; Option&lt;T&gt; {
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
         self.0.pop_front()
     }
 }
@@ -34109,7 +34109,7 @@ impl&lt;T&gt; Iterator for IntoIter&lt;T&gt; {
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; DoubleEndedIterator for IntoIter&lt;T&gt; {
-    fn next_back(&amp;mut self) -&gt; Option&lt;T&gt; {
+    fn next_back(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
         self.0.pop_back()
     }
 }
@@ -42290,7 +42290,7 @@ error[E0499]: cannot borrow `arr[_]` as mutable more than once at a time
 <li><code>&amp;mut arr[i]</code>报错，因为在上一次循环中，已经借用过同样的可变引用<code>&amp;mut arr[i]</code></li>
 <li><code>tile</code>的生命周期跟<code>arr</code>不一致</li>
 </ol>
-<p>奇了怪了，跟我们之前的分析完全背道而驰，按理来说<code>arr.len()</code>的借用应该在调用后立刻结束，而不是持续到后面的代码行；同时可变借用<code>&amp;mut arr[i]</code>也应该随着每次循环的结束而结束，为什么会前后两次循环会因为同一处的引用而报错？</p>
+<p>奇了怪了，跟我们之前的分析完全背道而驰，按理来说<code>arr.len()</code>的借用应该在调用后立刻结束，而不是持续到后面的代码行；同时可变借用<code>&amp;mut arr[i]</code>也应该随着每次循环的结束而结束，为什么前后两次循环会因为同一处的引用而报错？</p>
 <h2 id="尝试去掉中间变量"><a class="header" href="#尝试去掉中间变量">尝试去掉中间变量</a></h2>
 <p>虽然报错复杂，不过可以看出，所有的错误都跟<code>tile</code>这个中间变量有关，我们试着移除它看看：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -43064,23 +43064,28 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 let v = x as u8;
 println!("{}", v)
 <span class="boring">}</span></code></pre>
-<p>最终程序会输出<code>255</code>, 因此大家可能会下意识地就觉得算数操作在 Rust 中只会导致结果的不正确，并不会导致异常。但是实际上，如果是因为算术操作符导致的溢出，就会让整个程序 panic:</p>
-<pre class="playground"><code class="language-rust edition2021">fn main() {
+<p>最终程序会输出<code>255</code>, 因此大家可能会猜测算术溢出在 Rust 中也会只导致截断。但是实际上，如果在 debug 模式下运行，算术溢出会引发 panic:</p>
+<pre class="playground"><code class="language-rust edition2021">#[allow(arithmetic_overflow)] // 阻止编译器在编译时发现问题
+fn main() {
     let x: u8 = 10;
-
     let v = x + u8::MAX;
     println!("{}", v)
 }</code></pre>
-<p>输出结果如下:</p>
-<pre><code class="language-console">thread 'main' panicked at 'attempt to add with overflow', src/main.rs:5:13
+<p>而在 release 模式下为了最大化性能，编译器不会插入算术溢出检查，所以不会导致 panic，而是变成<a href="https://stackoverflow.com/a/60238510/19171888">二补数</a>。</p>
+<p>如何理解这种拧巴的行为？为了处理算术溢出，Rust 的基本运算实则以下关联函数：</p>
+<ul>
+<li><code>wrapping_xxx</code>：正常时返回数值，溢出时回到值域的另一端（<code>MAX+1=MIN</code>, <code>MIN-1=MAX</code>）</li>
+<li><code>check_xxx</code>：正常时返回<code>Some(x)</code>，溢出时返回<code>None</code></li>
+<li><code>unchecked_xxx</code>：正常时返回数值，溢出时 UB，不安全</li>
+<li><code>saturating_xxx</code>：正常时返回数值，溢出时定在值域边缘（<code>MAX+1=MAX</code>, <code>MIN-1=MIN</code>）</li>
+<li><code>overflowing_xxx</code>：正常时返回<code>(x, false)</code>，溢出时返回<code>(wrapped(x), true)</code></li>
+<li><code>strict_xxx</code>：正常时返回数值，溢出时 panic</li>
+</ul>
+<p>特别地，除以<code>0</code>在任何情况下都会被检查。</p>
+<p>运算符的默认行为在 debug 模式下是<code>strict_xxx</code>，release 模式下是<code>wrapping</code>。想在 release 模式下也默认到<code>strict_xxx</code>，可以在<code>Cargo.toml</code>加上：</p>
+<pre><code class="language-toml">[profile.release]
+overflow-checks = true
 </code></pre>
-<p>那么当我们确实有这种需求时，该如何做呢？可以使用 Rust 提供的<code>checked_xxx</code>系列方法：</p>
-<pre class="playground"><code class="language-rust edition2021">fn main() {
-    let x: u8 = 10;
-
-    let v = x.checked_add(u8::MAX).unwrap_or(0);
-    println!("{}", v)
-}</code></pre>
 <p>也许你会觉得本章内容其实算不上什么陷阱，但是在实际项目快速迭代中，越是不起眼的地方越是容易出错：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let v = production_rate_per_hour(5);
@@ -43100,10 +43105,11 @@ pub fn production_rate_per_hour(speed: u8) -&gt; f64 {
 pub fn working_items_per_minute(speed: u8) -&gt; u32 {
     (production_rate_per_hour(speed) / 60 as f64) as u32
 }</code></pre>
-<p>上述代码中，<code>speed * cph</code>就会直接 panic:</p>
+<p>上述代码在 debug 模式下<code>speed * cph</code>就会直接 panic:</p>
 <pre><code class="language-console">thread 'main' panicked at 'attempt to multiply with overflow', src/main.rs:10:18
 </code></pre>
-<p>是不是还藏的挺隐蔽的？因此大家在 Rust 中做数学运算时，要多留一个心眼，免得上了生产才发现问题所在。或者，你也可以做好单元测试:)</p>
+<p>release 模式下则输出<code>72.9</code>。</p>
+<p>是不是还藏的挺隐蔽的？因此大家在 Rust 中做数学运算时，要多留一个心眼，免得上了生产才发现问题。或者直接打开<code>overflow-checks</code>直接 panic。</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="闭包上奇怪的生命周期"><a class="header" href="#闭包上奇怪的生命周期">闭包上奇怪的生命周期</a></h1>
 <p>Rust 一道独特的靓丽风景就是生命周期，也是反复折磨新手的最大黑手，就连老手，可能一不注意就会遇到一些生命周期上的陷阱，例如闭包上使用引用。</p>
@@ -47312,7 +47318,7 @@ pub fn my_function() { }
         <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="assets/custom-7d8ae1df.js"></script>
+        <script src="assets/custom-690c9de5.js"></script>
         <script src="assets/bigPicture-be03f9c8.js"></script>
 
         <script>

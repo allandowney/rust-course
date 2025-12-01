@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-9ba322f2.js"></script>
@@ -222,7 +222,7 @@ fn main() {
 </span>fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
 <span class="boring">}</span></code></pre>
 <p>该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 <code>largest&lt;T&gt;</code> 对泛型参数 <code>T</code> 进行了声明，然后才在函数参数中进行使用该泛型参数 <code>list: &amp;[T]</code> （还记得 <code>&amp;[T]</code> 类型吧？这是<a href="https://course.rs/basic/compound-type/array.html#数组切片">数组切片</a>）。</p>
-<p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其类型是元素为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
+<p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其元素是类型为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
 <p>下面是一个错误的泛型函数的实现：</p>
 <pre class="playground"><code class="language-rust edition2021">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -682,7 +682,7 @@ fn main() {
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

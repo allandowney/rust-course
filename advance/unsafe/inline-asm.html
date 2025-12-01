@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-9ba322f2.js"></script>
@@ -335,7 +335,7 @@ fn mul(a: u64, b: u64) -&gt; u128 {
     unsafe {
         asm!(
             // The x86 mul instruction takes rax as an implicit input and writes
-            // the 128-bit result of the multiplication to rax:rdx.
+            // the 128-bit result of the multiplication to rdx:rax.
             "mul {}",
             in(reg) a,
             inlateout("rax") b =&gt; lo,
@@ -349,7 +349,7 @@ fn mul(a: u64, b: u64) -&gt; u128 {
 <p>这段代码使用了 <code>mul</code> 指令，将两个 64 位的输入相乘，生成一个 128 位的结果。</p>
 <p>首先将变量 <code>a</code> 的值存到寄存器 <code>reg</code> 中，其次显式使用寄存器 <code>rax</code>，它的值来源于变量 <code>b</code>。结果的低 64 位存储在 <code>rax</code> 中，然后赋给变量 <code>lo</code> ，而结果的高 64 位则存在 <code>rdx</code> 中，最后赋给 <code>hi</code>。</p>
 <h2 id="clobbered-寄存器"><a class="header" href="#clobbered-寄存器">Clobbered 寄存器</a></h2>
-<p>在很多情况下，无需作为输出的状态都会被内联汇编修改，这个状态被称之为 “clobbered”。</p>
+<p>在很多情况下，无需作为输出的寄存器的状态都会被内联汇编修改，这个状态被称之为 “clobbered”。</p>
 <p>我们需要告诉编译器相关的情况，因为编译器需要在内联汇编语句块的附近存储和恢复这种状态。</p>
 <pre class="playground"><code class="language-rust edition2021">use std::arch::asm;
 
@@ -388,7 +388,7 @@ fn main() {
 }</code></pre>
 <p>例子中，我们使用了<code>cpuid</code> 指令。这个指令会将CPU的最大cpuid参数写入<code>eax</code>中，同时将CPU的生厂商ID以ASCII字符的形式写入到 <code>ebx</code> 、<code>edx</code> 和 <code>ecx</code> 中。</p>
 <p>即使 <code>eax</code> 从没有被读取，我们依然需要告知编译器这个寄存器被修改过，这样编译器就可以在执行汇编之前存储寄存器中的值。这个需要通过将输出声明为 <code>_</code> 而不是一个具体的变量名，代表着该输出值被丢弃。</p>
-<p>这段代码也会绕过一个限制： <code>ebx</code> 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它拥有寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器使用该寄存器的满足一个通用寄存器的需求(例如 <code>in(reg)</code> )。 但这样使用后， <code>reg</code> 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。</p>
+<p>这段代码也会绕过一个限制： <code>ebx</code> 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它自己拥有该寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器在分配通用寄存器时恰好选择了它(例如 <code>in(reg)</code> )。 但这样使用后， <code>reg</code> 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。</p>
 <p>为了解决这个问题，我们使用 <code>rdi</code> 来存储指向输出数组的指针，通过 <code>push</code> 的方式存储 <code>ebx</code>：在汇编代码块的内部读取 <code>ebx</code> 的值，然后写入到输出数组。后面再可以通过 <code>pop</code> 的方式来回复 <code>ebx</code> 到初始的状态。</p>
 <p><code>push</code> 和 <code>pop</code> 使用完成的 64 位 <code>rbx</code> 寄存器，来确保整个寄存器的内容都被保存。如果是在 32 位机器上，代码将使用 <code>ebx</code> 替代。</p>
 <p>还可以在汇编代码内部使用通用寄存器:</p>
@@ -470,7 +470,7 @@ assert_eq!(x, 4 * 6);
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

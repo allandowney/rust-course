@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-9ba322f2.js"></script>
@@ -182,7 +182,7 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="macro-宏编程"><a class="header" href="#macro-宏编程">Macro 宏编程</a></h1>
-<p>在编程世界可以说是谈“宏”色变，原因在于 C 语言中的宏是非常危险的东东，但并不是所有语言都像 C 这样，例如对于古老的语言 Lisp 来说，宏就是就是一个非常强大的好帮手。</p>
+<p>在编程世界可以说是谈“宏”色变，原因在于 C 语言中的宏是非常危险的东东，但并不是所有语言都像 C 这样，例如对于古老的语言 Lisp 来说，宏就是一个非常强大的好帮手。</p>
 <p>那话说回来，在 Rust 中宏到底是好是坏呢？本章将带你揭开它的神秘面纱。</p>
 <p>事实上，我们虽然没有见过宏，但是已经多次用过它，例如在全书的第一个例子中就用到了：<code>println!("你好，世界")</code>，这里 <code>println!</code> 就是一个最常用的宏，可以看到它和函数最大的区别是：它在调用时多了一个 <code>!</code>，除此之外还有 <code>vec!</code> 、<code>assert_eq!</code> 都是相当常用的，可以说<strong>宏在 Rust 中无处不在</strong>。</p>
 <p>细心的读者可能会注意到 <code>println!</code> 后面跟着的是 <code>()</code>，而 <code>vec!</code> 后面跟着的是 <code>[]</code>，这是因为宏的参数可以使用 <code>()</code>、<code>[]</code> 以及 <code>{}</code>:</p>
@@ -793,7 +793,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 

@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-9ba322f2.js"></script>
@@ -340,7 +340,7 @@ fn main() {
 </ul>
 <p>这两点看起来不起眼，但要正确的使用，其实是相当不简单的，对于其它语言，忘记释放锁是经常发生的，虽然 Rust 通过智能指针的<code>drop</code>机制帮助我们避免了这一点，但是由于不及时释放锁导致的性能问题也是常见的。</p>
 <p>正因为这种困难性，导致很多用户都热衷于使用消息传递的方式来实现同步，例如 Go 语言直接把<code>channel</code>内置在语言特性中，甚至还有无锁的语言，例如<code>erlang</code>，完全使用<code>Actor</code>模型，依赖消息传递来完成共享和同步。幸好 Rust 的类型系统、所有权机制、智能指针等可以很好的帮助我们减轻使用锁时的负担。</p>
-<p>另一个值的注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://course.rs/advance/circle-self-ref/circle-reference.html">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
+<p>另一个值得注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://course.rs/advance/circle-self-ref/circle-reference.html">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
 <h2 id="死锁"><a class="header" href="#死锁">死锁</a></h2>
 <p>在 Rust 中有多种方式可以创建死锁，了解这些方式有助于你提前规避可能的风险，一起来看看。</p>
 <h4 id="单线程死锁"><a class="header" href="#单线程死锁">单线程死锁</a></h4>
@@ -673,7 +673,7 @@ async fn main() {
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

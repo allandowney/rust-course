@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-9ba322f2.js"></script>
@@ -331,7 +331,7 @@ fn display(s: &amp;str) {
     let s1: &amp;str = &amp;s;
     let s2: String = s.to_string();
 }</code></pre>
-<p>对于 <code>s1</code>，我们通过两次 <code>Deref</code> 将 <code>&amp;str</code> 类型的值赋给了它（<strong>赋值操作需要手动解引用</strong>）；而对于 <code>s2</code>，我们在其上直接调用方法 <code>to_string</code>，实际上 <code>MyBox</code> 并没有实现该方法，能调用 <code>to_string</code>，完全是因为编译器对 <code>MyBox</code> 应用了 <code>Deref</code> 的结果（<strong>方法调用会自动解引用</strong>）。</p>
+<p>对于 <code>s1</code>，我们通过两次 <code>Deref</code> 将 <code>&amp;str</code> 类型的值赋给了它（<strong>赋值操作需要手动解引用</strong>）；而对于 <code>s2</code>，我们在其上直接调用方法 <code>to_string</code>，实际上 <code>MyBox</code> 并没有实现该方法，能调用 <code>to_string</code>，完全是因为编译器对 <code>MyBox</code> 应用了 <code>Deref</code>（<strong>方法调用会自动解引用</strong>）。</p>
 <h2 id="deref-规则总结"><a class="header" href="#deref-规则总结">Deref 规则总结</a></h2>
 <p>在上面，我们零碎的介绍了不少关于 <code>Deref</code> 特征的知识，下面来通过较为正式的方式来对其规则进行下总结。</p>
 <p>一个类型为 <code>T</code> 的对象 <code>foo</code>，如果 <code>T: Deref&lt;Target=U&gt;</code>，那么，相关 <code>foo</code> 的引用 <code>&amp;foo</code> 在应用的时候会自动转换为 <code>&amp;U</code>。</p>
@@ -518,7 +518,7 @@ fn display(s: &amp;mut String) {
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

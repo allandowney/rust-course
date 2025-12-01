@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-42c00304.js";
+            window.path_to_searchindex_js = "../../../searchindex-7a406b50.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-9ba322f2.js"></script>
@@ -243,7 +243,7 @@ error[E0499]: cannot borrow `arr[_]` as mutable more than once at a time
 <li><code>&amp;mut arr[i]</code>报错，因为在上一次循环中，已经借用过同样的可变引用<code>&amp;mut arr[i]</code></li>
 <li><code>tile</code>的生命周期跟<code>arr</code>不一致</li>
 </ol>
-<p>奇了怪了，跟我们之前的分析完全背道而驰，按理来说<code>arr.len()</code>的借用应该在调用后立刻结束，而不是持续到后面的代码行；同时可变借用<code>&amp;mut arr[i]</code>也应该随着每次循环的结束而结束，为什么会前后两次循环会因为同一处的引用而报错？</p>
+<p>奇了怪了，跟我们之前的分析完全背道而驰，按理来说<code>arr.len()</code>的借用应该在调用后立刻结束，而不是持续到后面的代码行；同时可变借用<code>&amp;mut arr[i]</code>也应该随着每次循环的结束而结束，为什么前后两次循环会因为同一处的引用而报错？</p>
 <h2 id="尝试去掉中间变量"><a class="header" href="#尝试去掉中间变量">尝试去掉中间变量</a></h2>
 <p>虽然报错复杂，不过可以看出，所有的错误都跟<code>tile</code>这个中间变量有关，我们试着移除它看看：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -504,7 +504,7 @@ impl SymbolTable {
         <script src="../../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../../assets/custom-690c9de5.js"></script>
         <script src="../../../assets/bigPicture-be03f9c8.js"></script>
 
 
