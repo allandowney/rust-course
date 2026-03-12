@@ -29,7 +29,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/style-78591068.css">
+        <link rel="stylesheet" href="theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-7a406b50.js";
+            window.path_to_searchindex_js = "searchindex-848c21ce.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-9ba322f2.js"></script>
+        <script src="toc-42887675.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -512,21 +512,12 @@
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="beatai-工程师-ai-入门圣经"><a href="#beatai-工程师-ai-入门圣经" class="header">BeatAI: 工程师 AI 入门圣经</a></h1>
 <h2 id="beat-ai"><a class="header" href="#beat-ai">Beat AI</a></h2>
-<p>专属于软件开发工程师的 AI 入门圣经。从神经网络到大模型，从高层设计到微观原理，从工程实现到算法，学完后，你会发现 AI 也并不是想象中那么高不可攀、无法战胜，Just beat it !</p>
+<p>专属于软件开发工程师的 AI 入门圣经。从神经网络到大模型，从基础数学到基础算法，从 Agent 到工程应用，学完后，你会发现 AI 也并不是想象中那么高不可攀、无法战胜，Just beat it !</p>
 <ul>
-<li>官方地址: <a href="https://github.com/sunface/beat-ai">https://github.com/sunface/beat-ai</a></li>
+<li>官方地址: <a href="https://github.com/beatai-org/beatai">https://github.com/beatai-org/beatai</a></li>
 </ul>
 <h2 id="目前进度"><a class="header" href="#目前进度">目前进度</a></h2>
-<p>准备开始动笔，预计在 2024.08 之前会完成基本的章节。</p>
-<h2 id="关于作者"><a class="header" href="#关于作者">关于作者</a></h2>
-<p>作者并不是写书的小白，已经有一本 &lt;&lt;Rust语言圣经&gt;&gt; ，在 Rust 领域是目前最火的书籍，备受好评。</p>
-<h2 id="q--a"><a class="header" href="#q--a">Q &amp; A</a></h2>
-<p>Q: 为什么又双叒叕写一本 AI 入门书籍？</p>
-<p>A: 一般来说，懂 AI 的往往并不深入懂工程，而精通工程的又不太懂 AI，我们的目的就是填补这个 gap，以工程师的角度来呈现 AI 的相关知识体系。</p>
-<p>Q: 不懂数学可以学吗</p>
-<p>A: 一本优秀的书籍它应该是<strong>层次丰富、结构清晰、深入浅出、通俗易懂</strong>的，能满足不同读者群体的需求。本书也是，就算读者大大不懂数学，无非就是无法深入到算法层面，但是并不妨碍深入学习理解 AI，我们也会对算法进行一些深入浅出的趣味讲解。</p>
-<p>Q: 没有软件开发的背景，不太懂工程，也不懂数学，能学吗?</p>
-<p>A: 答案基本同上，千人千面，各有所获。</p>
+<p>定期分享一些好的 AI 文章，书籍正在创作中</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="寻找牛刀以便小试"><a class="header" href="#寻找牛刀以便小试">寻找牛刀，以便小试</a></h1>
 <p>其实对于写这种章节，我内心是拒绝的，因为真的很无趣。对于一本书而言，这也更像是一种浪费纸张的行为（好在咱无纸化 :-D）。不过没有办法，如果不安装 Rust 环境，总不能让大家用空气运行吧，so，我恶趣味的起了一个这样的章节名。</p>
@@ -881,7 +872,7 @@ World, hello
 <p>你的热情，就像一把火，燃烧了整个世界~ 花点时间来看看上面的代码：</p>
 <p>首先，Rust 原生支持 UTF-8 编码的字符串，这意味着你可以很容易的使用世界各国文字作为字符串内容。</p>
 <p>其次，关注下 <code>println</code> 后面的 <code>!</code>，如果你有 Ruby 编程经验，那么你可能会认为这是解构操作符，但是在 Rust 中，这是 <code>宏</code> 操作符，你目前可以认为宏是一种特殊类型函数。</p>
-<p>对于 <code>println</code> 来说，我们没有使用其它语言惯用的 <code>%s</code>、<code>%d</code> 来做输出占位符，而是使用 <code>{}</code>，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 <code>String</code> 类型。</p>
+<p>对于 <code>println</code> 来说，我们没有使用其它语言惯用的 <code>%s</code>、<code>%d</code> 来做输出占位符，而是使用 <code>{}</code>，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 <code>&amp;str</code> 类型。</p>
 <p>最后，和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器（这里是通过 <code>.iter()</code> 方法），才能用于迭代循环。在目前来看，你会觉得这一点好像挺麻烦，不急，以后就知道这么做的好处所在。</p>
 <blockquote>
 <p>实际上这段代码可以简写，在 2021 edition 及以后，支持直接写 <code>for region in regions</code>，原因会在迭代器章节的开头提到，是因为 for 隐式地将 regions 转换成迭代器。</p>
@@ -1577,7 +1568,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
 4
 5
 </code></pre>
-<p>序列只允许用于数字或字符类型，原因是：它们可以连续，同时编译器在编译期可以检查该序列是否为空，字符和数字值是 Rust 中仅有的可以用于判断是否为空的类型。如下是一个使用字符类型序列的例子：</p>
+<p>序列只允许使用数字或字符类型，原因是：它们具有离散且连续的特性（在 Rust 内部实现了 Step 特征）。这使得编译器能够明确从起点到终点的步进逻辑，并可以通过比较起点和终点的大小，在运行时判断该序列是否包含元素（即序列是否为空，例如 5..1 就是一个空序列）。</p>
+<p>如下是一个使用字符类型序列的例子：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for i in 'a'..='z' {
@@ -8747,7 +8739,7 @@ pub fn eat_at_restaurant() {
 <p>如果类比文件系统，那么它类似于调用同一个目录下的程序，你可以这么做：<code>front_of_house/hosting/add_to_waitlist</code>，嗯也很符合直觉。</p>
 <h4 id="绝对还是相对"><a class="header" href="#绝对还是相对">绝对还是相对？</a></h4>
 <p>如果只是为了引用到指定模块中的对象，那么两种都可以，但是在实际使用时，需要遵循一个原则：<strong>当代码被挪动位置时，尽量减少引用路径的修改</strong>，相信大家都遇到过，修改了某处代码，导致所有路径都要挨个替换，这显然不是好的路径选择。</p>
-<p>回到之前的例子，如果我们把 <code>front_of_house</code> 模块和 <code>eat_at_restaurant</code> 移动到一个模块中 <code>customer_experience</code>，那么绝对路径的引用方式就必须进行修改：<code>crate::customer_experience::front_of_house ...</code>，但是假设我们使用的相对路径，那么该路径就无需修改，因为它们两个的相对位置其实没有变：</p>
+<p>回到之前的例子，假设要把 <code>front_of_house</code> 模块和 <code>eat_at_restaurant</code> 移动到一个模块中 <code>customer_experience</code>，那么绝对路径的引用方式就必须进行修改：<code>crate::customer_experience::front_of_house ...</code>，但如果使用的是相对路径，那该路径就无需修改，因为它们的相对位置其实没有变：</p>
 <pre><code class="language-console">crate
  └── customer_experience
     └── eat_at_restaurant
@@ -8918,7 +8910,7 @@ pub fn eat_at_restaurant() {
   |
   = help: to create the module `front_of_house`, create file "src/front_of_house.rs" or "src/front_of_house/mod.rs"
 </code></pre>
-<p>是的，如果需要将文件夹作为一个模块，我们需要进行显示指定暴露哪些子模块。按照上述的报错信息，我们有两种方法：</p>
+<p>是的，如果需要将文件夹作为一个模块，我们需要进行显式指定暴露哪些子模块。按照上述的报错信息，我们有两种方法：</p>
 <ul>
 <li>在 <code>front_of_house</code> 目录里创建一个 <code>mod.rs</code>，如果你使用的 <code>rustc</code> 版本 <code>1.30</code> 之前，这是唯一的方法。</li>
 <li>在 <code>front_of_house</code> <strong>同级</strong>目录里创建一个与模块（目录）<strong>同名</strong>的 rs 文件 <code>front_of_house.rs</code>，在新版本里，更建议使用这样的命名方式来避免项目中存在大量同名的 <code>mod.rs</code> 文件（ Python 点了个 <code>踩</code>）。</li>
@@ -15041,7 +15033,7 @@ impl SelfRef {
 
     fn pointer_to_value(&amp;self) -&gt; &amp;String {
         assert!(!self.pointer_to_value.is_null(),
-            "Test::b called without Test::init being called first");
+            "SelfRef::pointer_to_value called without SelfRef::init being called first");
         unsafe { &amp;*(self.pointer_to_value) }
     }
 }
@@ -15078,7 +15070,8 @@ impl SelfRef {
     }
 
     fn pointer_to_value(&amp;self) -&gt; &amp;String {
-        assert!(!self.pointer_to_value.is_null(), "Test::b called without Test::init being called first");
+        assert!(!self.pointer_to_value.is_null(),
+            "SelfRef::pointer_to_value called without SelfRef::init being called first");
         unsafe { &amp;*(self.pointer_to_value) }
     }
 }
@@ -22408,7 +22401,7 @@ async fn main() {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="创建异步任务"><a class="header" href="#创建异步任务">创建异步任务</a></h1>
 <p>同志们，抓稳了，我们即将换挡提速，通向 <code>mini-redis</code> 服务端的高速之路已经开启。</p>
-<p>不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 <code>mini-redis</code> 客户端并支持了 <code>SET</code>/<code>GET</code> 操作, 现在将该<a href="https://course.rs/advance-practice/getting-startted.html#分析未到代码先行">代码</a>移动到 <code>examples</code> 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 <code>example</code> 的方式，用之前客户端示例对我们的服务器端进行测试:</p>
+<p>不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 <code>mini-redis</code> 客户端并支持了 <code>SET</code>/<code>GET</code> 操作, 现在将该<a href="https://course.rs/advance-practice/getting-startted.html#分析未到代码先行">代码</a>移动到 <code>examples</code> 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 <code>examples</code> 的方式，用之前客户端示例对我们的服务器端进行测试:</p>
 <pre><code class="language-shell">$ mkdir -p examples
 $ mv src/main.rs examples/hello-redis.rs
 </code></pre>
@@ -25410,7 +25403,7 @@ impl TaskSpawner {
 <h4 id="为何切片只能通过引用来使用"><a class="header" href="#为何切片只能通过引用来使用">为何切片只能通过引用来使用</a></h4>
 <p>既然切片只能分配到堆上，我们就无法直接使用它，大家可以想想，所有分配在堆上的数据，是不是都是通过一个在栈上的引用来访问的？切片也不例外。</p>
 <h4 id="为何切片引用可以存储在栈上"><a class="header" href="#为何切片引用可以存储在栈上">为何切片引用可以存储在栈上</a></h4>
-<p>切片引用是一个宽指针，存储在栈上，指向了堆上的切片数据，该引用包含了切片的起始位置和长度，而且最重要的是，类似于指针，引用的大小是固定的(起始位置和长度都是整形)，因此它才可以存储在栈上。</p>
+<p>切片引用是一个宽指针，存储在栈上，指向了堆上的切片数据，该引用包含了切片的起始位置和长度，而且最重要的是，类似于指针，引用的大小是固定的(起始位置和长度都是整型)，因此它才可以存储在栈上。</p>
 <h4 id="有没有可以存储在栈上的"><a class="header" href="#有没有可以存储在栈上的">有没有可以存储在栈上的</a></h4>
 <p>有，使用固定长度的数组: <code>let a: [i8;4] = [1,2,3,4];</code>，注意看，数组的类型与切片是不同的，前者的类型带有长度：<code>[i8;4]</code>，而后者仅仅是 <code>[i8]</code>。</p>
 <h2 id="切片引用"><a class="header" href="#切片引用">切片引用</a></h2>
@@ -41905,6 +41898,7 @@ test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;
 <p>简简单单搞定，虽然之前我们嫌弃内部可变性，但是在这里：真香！</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="征服编译错误"><a class="header" href="#征服编译错误">征服编译错误</a></h1>
+<p>test</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="对抗编译检查"><a class="header" href="#对抗编译检查">对抗编译检查</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -47318,7 +47312,7 @@ pub fn my_function() { }
         <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="assets/custom-7d8ae1df.js"></script>
+        <script src="assets/custom-690c9de5.js"></script>
         <script src="assets/bigPicture-be03f9c8.js"></script>
 
         <script>

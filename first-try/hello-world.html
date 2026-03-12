@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-7a406b50.js";
+            window.path_to_searchindex_js = "../searchindex-848c21ce.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-9ba322f2.js"></script>
+        <script src="../toc-42887675.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -212,7 +212,7 @@ World, hello
 <p>你的热情，就像一把火，燃烧了整个世界~ 花点时间来看看上面的代码：</p>
 <p>首先，Rust 原生支持 UTF-8 编码的字符串，这意味着你可以很容易的使用世界各国文字作为字符串内容。</p>
 <p>其次，关注下 <code>println</code> 后面的 <code>!</code>，如果你有 Ruby 编程经验，那么你可能会认为这是解构操作符，但是在 Rust 中，这是 <code>宏</code> 操作符，你目前可以认为宏是一种特殊类型函数。</p>
-<p>对于 <code>println</code> 来说，我们没有使用其它语言惯用的 <code>%s</code>、<code>%d</code> 来做输出占位符，而是使用 <code>{}</code>，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 <code>String</code> 类型。</p>
+<p>对于 <code>println</code> 来说，我们没有使用其它语言惯用的 <code>%s</code>、<code>%d</code> 来做输出占位符，而是使用 <code>{}</code>，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 <code>&amp;str</code> 类型。</p>
 <p>最后，和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器（这里是通过 <code>.iter()</code> 方法），才能用于迭代循环。在目前来看，你会觉得这一点好像挺麻烦，不急，以后就知道这么做的好处所在。</p>
 <blockquote>
 <p>实际上这段代码可以简写，在 2021 edition 及以后，支持直接写 <code>for region in regions</code>，原因会在迭代器章节的开头提到，是因为 for 隐式地将 regions 转换成迭代器。</p>
@@ -335,7 +335,7 @@ World, hello
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 

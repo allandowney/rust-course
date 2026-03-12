@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-7a406b50.js";
+            window.path_to_searchindex_js = "../searchindex-848c21ce.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-9ba322f2.js"></script>
+        <script src="../toc-42887675.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -208,7 +208,7 @@
 <h4 id="为何切片只能通过引用来使用"><a class="header" href="#为何切片只能通过引用来使用">为何切片只能通过引用来使用</a></h4>
 <p>既然切片只能分配到堆上，我们就无法直接使用它，大家可以想想，所有分配在堆上的数据，是不是都是通过一个在栈上的引用来访问的？切片也不例外。</p>
 <h4 id="为何切片引用可以存储在栈上"><a class="header" href="#为何切片引用可以存储在栈上">为何切片引用可以存储在栈上</a></h4>
-<p>切片引用是一个宽指针，存储在栈上，指向了堆上的切片数据，该引用包含了切片的起始位置和长度，而且最重要的是，类似于指针，引用的大小是固定的(起始位置和长度都是整形)，因此它才可以存储在栈上。</p>
+<p>切片引用是一个宽指针，存储在栈上，指向了堆上的切片数据，该引用包含了切片的起始位置和长度，而且最重要的是，类似于指针，引用的大小是固定的(起始位置和长度都是整型)，因此它才可以存储在栈上。</p>
 <h4 id="有没有可以存储在栈上的"><a class="header" href="#有没有可以存储在栈上的">有没有可以存储在栈上的</a></h4>
 <p>有，使用固定长度的数组: <code>let a: [i8;4] = [1,2,3,4];</code>，注意看，数组的类型与切片是不同的，前者的类型带有长度：<code>[i8;4]</code>，而后者仅仅是 <code>[i8]</code>。</p>
 <h2 id="切片引用"><a class="header" href="#切片引用">切片引用</a></h2>
@@ -297,7 +297,7 @@ let s3: &amp;[i32] = &amp;arr[1..3];
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 
