@@ -15,8 +15,8 @@
         <link rel="icon" href="../../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-42887675.js"></script>
+        <script src="../../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -235,7 +235,7 @@ println!("{}", data);
 For more information about this error, try `rustc --explain E0503`.
 error: could not compile `playground` due to previous error
 </code></pre>
-<p>果不其然，编译器抛出了错误，当我们再借用了一个可变引用时，那原始的引用就不能再被使用，直到借用者完成了任务：借用者的借用有效范围并不是看作用域，而是看最后一次使用的位置，正因为如此，第一段代码可以编译通过，而第二段不行，这是著名的生命周期 <a href="https://course.rs/advance/lifetime/advance.html#nll-non-lexical-lifetime">NLL 规则</a>。</p>
+<p>果不其然，编译器抛出了错误，当我们再借用了一个可变引用时，那原始的引用就不能再被使用，直到借用者完成了任务：借用者的借用有效范围并不是看作用域，而是看最后一次使用的位置，正因为如此，第一段代码可以编译通过，而第二段不行，这是著名的生命周期 <a href="https://beatai.org/rust-course/advance/lifetime/advance#nll-non-lexical-lifetime">NLL 规则</a>。</p>
 <p>以上就是我们拥有再借用但是还拥有混叠信息的原因：所有的再借用都在清晰地进行嵌套，因此每个再借用都不会与其它的冲突。那大家知道什么方法可以很好的展现嵌套的事物吗？答案就是使用栈来存放这些嵌套的借用。</p>
 <p>嘿，这不就是栈借用吗？</p>
 <p>这个栈的顶部借用就是当前正在使用( live )的借用，而它清晰的知道在它使用的期间不会发生混叠。当对一个指针进行再借用时，新的借用会被插入到栈的顶部，并变成 live 状态。如果要将一个旧的指针变成 live，就需要将借用栈上在它之前的借用全部弹出( pop )。</p>
@@ -316,14 +316,14 @@ cargo +nightly-2022-01-21 miri test
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

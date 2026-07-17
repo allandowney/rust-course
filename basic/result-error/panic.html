@@ -15,8 +15,8 @@
         <link rel="icon" href="../../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-42887675.js"></script>
+        <script src="../../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -269,7 +269,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 <h2 id="panic-时的两种终止方式"><a class="header" href="#panic-时的两种终止方式">panic 时的两种终止方式</a></h2>
 <p>当出现 <code>panic!</code> 时，程序提供了两种方式来处理终止流程：<strong>栈展开</strong>和<strong>直接终止</strong>。</p>
 <p>其中，默认的方式就是 <code>栈展开</code>，这意味着 Rust 会回溯栈上数据和函数调用，因此也意味着更多的善后工作，好处是可以给出充分的报错信息和栈调用信息，便于事后的问题复盘。<code>直接终止</code>，顾名思义，不清理数据就直接退出程序，善后工作交与操作系统来负责。</p>
-<p>对于绝大多数用户，使用默认选择是最好的，但是当你关心最终编译出的二进制可执行文件大小时，那么可以尝试去使用直接终止的方式，例如下面的配置修改 <code>Cargo.toml</code> 文件，实现在 <a href="https://course.rs/first-try/cargo.html#手动编译和运行项目"><code>release</code></a> 模式下遇到 <code>panic</code> 直接终止：</p>
+<p>对于绝大多数用户，使用默认选择是最好的，但是当你关心最终编译出的二进制可执行文件大小时，那么可以尝试去使用直接终止的方式，例如下面的配置修改 <code>Cargo.toml</code> 文件，实现在 <a href="https://beatai.org/rust-course/first-try/cargo#手动编译和运行项目"><code>release</code></a> 模式下遇到 <code>panic</code> 直接终止：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>[profile.release]
@@ -383,14 +383,14 @@ let home: IpAddr = "127.0.0.1".parse().unwrap();
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

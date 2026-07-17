@@ -15,8 +15,8 @@
         <link rel="icon" href="../../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-42887675.js"></script>
+        <script src="../../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -221,7 +221,7 @@ fn main() {
 </span><span class="boring">fn main() {
 </span>fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
 <span class="boring">}</span></code></pre>
-<p>该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 <code>largest&lt;T&gt;</code> 对泛型参数 <code>T</code> 进行了声明，然后才在函数参数中进行使用该泛型参数 <code>list: &amp;[T]</code> （还记得 <code>&amp;[T]</code> 类型吧？这是<a href="https://course.rs/basic/compound-type/array.html#数组切片">数组切片</a>）。</p>
+<p>该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 <code>largest&lt;T&gt;</code> 对泛型参数 <code>T</code> 进行了声明，然后才在函数参数中进行使用该泛型参数 <code>list: &amp;[T]</code> （还记得 <code>&amp;[T]</code> 类型吧？这是<a href="https://beatai.org/rust-course/basic/compound-type/array#数组切片">数组切片</a>）。</p>
 <p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其元素是类型为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
 <p>下面是一个错误的泛型函数的实现：</p>
 <pre class="playground"><code class="language-rust edition2021">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
@@ -451,7 +451,7 @@ fn main() {
 <p>这样我们就能针对特定的泛型类型实现某个特定的方法，对于其它泛型类型则没有定义该方法。</p>
 <h2 id="const-泛型rust-151-版本引入的重要特性"><a class="header" href="#const-泛型rust-151-版本引入的重要特性">const 泛型（Rust 1.51 版本引入的重要特性）</a></h2>
 <p>在之前的泛型中，可以抽象为一句话：针对类型实现的泛型，所有的泛型都是为了抽象不同的类型，那有没有针对值的泛型？可能很多同学感觉很难理解，值怎么使用泛型？不急，我们先从数组讲起。</p>
-<p>在<a href="https://course.rs/basic/compound-type/array.html">数组</a>那节，有提到过很重要的一点：<code>[i32; 2]</code> 和 <code>[i32; 3]</code> 是不同的数组类型，比如下面的代码：</p>
+<p>在<a href="https://beatai.org/rust-course/basic/compound-type/array">数组</a>那节，有提到过很重要的一点：<code>[i32; 2]</code> 和 <code>[i32; 3]</code> 是不同的数组类型，比如下面的代码：</p>
 <pre class="playground"><code class="language-rust edition2021">fn display_array(arr: [i32; 3]) {
     println!("{:?}", arr);
 }
@@ -675,14 +675,14 @@ fn main() {
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

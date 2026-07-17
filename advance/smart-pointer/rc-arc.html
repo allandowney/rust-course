@@ -15,8 +15,8 @@
         <link rel="icon" href="../../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-42887675.js"></script>
+        <script src="../../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -215,7 +215,7 @@ fn main() {
 <p>接着，我们又使用 <code>Rc::clone</code> 克隆了一份智能指针 <code>Rc&lt;String&gt;</code>，并将该智能指针的引用计数增加到 <code>2</code>。</p>
 <p>由于 <code>a</code> 和 <code>b</code> 是同一个智能指针的两个副本，因此通过它们两个获取引用计数的结果都是 <code>2</code>。</p>
 <p>不要被 <code>clone</code> 字样所迷惑，以为所有的 <code>clone</code> 都是深拷贝。这里的 <code>clone</code> <strong>仅仅复制了智能指针并增加了引用计数，并没有克隆底层数据</strong>，因此 <code>a</code> 和 <code>b</code> 是共享了底层的字符串 <code>s</code>，这种<strong>复制效率是非常高</strong>的。当然你也可以使用 <code>a.clone()</code> 的方式来克隆，但是从可读性角度，我们更加推荐 <code>Rc::clone</code> 的方式。</p>
-<p>实际上在 Rust 中，还有不少 <code>clone</code> 都是浅拷贝，例如<a href="https://course.rs/compiler/pitfalls/iterator-everywhere.html">迭代器的克隆</a>。</p>
+<p>实际上在 Rust 中，还有不少 <code>clone</code> 都是浅拷贝，例如<a href="https://beatai.org/rust-course/compiler/pitfalls/iterator-everywhere">迭代器的克隆</a>。</p>
 <h4 id="观察引用计数的变化"><a class="header" href="#观察引用计数的变化">观察引用计数的变化</a></h4>
 <p>使用关联函数 <code>Rc::strong_count</code> 可以获取当前引用计数的值，我们来观察下引用计数如何随着变量声明、释放而变化：</p>
 <pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
@@ -386,14 +386,14 @@ fn main() {
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 

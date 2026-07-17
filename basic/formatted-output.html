@@ -15,8 +15,8 @@
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../css/general-2459343d.css">
-        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-42887675.js"></script>
+        <script src="../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -245,7 +245,7 @@ fn main() {
     let p = Person{name: "sunface".to_string(), age: 18};
     println!("{:?}, {:?}, {:?}, {:?}", i, s, v, p);
 }</code></pre>
-<p>对于数值、字符串、数组，可以直接使用 <code>{:?}</code> 进行输出，但是对于结构体，需要<a href="https://course.rs/appendix/derive.html">派生<code>Debug</code></a>特征后，才能进行输出，总之很简单。</p>
+<p>对于数值、字符串、数组，可以直接使用 <code>{:?}</code> 进行输出，但是对于结构体，需要<a href="https://beatai.org/rust-course/appendix/derive">派生<code>Debug</code></a>特征后，才能进行输出，总之很简单。</p>
 <h4 id="display-特征"><a class="header" href="#display-特征"><code>Display</code> 特征</a></h4>
 <p>与大部分类型实现了 <code>Debug</code> 不同，实现了 <code>Display</code> 特征的 Rust 类型并没有那么多，往往需要我们自定义想要的格式化方式：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -309,7 +309,7 @@ fn main() {
 <pre><code class="language-console">大佬在上，请受我一拜，小弟姓名sunface，年芳18，家里无田又无车，生活苦哈哈
 </code></pre>
 <h4 id="为外部类型实现-display-特征"><a class="header" href="#为外部类型实现-display-特征">为外部类型实现 <code>Display</code> 特征</a></h4>
-<p>在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用<a href="https://course.rs/advance/into-types/custom-type.html#newtype"><code>newtype</code></a>解决此问题：</p>
+<p>在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用<a href="https://beatai.org/rust-course/advance/into-types/custom-type#newtype"><code>newtype</code></a>解决此问题：</p>
 <pre class="playground"><code class="language-rust edition2021">struct Array(Vec&lt;i32&gt;);
 
 use std::fmt;
@@ -581,14 +581,14 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
         <script src="../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../mark-09e88c2c.min.js"></script>
-        <script src="../searcher-c2a407aa.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-a0b12cfe.js"></script>
+        <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 

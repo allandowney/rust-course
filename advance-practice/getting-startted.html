@@ -15,8 +15,8 @@
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../css/general-2459343d.css">
-        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../searchindex-7649429b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-42887675.js"></script>
+        <script src="../toc-2f1f2f2c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -274,7 +274,7 @@ pub async fn connect&lt;T: ToSocketAddrs&gt;(addr: T) -&gt; Result&lt;Client&gt;
 <p>在上例中，<code>redis</code> 的连接函数 <code>connect</code> 实现如上，它看上去很像是一个同步函数，但是 <code>async fn</code> 出卖了它。
 <code>async fn</code> 异步函数并不会直接返回值，而是返回一个 <code>Future</code>，顾名思义，该 <code>Future</code> 会在未来某个时间点被执行，然后最终获取到真实的返回值 <code>Result&lt;Client&gt;</code>。</p>
 <blockquote>
-<p>async/await 的原理就算大家不理解，也不妨碍使用 <code>tokio</code> 写出能用的服务，但是如果想要更深入的用好，强烈建议认真读下本书的 <a href="https://course.rs/advance/async/intro.html"><code>async/await</code> 异步编程章节</a>，你会对 Rust 的异步编程有一个全新且深刻的认识。</p>
+<p>async/await 的原理就算大家不理解，也不妨碍使用 <code>tokio</code> 写出能用的服务，但是如果想要更深入的用好，强烈建议认真读下本书的 <a href="https://beatai.org/rust-course/advance/async/intro"><code>async/await</code> 异步编程章节</a>，你会对 Rust 的异步编程有一个全新且深刻的认识。</p>
 </blockquote>
 <p>由于 <code>async</code> 会返回一个 <code>Future</code>，因此我们还需要配合使用 <code>.await</code> 来让该 <code>Future</code> 运行起来，最终获得返回值:</p>
 <pre class="playground"><code class="language-rust edition2021">async fn say_to_world() -&gt; String {
@@ -320,7 +320,7 @@ async fn main() {
 <p>在引入 <code>tokio</code> 包时，我们在 <code>Cargo.toml</code> 文件中添加了这么一行:</p>
 <pre><code class="language-toml">tokio = { version = "1", features = ["full"] }
 </code></pre>
-<p>里面有个 <code>features = ["full"]</code> 可能大家会比较迷惑，当然，关于它的具体解释在本书的 <a href="https://course.rs/cargo/intro.html">Cargo 详解专题</a> 有介绍，这里就简单进行说明。</p>
+<p>里面有个 <code>features = ["full"]</code> 可能大家会比较迷惑，当然，关于它的具体解释在本书的 <a href="https://beatai.org/rust-course/cargo/intro">Cargo 详解专题</a> 有介绍，这里就简单进行说明。</p>
 <p><code>Tokio</code> 有很多功能和特性，例如 <code>TCP</code>，<code>UDP</code>，<code>Unix sockets</code>，同步工具，多调度类型等等，不是每个应用都需要所有的这些特性。为了优化编译时间和最终生成可执行文件大小、内存占用大小，应用可以对这些特性进行可选引入。</p>
 <p>而这里为了演示的方便，我们使用 <code>full</code> ，表示直接引入所有的特性。</p>
 <h2 id="总结"><a class="header" href="#总结">总结</a></h2>
@@ -377,14 +377,14 @@ async fn main() {
 
         <script src="../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../mark-09e88c2c.min.js"></script>
-        <script src="../searcher-c2a407aa.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-a0b12cfe.js"></script>
+        <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 
